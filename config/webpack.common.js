@@ -7,6 +7,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function webpackCommonConfigCreator(options) {
     return {
+        // @hot-loader/react-dom
+        resolve: {
+            alias: {
+                'react-dom': '@hot-loader/react-dom',
+            },
+        },
         mode: options.mode,
         // 入口文件
         entry: './src/index.js',
@@ -28,65 +34,8 @@ function webpackCommonConfigCreator(options) {
             rules: [{
                 test: /\.(js|jsx)$/,
                 include: path.resolve(__dirname, '../src'),
-                use: [{ // babel 编译器
-                    loader: 'babel-loader',
-                    options: {
-                        // babel 的 react 编译器
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
-                        // 避免babel重复引入,react 热重载,类语法支持
-                        plugins: ['@babel/transform-runtime', 'react-hot-loader/babel', '@babel/plugin-proposal-class-properties']
-                    }
-                }]
-            }, {
-                test: /\.(css|scss)$/,
-                include: path.resolve(__dirname, '../src'),
                 use: [
-                    // 提取 css 样式
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: process.env.NODE_ENV === 'development'
-                        }
-                    },
-                    // css 加载器
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            // importLoaders: 2,
-                            modules: {
-                                mode: 'local',
-                                localIdentName: '[path][name]_[local]--[hash:base64:5]'
-                            },
-                            localsConvention: 'camelCase'
-                        }
-                    },
-                    // 处理 css 的 loader
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            ident: 'postcss',
-                            plugins: loader => [
-                                // 支持 @import
-                                require('postcss-import')({
-                                    root: loader.resourcePath
-                                }),
-                                // 自动给 css3 样式添加前缀
-                                require('autoprefixer')({
-                                    // 设定指定的兼容浏览器
-                                    'overrideBrowserslist': [
-                                        'defaults',
-                                        'not ie < 11',
-                                        'last 2 versions',
-                                        '> 1%',
-                                        'iOS 7',
-                                        'last 3 iOS versions'
-                                    ]
-                                })
-                            ]
-                        }
-                    },
-                    // sass 加载器
-                    'sass-loader'
+                    'babel-loader'
                 ]
             }, {
                 // 解析第三方包中的样式

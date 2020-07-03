@@ -1,0 +1,6 @@
+{
+    // babel 的 react 编译器
+    "presets": [ "@babel/preset-env", "@babel/preset-react" ],
+    // 避免babel重复引入,react 热重载,类语法支持
+    "plugins": [ "@babel/transform-runtime", "react-hot-loader/babel", "@babel/plugin-proposal-class-properties" ]
+}

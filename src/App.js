@@ -1,15 +1,16 @@
-// import React from 'react';
 import { hot } from 'react-hot-loader/root';
-import React from 'react';
-import Test from './Test'
-
-
+import { Link } from 'react-router-dom'
+import React from 'react'
+import Editor from './EditorTest'
 
 
 function App() {
     return (
         <div>
-            <Test/>
+            <Link to="/a">a</Link><br/>
+            <Link to="/b">b</Link><br/>
+            <Link to="/c">c</Link>
+            <Editor/>
         </div>
     )
 }

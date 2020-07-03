@@ -1,6 +1,8 @@
+const path = require('path')
 const webpackConfigCreator = require('./webpack.common.js');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const commonCssLoader = require('./cssloader.common.js')
 
 const config = {
     output: {
@@ -10,9 +12,21 @@ const config = {
     devtool: 'inline-source-map',
     devServer: {
         port: 3000,
+        // 热重载
         hot: true,
         // 直接在页面显示错误信息
-        overlay: true
+        overlay: true,
+        // 支持 history
+        historyApiFallback: true
+    },
+    module: {
+        rules: [{
+            test: /\.(css|scss)$/,
+            include: path.resolve(__dirname, '../src'),
+            use: [
+                'style-loader',
+            ].concat(commonCssLoader)
+        }]
     },
     plugins: [
         // 分离 css 样式插件
