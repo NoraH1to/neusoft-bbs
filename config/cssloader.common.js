@@ -6,7 +6,7 @@ module.exports = [
             // importLoaders: 2,
             modules: {
                 mode: 'local',
-                localIdentName: '[local]'
+                localIdentName: '[local]--[hash:base64:5]'
             },
             localsConvention: 'camelCase'
         }

@@ -17,7 +17,20 @@ const config = {
         // 直接在页面显示错误信息
         overlay: true,
         // 支持 history
-        historyApiFallback: true
+        historyApiFallback: true,
+        // 公网访问需要
+        host: '0.0.0.0',
+        proxy: {
+            '/api': {
+                target: 'http://relics.wegfan.cn',
+                changeOrigin: true,
+                ws: true,
+                secure: false,
+                pathRewrite: {
+					'^/api': '/api'
+				}
+            }
+        }
     },
     module: {
         rules: [{

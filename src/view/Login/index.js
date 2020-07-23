@@ -1,11 +1,9 @@
 import React from 'react'
 
-function c(props) {
+export default function() {
     return (
         <div>
-            <p>I am C</p>
+            Login
         </div>
     )
 }
-
-export default c

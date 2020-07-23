@@ -1,16 +1,13 @@
 import { hot } from 'react-hot-loader/root';
-import { Link } from 'react-router-dom'
-import React from 'react'
-import Editor from './EditorTest'
-
+import React from 'react';
+import Editor from './component/Editor';
+// 引入 store 就初始化了 concent
+import store from './store';
 
 function App() {
     return (
         <div>
-            <Link to="/a">a</Link><br/>
-            <Link to="/b">b</Link><br/>
-            <Link to="/c">c</Link>
-            <Editor/>
+            <Editor />
         </div>
     )
 }
