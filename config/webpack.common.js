@@ -52,7 +52,7 @@ function webpackCommonConfigCreator(options) {
                 use: ['file-loader']
             }, {
                 // 用 url-loader 处理图片（实现了 file-loader 但不依赖它）
-                test: /\.(jpg|png|svg|gif)$/,
+                test: /\.(jpg|png|svg|gif|ico)$/,
                 use: [{
                     loader: 'url-loader',
                     // 大小大于 30kb 才转换成文件
@@ -68,7 +68,9 @@ function webpackCommonConfigCreator(options) {
             // html 生成插件
             new HtmlWebpackPlugin({
                 // 自定义 html 模板
-                template: path.resolve(__dirname, '../public/index.html')
+                template: path.resolve(__dirname, '../public/index.html'),
+                // 网页图标
+                favicon: './assets/favicon.ico'
             }),
             // 编译前自动清理目录插件
             new CleanWebpackPlugin({

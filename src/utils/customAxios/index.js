@@ -1,5 +1,5 @@
 import axios from 'axios'
-import config from '../config'
+import config from '../../config'
 
 axios.defaults.timeout = 5000; // 响应时间
 axios.defaults.headers['Content-Type'] = 'application/json'; // 配置请求头

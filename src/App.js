@@ -1,13 +1,14 @@
 import { hot } from 'react-hot-loader/root';
-import React from 'react';
-import Editor from './component/Editor';
-// 引入 store 就初始化了 concent
-import store from './store';
+import React, { Suspense } from 'react';
+import lazy  from '@loadable/component'
+const Index = lazy(() => import('./view/Index'))
 
 function App() {
     return (
         <div>
-            <Editor />
+            <Suspense fallback={<div>Loading...</div>}>
+                <Index />
+            </Suspense>
         </div>
     )
 }

@@ -1,5 +1,8 @@
 import App from '../../App.js';
 import Login from '../../view/Login'
+import Register from '../../view/Register'
+import Board from '../../view/Board'
+import Category from '../../view/Category'
 
 const routes = [
     {
@@ -7,18 +10,33 @@ const routes = [
         component: Login,
     },
     {
+        path: "/register",
+        compoent: Register
+    },
+    {
+        path: "/board",
+        component: Board,
+    },
+    {
+        path: "/category",
+        component: Category,
+    },
+    {
+        path: "/user"
+    },
+    {
         component: App,
-        path: "/",
-        routes: [
-            // {
-            //     path: "/a",
-            //     component: A,
-            // },
-            // {
-            //     path: "/b",
-            //     component: B,
-            // }
-        ]
+        path: "/"
+        // routes: [
+        //     {
+        //         path: "/board",
+        //         component: Board,
+        //     },
+        //     {
+        //         path: "/category",
+        //         component: Category,
+        //     }
+        // ]
     }
 ];
 
