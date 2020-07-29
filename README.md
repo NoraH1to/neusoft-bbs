@@ -3,7 +3,7 @@
 
 ## 技术栈
 ```
-React + concent + Material-UI + axios + scss + es6
+React + concent + Material-UI + axios + scss + es6 + tailwindcss
 ```
 
 ## 运行
