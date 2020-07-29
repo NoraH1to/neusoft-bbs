@@ -1,4 +1,4 @@
-import App from '../../App.js';
+import App from '../../App';
 import Login from '../../view/Login'
 import Register from '../../view/Register'
 import Board from '../../view/Board'

@@ -3,28 +3,14 @@ const webpackConfigCreator = require('./webpack.common.js');
 const merge = require('webpack-merge');
 const optimizeCss = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const commonCssLoader = require('./cssloader.common.js')
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 
 const config = {
     output: {
         // 生产环境用块 hash 让没修改的走浏览器缓存
         filename: 'js/[name][chunkhash].js'
-    },
-    module: {
-        rules: [{
-            test: /\.(css|scss)$/,
-            include: path.resolve(__dirname, '../src'),
-            use: [
-                // 提取 css 样式
-                {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: process.env.NODE_ENV === 'development',
-                        reloadAll: true
-                    }
-                }
-            ].concat(commonCssLoader)
-        }]
     },
     plugins: [
         // css 压缩插件
@@ -45,6 +31,10 @@ const config = {
         new MiniCssExtractPlugin({
             filename: 'css/[name].[contenthash].css',
             chunkFilename: 'css/[id].[contenthash].css'
+        }),
+        // 编译前自动清理目录插件
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), 'dist/')]
         })
     ]
 }
