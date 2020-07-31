@@ -1,8 +1,10 @@
+/* 主页 */
+
 import React from 'react'
 
 export default function() {
     return (
-        <div>
+        <div className="text-red-500">
             Index
         </div>
     )

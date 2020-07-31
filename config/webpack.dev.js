@@ -33,10 +33,10 @@ const config = {
     },
     plugins: [
         // 分离 css 样式插件
-        new MiniCssExtractPlugin({
-            filename: 'css/[name].[hash].css',
-            chunkFilename: 'css/[id].[hash].css'
-        })
+        // new MiniCssExtractPlugin({
+        //     filename: 'css/[name].[hash].css',
+        //     chunkFilename: 'css/[id].[hash].css'
+        // })
     ]
 }
 

@@ -1,11 +1,11 @@
-/* 登录 */
+/* 用户中心 */
 
-import React from 'react'
+import React from 'react';
 
 export default function() {
     return (
         <div>
-            Login
+            UserCenter
         </div>
     )
 }

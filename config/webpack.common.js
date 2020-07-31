@@ -35,8 +35,39 @@ function webpackCommonConfigCreator(options) {
                         'babel-loader'
                     ]
                 },
+                // 处理依赖、全局的 css
+                {
+                    test: /\.css$/,
+                    include: [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../src/common')],
+                    use: [
+                        process.env.NODE_ENV === 'development' ? 'style-loader' : {
+                            loader: MiniCssExtractPlugin.loader
+                        },
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                importLoaders: 1
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: [
+                                    // 支持 @import
+                                    require('postcss-import'),
+                                    // 支持 tialwindcss
+                                    require('tailwindcss'),
+                                    // 自动给 css3 样式添加前缀
+                                    require('autoprefixer')
+                                ]
+                            }
+                        }
+                    ]
+                },
                 {
                     test: /\.(css|scss)$/,
+                    exclude: [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../src/common')],
                     use: [ // css 加载器
                         process.env.NODE_ENV === 'development' ? 'style-loader' : {
                             loader: MiniCssExtractPlugin.loader
@@ -44,9 +75,10 @@ function webpackCommonConfigCreator(options) {
                         {
                             loader: 'css-loader',
                             options: {
+                                importLoaders: 2,
                                 modules: {
                                     mode: 'local',
-                                    localIdentName: '[local]'
+                                    localIdentName: '[local]_[hash:base64:5]'
                                 },
                                 localsConvention: 'camelCase'
                             }
@@ -56,10 +88,10 @@ function webpackCommonConfigCreator(options) {
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
-                                plugins: loader => [
+                                plugins: [
                                     // 支持 @import
                                     require('postcss-import'),
-                                    // tialwindcss
+                                    // 支持 tialwindcss
                                     require('tailwindcss'),
                                     // 自动给 css3 样式添加前缀
                                     require('autoprefixer')

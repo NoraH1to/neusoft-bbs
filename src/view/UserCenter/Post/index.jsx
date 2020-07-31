@@ -1,11 +1,11 @@
-/* 注册 */
+/* 用户中心 / 主题列表 */
 
 import React from 'react';
 
 export default function() {
     return (
         <div>
-            Register
+            User's PostList
         </div>
     )
 }

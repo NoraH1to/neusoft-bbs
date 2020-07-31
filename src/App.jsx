@@ -1,8 +1,13 @@
 import { hot } from 'react-hot-loader/root';
+import { setConfig } from 'react-hot-loader';
 import React, { Suspense } from 'react';
-import lazy  from '@loadable/component'
 import "./common/tailwindGlobal.css"
-const Index = lazy(() => import('./view/Index'))
+const Index = React.lazy(() => import('./view/Index'))
+setConfig({
+    trackTailUpdates: false,  // 添加这个配置才能热更新 lazy 组件
+    logLevel: 'debug',
+    hotHooks: true,
+});
 
 function App() {
     return (

@@ -1,4 +1,4 @@
-import { defaultValue } from './state'
+import { user } from './template'
 
 const sleep = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -9,5 +9,5 @@ export async function init(payload, moduleState) {
 }
 
 export function resetState(payload, moduleState) {
-    return defaultValue
+    return user
 }

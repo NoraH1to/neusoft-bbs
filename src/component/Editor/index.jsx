@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Editor } from 'react-draft-wysiwyg';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';

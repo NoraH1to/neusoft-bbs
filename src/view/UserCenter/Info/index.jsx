@@ -1,11 +1,11 @@
-/* 注册 */
+/* 用户中心 / 个人资料设置 */
 
 import React from 'react';
 
 export default function() {
     return (
         <div>
-            Register
+            Info
         </div>
     )
 }
