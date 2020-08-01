@@ -1,4 +1,3 @@
-
 // host
 const host = process.env.NODE_ENV === 'production' ? 'https://relics.wegfan.cn' : ''
 
@@ -10,7 +9,7 @@ const prefix = '/api/v1'
 const requestPrefix = host + prefix
 
 export default {
-	host,
-	prefix,
-	requestPrefix
+    host,
+    prefix,
+    requestPrefix
 }

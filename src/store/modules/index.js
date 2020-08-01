@@ -2,21 +2,24 @@
 const files = require.context(
     '/',
     true,
-	/* eslint-disable */
-	/^[\.\/]{2}[a-zA-Z]{2,}$/
-	/* eslint-able */
+    /* eslint-disable */
+    /^[\.\/]{2}[a-zA-Z]{2,}$/
+    /* eslint-able */
 )
 
 const obj = {}
 
 // 把所有文件都引用除了该文件自身
 files.keys().forEach(item => {
-	/* eslint-disable */
+    /* eslint-disable */
     if (item === './index.js') return
-    const name = item.split('/').pop().replace(/\.\w+$/, '')
-	if (name === 'index') return
+    const name = item
+        .split('/')
+        .pop()
+        .replace(/\.\w+$/, '')
+    if (name === 'index') return
     obj[name] = files(item)['default']
-	/* eslint-able */
+    /* eslint-able */
 })
 
 // 导出

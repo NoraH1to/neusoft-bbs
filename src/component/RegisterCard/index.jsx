@@ -1,9 +1,5 @@
 import React from 'react'
 
 export default function() {
-    return (
-        <div>
-            RegisterCard
-        </div>
-    )
+    return <div>RegisterCard</div>
 }

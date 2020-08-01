@@ -1,5 +1,5 @@
-import { user } from './template'
+import { defaultObj } from './template'
 
 export default {
-    ...user
+    ...defaultObj
 }

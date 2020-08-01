@@ -1,4 +1,4 @@
-import App from '../../App';
+import App from '../../App'
 import Login from '../../view/Login'
 import Register from '../../view/Register'
 import Board from '../../view/Board'
@@ -6,27 +6,27 @@ import Category from '../../view/Category'
 
 const routes = [
     {
-        path: "/login",
-        component: Login,
+        path: '/login',
+        component: Login
     },
     {
-        path: "/register",
+        path: '/register',
         compoent: Register
     },
     {
-        path: "/board",
-        component: Board,
+        path: '/board',
+        component: Board
     },
     {
-        path: "/category",
-        component: Category,
+        path: '/category',
+        component: Category
     },
     {
-        path: "/user"
+        path: '/user'
     },
     {
         component: App,
-        path: "/"
+        path: '/'
         // routes: [
         //     {
         //         path: "/board",
@@ -38,6 +38,6 @@ const routes = [
         //     }
         // ]
     }
-];
+]
 
 export default routes

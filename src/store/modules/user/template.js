@@ -1,16 +1,38 @@
-export const user = {
+import { initObj2Null } from '../../../utils'
+
+export const attrMap = {
     // 用户 ID
-    id: null,
+    id: {
+        value: '用户编号'
+    },
     // 用户名
-    username: null,
+    username: {
+        value: '用户名'
+    },
     // 昵称
-    nickname: null,
+    nickname: {
+        value: '昵称'
+    },
     // 是否为超级版主
-    super_board_admin: null,
+    superBoardAdmin: {
+        value: '超级版主权限'
+    },
     // 是否为管理员
-    admin: null,
+    admin: {
+        value: '管理员权限'
+    },
     // 头像 url
-    avatar_path: null,
+    avatarPath: {
+        value: '头像URL'
+    },
     // 性别
-    sex: null
+    sex: {
+        value: '性别'
+    },
+    // 个人签名
+    signature: {
+        value: '个人签名'
+    }
 }
+
+export const defaultObj = initObj2Null(attrMap)

@@ -1,6 +1,5 @@
-import { user } from './template'
-
-const sleep = ms => new Promise((resolve) => setTimeout(resolve, ms));
+import { defaultObj } from './template'
+import { sleep } from '../../../utils'
 
 export async function init(payload, moduleState) {
     console.log('init')
@@ -9,5 +8,5 @@ export async function init(payload, moduleState) {
 }
 
 export function resetState(payload, moduleState) {
-    return user
+    return defaultObj
 }
