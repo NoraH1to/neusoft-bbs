@@ -1,34 +1,41 @@
+import { useSnackbar } from 'notistack'
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { SnackbarProvider, useSnackbar } from 'notistack'
-
-const mountPoint = document.createElement('div')
-document.body.appendChild(mountPoint)
-
+const InnerSnackbarUtilsConfigurator = props => {
+    props.setUseSnackbarRef(useSnackbar())
+    return null
+}
+let useSnackbarRef
+const setUseSnackbarRef = useSnackbarRefProp => {
+    useSnackbarRef = useSnackbarRefProp
+}
+export const SnackbarUtilsConfigurator = () => {
+    return <InnerSnackbarUtilsConfigurator setUseSnackbarRef={setUseSnackbarRef} />
+}
 export default {
-    success: function(msg) {
-        this.toast(msg, 'success')
+    success(msg, options) {
+        this.toast(msg, 'success', options)
     },
-    warning: function(msg) {
-        this.toast(msg, 'warning')
+    warning(msg, options) {
+        this.toast(msg, 'warning', options)
     },
-    info: function(msg) {
-        this.toast(msg, 'info')
+    info(msg, options) {
+        this.toast(msg, 'info', options)
     },
-    error: function(msg) {
-        this.toast(msg, 'error')
+    error(msg, options) {
+        this.toast(msg, 'error', options)
     },
-    toast: function(msg, variant = 'default') {
-        const ShowSnackbar = ({ message }) => {
-            const { enqueueSnackbar } = useSnackbar()
-            enqueueSnackbar(message, { variant })
-            return null
-        }
-        ReactDOM.render(
-            <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'center', vertical: 'top' }} autoHideDuration={5000}>
-                <ShowSnackbar message={msg} variant={variant} />
-            </SnackbarProvider>,
-            mountPoint
-        )
+    toast(msg, variant = 'default', options) {
+        useSnackbarRef.enqueueSnackbar(msg, {
+            // 类型
+            variant,
+            // 位置
+            anchorOrigin: {
+                horizontal: 'center',
+                vertical: 'top'
+            },
+            // 自动隐藏时间
+            autoHideDuration: 2000,
+            ...options
+        })
     }
 }

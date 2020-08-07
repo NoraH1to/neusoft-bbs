@@ -1,15 +1,44 @@
 import Mock from 'mockjs'
+import { requestPrefix } from '../../../config'
 
-export default Mock.mock('/postdata1', 'post', {
+const mockProxy = (url, method, responseBody) => {
+    return Mock.mock(requestPrefix + '/user' + url, method, responseBody)
+}
+
+export default mockProxy('/login', 'post', {
     success: true,
-    message: '@cparagraph',
-    // 属性 list 的值是一个数组，其中含有 1 到 5 个元素
-    'list|1-5': [
-        {
-            // 属性 sid 是一个自增数，起始值为 1，每次增 1
-            'sid|+1': 1,
-            // 属性 userId 是一个5位的随机码
-            'userId|5': ''
+    msg: 'success',
+    code: 200,
+    data: {
+        id: 1, // 用户编号
+        username: 'a', // 用户名
+        nickname: 'a', // 昵称
+        superBoardAdmin: true, // 是否为超级版主
+        admin: true, // 是否为管理员
+        avatarPath: '/api/file/avatar/xxx.jpg', // 头像地址
+        boardAdmin: [
+            // 管理的板块
+            {
+                id: 1, // 板块编号
+                name: '板块 #1' // 板块名称
+            },
+            { id: 2, name: '板块 #2' }
+        ],
+        categoryAdmin: [
+            // 管理的分区
+            {
+                id: 1, // 分区编号
+                name: '分区 #1' // 分区名称
+            },
+            { id: 2, name: '分区 #2' }
+        ],
+        forumPermission: {
+            // 论坛权限
+            banVisit: false, // 禁止访问（登录）
+            banCreateTopic: false, // 禁止创建主题帖
+            banReply: false, // 禁止回复
+            banUploadAttachment: false, // 禁止上传附件
+            banDownloadAttachment: false // 禁止下载附件
         }
-    ]
+    }
 })

@@ -30,6 +30,8 @@
         "draft-js": "^0.11.6",
         "draftjs-to-html": "^0.9.1",
         "file-loader": "^6.0.0",
+        "formik": "^2.1.5",
+        "formik-material-ui": "^2.0.1",
         "highlight.js": "^10.1.1",
         "html-to-draftjs": "^1.5.0",
         "html-webpack-plugin": "^4.3.0",
@@ -45,7 +47,6 @@
         "react-draft-wysiwyg": "^1.14.5",
         "react-hot-loader": "^4.12.21",
         "react-router": "^5.2.0",
-        "react-router-config": "^5.1.1",
         "react-router-dom": "^5.2.0",
         "sass-loader": "^8.0.2",
         "style-loader": "^1.2.1",
@@ -53,7 +54,8 @@
         "url-loader": "^4.1.0",
         "webpack-cli": "^3.3.11",
         "webpack-dev-server": "^3.11.0",
-        "webpack-merge": "^4.2.2"
+        "webpack-merge": "^4.2.2",
+        "yup": "^0.29.2"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
