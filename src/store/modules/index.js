@@ -18,7 +18,7 @@ files.keys().forEach(item => {
         .pop()
         .replace(/\.\w+$/, '')
     if (name === 'index') return
-    obj[name] = files(item)['default']
+    if (files(item)['default']) obj[name] = files(item)['default']
     /* eslint-able */
 })
 

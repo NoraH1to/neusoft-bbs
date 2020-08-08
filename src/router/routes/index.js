@@ -3,7 +3,7 @@ import Login from '../../view/Login'
 import Register from '../../view/Register'
 import Board from '../../view/Board'
 import Category from '../../view/Category'
-import BanView from '../../view/BanView'
+import Error from '../../view/Error'
 import Test from '../../view/Test'
 
 const routes = [
@@ -22,14 +22,12 @@ const routes = [
         permissionGroupList: [['noLogin']],
     },
     {
-        path: '/ban',
-        component: BanView
+        path: '/error',
+        component: Error
     },
     {
         component: Index,
         path: '/',
-        permissionGroupList: [['canVisit'], ['noLogin']],
-        backUrl: '/ban',
         routes: [
             {
                 path: '/category',

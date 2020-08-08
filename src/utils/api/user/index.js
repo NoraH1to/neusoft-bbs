@@ -2,6 +2,7 @@ import url from './url'
 import { POST, DELETE } from '../../customAxios'
 import * as Yup from 'yup'
 import { attrMap } from '../../../store/modules/user/template'
+import { attrMap as verifyCodeAttrMap } from '../../../store/modules/verifyCode/template'
 
 // 登录
 export const login = {
@@ -21,7 +22,13 @@ export const login = {
         [attrMap.password.key]: Yup.string()
             .required('密码不能为空')
             .min(6, '6 - 20 字符')
-            .max(20, '6 - 20 字符')
+            .max(20, '6 - 20 字符'),
+        // 验证码
+        // [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
+        // 随机字符串
+        // [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
+        //     'must has verifyCodeRandom string'
+        // )
     }
 }
 
@@ -63,7 +70,11 @@ export const register = {
             .required('邮箱不能为空')
             .email('邮箱格式错误'),
         // 验证码
-        [attrMap.verifyCode.key]: Yup.string().required('验证码不能为空')
+        [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
+        // 随机字符串
+        [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
+            'must has verifyCodeRandom string'
+        )
     }
 }
 
@@ -76,9 +87,14 @@ export const emailVerifyCode = {
         })
     },
     formRules: {
+        // 邮箱
         [attrMap.email.key]: Yup.string()
             .required('邮箱不能为空')
             .email('邮箱格式错误'),
-        [attrMap.verifyCode.key]: Yup.string().required('验证码不能为空')
+        [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
+        // 随机字符串
+        [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
+            'must has verifyCodeRandom string'
+        )
     }
 }

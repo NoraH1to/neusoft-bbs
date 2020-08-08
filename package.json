@@ -1,7 +1,7 @@
 {
-    "name": "react_test",
+    "name": "neusoft-bbs",
     "version": "1.0.0",
-    "description": "webpack + react 环境配置",
+    "description": "newsoft bbs",
     "main": "index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --mode=development -d --open",
@@ -22,7 +22,7 @@
         "axios": "^0.19.2",
         "babel-loader": "^8.1.0",
         "clean-webpack-plugin": "^3.0.0",
-        "concent": "^2.7.25",
+        "concent": "^2.8.11",
         "concent-plugin-loading": "^2.0.3",
         "css-loader": "^3.5.3",
         "cssnano": "^4.1.10",
