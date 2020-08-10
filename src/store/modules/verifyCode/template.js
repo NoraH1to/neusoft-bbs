@@ -8,6 +8,11 @@ export const attrMap = {
     verifyCodeRandom: {
         key: 'verifyCodeRandom',
         value: '随机字符串'
+    },
+    // 验证码图片链接
+    url: {
+        key: 'url',
+        value: '验证码链接'
     }
 }
 

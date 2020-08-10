@@ -17,6 +17,7 @@ import axios from './utils/customAxios'
 
 // mock
 import './utils/mockjs/user'
+import './utils/mockjs/verifyCode'
 
 import App from './App'
 

@@ -6,5 +6,5 @@ const url = (value) => {
 
 export default {
     // 获取验证码
-    getVerifyCode: url('refresh-code')
+    getVerifyCode: url('/refresh-code')
 }

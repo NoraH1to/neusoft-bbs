@@ -24,11 +24,11 @@ export const login = {
             .min(6, '6 - 20 字符')
             .max(20, '6 - 20 字符'),
         // 验证码
-        // [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
+        [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
         // 随机字符串
-        // [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
-        //     'must has verifyCodeRandom string'
-        // )
+        [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
+            'must has verifyCodeRandom string'
+        )
     }
 }
 

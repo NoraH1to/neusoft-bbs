@@ -41,7 +41,7 @@ export default function() {
                                 </Hidden>
                                 <Grid
                                     container
-                                    style={{ minWidth: '300px' }}
+                                    style={{ minWidth: '18rem', maxWidth: '22rem' }}
                                     direction="column"
                                     justify="center"
                                     xs={12}

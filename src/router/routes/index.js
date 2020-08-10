@@ -15,11 +15,13 @@ const routes = [
         path: '/login',
         component: Login,
         permissionGroupList: [['noLogin']],
+        backUrl: '/'
     },
     {
         path: '/register',
         component: Register,
         permissionGroupList: [['noLogin']],
+        backUrl: '/'
     },
     {
         path: '/error',
