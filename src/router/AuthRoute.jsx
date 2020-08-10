@@ -2,9 +2,9 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { getComputed } from 'concent'
 import { every } from 'lodash'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-export default props => {
+export default (props) => {
     const history = useHistory()
     const hasPermission = getComputed('user')
     const { permissionGroupList, backUrl, ...otherProps } = props
@@ -13,8 +13,10 @@ export default props => {
         !permissionGroupList ||
         permissionGroupList.length == 0 ||
         (permissionGroupList &&
-            !every(permissionGroupList, permissionGroup =>
-                !every(permissionGroup, permission => hasPermission[permission])
+            !every(
+                permissionGroupList,
+                (permissionGroup) =>
+                    !every(permissionGroup, (permission) => hasPermission[permission])
             ))
     ) {
         return <Route {...otherProps} />

@@ -6,5 +6,5 @@ export const id = {
             window.localStorage.removeItem('user')
         }
     },
-    compare: false
+    compare: false,
 }

@@ -5,7 +5,7 @@ import './common/tailwindGlobal.css'
 setConfig({
     trackTailUpdates: false, // 添加这个配置才能热更新 lazy 组件
     logLevel: 'debug',
-    hotHooks: true
+    hotHooks: true,
 })
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import routesConfig from './router/routes'
@@ -15,7 +15,7 @@ function App() {
     return (
         <Router>
             <Switch>
-                {routesConfig.map(route => (
+                {routesConfig.map((route) => (
                     <AuthRoute key={route.path} {...route} />
                 ))}
             </Switch>

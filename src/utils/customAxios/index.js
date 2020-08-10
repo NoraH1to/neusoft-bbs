@@ -16,17 +16,17 @@ axios.defaults.withCredentials = true
 
 // 请求拦截
 axios.interceptors.request.use(
-    config => {
+    (config) => {
         return config
     },
-    error => {
+    (error) => {
         return Promise.reject(error)
     }
 )
 
 // 响应拦截
 axios.interceptors.response.use(
-    response => {
+    (response) => {
         if (response.data.code) {
             if (response.data.code !== 200) {
                 Toast.error(response.data.msg)
@@ -42,16 +42,16 @@ axios.interceptors.response.use(
         }
         return Promise.reject(response.data)
     },
-    error => {
+    (error) => {
         Toast.error(error.message)
         return Promise.reject(error)
     }
 )
 
-const currentAxios = method => options => {
+const currentAxios = (method) => (options) => {
     return axios({
         method,
-        ...options
+        ...options,
     })
 }
 
@@ -59,10 +59,10 @@ export const GET = currentAxios('GET')
 export const POST = currentAxios('POST')
 export const PUT = currentAxios('PUT')
 export const DELETE = currentAxios('DELETE')
-export const UPLOAD = options => {
+export const UPLOAD = (options) => {
     return POST({
-        headers: {'Content-Type':'multipart/form-data'},
-        ...options
+        headers: { 'Content-Type': 'multipart/form-data' },
+        ...options,
     })
 }
 

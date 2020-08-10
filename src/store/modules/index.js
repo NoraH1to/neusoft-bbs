@@ -10,7 +10,7 @@ const files = require.context(
 const obj = {}
 
 // 把所有文件都引用除了该文件自身
-files.keys().forEach(item => {
+files.keys().forEach((item) => {
     /* eslint-disable */
     if (item === './index.js') return
     const name = item

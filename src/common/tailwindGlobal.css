@@ -5,5 +5,5 @@
 @import 'tailwindcss/utilities';
 
 .form-item {
-    @apply pb-6
+    @apply pb-6;
 }

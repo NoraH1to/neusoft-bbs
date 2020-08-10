@@ -6,10 +6,10 @@ import { attrMap as verifyCodeAttrMap } from '../../../store/modules/verifyCode/
 
 // 登录
 export const login = {
-    request: options => {
+    request: (options) => {
         return POST({
             url: url.login,
-            ...options
+            ...options,
         })
     },
     formRules: {
@@ -28,25 +28,25 @@ export const login = {
         // 随机字符串
         [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
             'must has verifyCodeRandom string'
-        )
-    }
+        ),
+    },
 }
 
 // 登出
 export const logout = {
     request: () => {
         return DELETE({
-            url: url.logout
+            url: url.logout,
         })
-    }
+    },
 }
 
 // 注册
 export const register = {
-    request: options => {
+    request: (options) => {
         return POST({
             url: url.register,
-            ...options
+            ...options,
         })
     },
     formRules: {
@@ -66,35 +66,31 @@ export const register = {
             .min(1, '1 - 30 字符')
             .max(30, '1 - 30 字符'),
         // 邮箱
-        [attrMap.email.key]: Yup.string()
-            .required('邮箱不能为空')
-            .email('邮箱格式错误'),
+        [attrMap.email.key]: Yup.string().required('邮箱不能为空').email('邮箱格式错误'),
         // 验证码
         [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
         // 随机字符串
         [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
             'must has verifyCodeRandom string'
-        )
-    }
+        ),
+    },
 }
 
 // 发送邮箱验证码
 export const emailVerifyCode = {
-    request: options => {
+    request: (options) => {
         return POST({
             url: url.emailVerifyCode,
-            options
+            options,
         })
     },
     formRules: {
         // 邮箱
-        [attrMap.email.key]: Yup.string()
-            .required('邮箱不能为空')
-            .email('邮箱格式错误'),
+        [attrMap.email.key]: Yup.string().required('邮箱不能为空').email('邮箱格式错误'),
         [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
         // 随机字符串
         [verifyCodeAttrMap.verifyCodeRandom.key]: Yup.string().required(
             'must has verifyCodeRandom string'
-        )
-    }
+        ),
+    },
 }

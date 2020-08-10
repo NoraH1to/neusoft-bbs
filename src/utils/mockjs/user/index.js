@@ -21,6 +21,6 @@ export default mockProxy(apiUrl.login, 'post', {
             categoryAdmin: false, // 管理分区
             superBoardAdmin: false, // 超级版主
             admin: false, // 管理员
-        }
-    }
+        },
+    },
 })

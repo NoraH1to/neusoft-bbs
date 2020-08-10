@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { UPLOAD } from '../../utils/customAxios'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export default () => {
     const ctx = useConcent()
@@ -14,7 +14,7 @@ export default () => {
     const { enqueueSnackbar } = useSnackbar()
     const history = useHistory()
     ctx.setGlobalState({
-        testValue: ''
+        testValue: '',
     })
     return (
         <div>
@@ -34,7 +34,7 @@ export default () => {
                     data.append('test0', 'test1')
                     UPLOAD({
                         url: 'test.com/123',
-                        data
+                        data,
                     })
                 }}
             />

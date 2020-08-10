@@ -1,9 +1,5 @@
 import React from 'react'
 
 export default () => {
-    return (
-        <div>
-            Error
-        </div>
-    )
+    return <div>Error</div>
 }

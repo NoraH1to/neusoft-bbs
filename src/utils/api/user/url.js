@@ -12,5 +12,5 @@ export default {
     // 注册
     register: url('/register'),
     // 发送邮箱验证码
-    emailVerifyCode: url('/send-email-verify-code')
+    emailVerifyCode: url('/send-email-verify-code'),
 }

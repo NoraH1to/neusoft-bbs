@@ -6,7 +6,7 @@ export default createMuiTheme({
             contrastText: '#fff',
             dark: 'rgb(17, 82, 147)',
             light: 'rgb(71, 145, 219)',
-            main: '#1976d2'
+            main: '#1976d2',
         },
         action: {
             activatedOpacity: 0.12,
@@ -19,17 +19,17 @@ export default createMuiTheme({
             hover: 'rgba(0, 0, 0, 0.04)',
             hoverOpacity: 0.04,
             selected: 'rgba(0, 0, 0, 0.08)',
-            selectedOpacity: 0.08
+            selectedOpacity: 0.08,
         },
         background: {
             default: '#fff',
             level1: '#fff',
             level2: '#f5f5f5',
-            paper: '#fff'
+            paper: '#fff',
         },
         common: {
             black: '#000',
-            white: '#fff'
+            white: '#fff',
         },
         contrastThreshold: 3,
         divider: 'rgba(0, 0, 0, 0.12)',
@@ -37,7 +37,7 @@ export default createMuiTheme({
             contrastText: '#fff',
             dark: '#d32f2f',
             light: '#e57373',
-            main: '#f44336'
+            main: '#f44336',
         },
         grey: {
             50: '#fafafa',
@@ -53,38 +53,38 @@ export default createMuiTheme({
             A100: '#d5d5d5',
             A200: '#aaaaaa',
             A400: '#303030',
-            A700: '#616161'
+            A700: '#616161',
         },
         info: {
             contrastText: '#fff',
             dark: '#1976d2',
             light: '#64b5f6',
-            main: '#2196f3'
+            main: '#2196f3',
         },
         secondary: {
             contrastText: '#fff',
             dark: 'rgb(154, 0, 54)',
             light: 'rgb(227, 51, 113)',
-            main: 'rgb(220, 0, 78)'
+            main: 'rgb(220, 0, 78)',
         },
         success: {
             contrastText: 'rgba(0, 0, 0, 0.87)',
             dark: '#388e3c',
             light: '#81c784',
-            main: '#4caf50'
+            main: '#4caf50',
         },
         text: {
             disabled: 'rgba(0, 0, 0, 0.38)',
             hint: 'rgba(0, 0, 0, 0.38)',
             primary: 'rgba(0, 0, 0, 0.87)',
-            secondary: 'rgba(0, 0, 0, 0.54)'
+            secondary: 'rgba(0, 0, 0, 0.54)',
         },
         type: 'light',
         warning: {
             contrastText: 'rgba(0, 0, 0, 0.87)',
             dark: '#f57c00',
             light: '#ffb74d',
-            main: '#ff9800'
-        }
-    }
+            main: '#ff9800',
+        },
+    },
 })

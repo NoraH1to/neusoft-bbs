@@ -7,5 +7,5 @@ export default {
     state,
     reducer,
     computed,
-    watch
+    watch,
 }

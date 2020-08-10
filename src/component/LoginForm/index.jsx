@@ -47,7 +47,10 @@ const setup = (ctx) => {
             .request()
             .then((res) => {
                 ctx.set(verifyCodeAttrMap.url.key, res.data.url)
-                ctx.set('loginForm.' + verifyCodeAttrMap.verifyCodeRandom.key, res.data.verifyCodeRandom)
+                ctx.set(
+                    'loginForm.' + verifyCodeAttrMap.verifyCodeRandom.key,
+                    res.data.verifyCodeRandom
+                )
             })
             .catch((err) => {
                 log('requestVerifyCode fail', err)
@@ -107,16 +110,16 @@ export default withRouter(function (props) {
                     return (
                         <Form>
                             <div
-                                className="w-auto px-8 py-16 flex flex-col justify-around items-stretch"
+                                className="w-auto flex flex-col justify-around items-stretch"
                                 spacing={4}
                             >
-                                <Typography
+                                {/* <Typography
                                     variant="h2"
                                     className="pb-12"
                                     style={{ textShadow: '0 4px 6px rgb(66, 66, 66)' }}
                                 >
                                     登入
-                                </Typography>
+                                </Typography> */}
                                 {/* 账号 */}
                                 <div className="form-item">
                                     <Field
@@ -175,7 +178,7 @@ export default withRouter(function (props) {
                                                         onClick={() => requestVerifyCode()}
                                                     >
                                                         <img
-                                                            className="h-full w-auto"
+                                                            className="h-full w-auto rounded"
                                                             src={state[verifyCodeAttrMap.url.key]}
                                                         ></img>
                                                     </div>

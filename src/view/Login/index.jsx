@@ -1,30 +1,32 @@
 /* 登录 */
 
 import React from 'react'
-import LoginCard from '../../component/LoginCard'
+import LoginForm from '../../component/LoginForm'
 import Grid from '@material-ui/core/Grid'
 import css from './index.scss'
 import Fade from '@material-ui/core/Fade'
 import Hidden from '@material-ui/core/Hidden'
 import { useConcent } from 'concent'
 import loginSvg from '../../../assets/login.svg'
+import Typography from '@material-ui/core/Typography'
+import LoginLink from '../../component/LoginLink'
 
-const setup = ctx => {
+const setup = (ctx) => {
     ctx.effect(() => {
         setTimeout(() => {
             ctx.setState({
-                visibleLoginCard: true
+                visibleLoginCard: true,
             })
         }, 300)
     }, [])
 }
 
-export default function() {
+export default function () {
     const ctx = useConcent({
         state: {
-            visibleLoginCard: false
+            visibleLoginCard: false,
         },
-        setup
+        setup,
     })
     return (
         <div className={css.loginViewContainer + ' h-full'}>
@@ -44,11 +46,24 @@ export default function() {
                                     style={{ minWidth: '18rem', maxWidth: '22rem' }}
                                     direction="column"
                                     justify="center"
+                                    alignItems="center"
                                     xs={12}
                                     sm={4}
                                 >
-                                    <div>
-                                        <LoginCard />
+                                    <div className="py-16">
+                                        <Typography
+                                            variant="h2"
+                                            className="px-8 pb-8"
+                                            style={{ textShadow: '0 4px 6px rgb(66, 66, 66)' }}
+                                        >
+                                            登入
+                                        </Typography>
+                                        <div className="px-8">
+                                            <LoginForm />
+                                        </div>
+                                        <div className="px-8 pt-3">
+                                            <LoginLink />
+                                        </div>
                                     </div>
                                 </Grid>
                             </Grid>

@@ -10,5 +10,5 @@ if (!userStr || Object.keys(JSON.parse(userStr)).length != Object.keys(defaultOb
 }
 
 export default {
-    ...state
+    ...state,
 }

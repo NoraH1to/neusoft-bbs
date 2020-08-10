@@ -1,11 +1,11 @@
 import { useSnackbar } from 'notistack'
 import React from 'react'
-const InnerSnackbarUtilsConfigurator = props => {
+const InnerSnackbarUtilsConfigurator = (props) => {
     props.setUseSnackbarRef(useSnackbar())
     return null
 }
 let useSnackbarRef
-const setUseSnackbarRef = useSnackbarRefProp => {
+const setUseSnackbarRef = (useSnackbarRefProp) => {
     useSnackbarRef = useSnackbarRefProp
 }
 export const SnackbarUtilsConfigurator = () => {
@@ -31,11 +31,11 @@ export default {
             // 位置
             anchorOrigin: {
                 horizontal: 'center',
-                vertical: 'top'
+                vertical: 'top',
             },
             // 自动隐藏时间
             autoHideDuration: 2000,
-            ...options
+            ...options,
         })
-    }
+    },
 }

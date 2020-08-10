@@ -3,10 +3,10 @@ import { GET } from '../../customAxios'
 
 // 获取验证码
 export const verifyCode = {
-    request: options => {
+    request: (options) => {
         return GET({
             url: url.getVerifyCode,
-            ...options
+            ...options,
         })
-    }
+    },
 }

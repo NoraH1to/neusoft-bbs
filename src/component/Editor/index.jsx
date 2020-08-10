@@ -12,10 +12,10 @@ import css from './index.scss'
 import { registerDumb } from 'concent'
 import { Button } from '@material-ui/core'
 
-const setup = ctx => {
-    const onEditorStateChange = editorState => {
+const setup = (ctx) => {
+    const onEditorStateChange = (editorState) => {
         ctx.setState({
-            editorState
+            editorState,
         })
     }
     const init = () => {
@@ -27,7 +27,7 @@ const setup = ctx => {
     return { onEditorStateChange, init, resetState }
 }
 
-const mapProps = ctx => {
+const mapProps = (ctx) => {
     const { onEditorStateChange, init, resetState } = ctx.settings
     const { editorState, toolbarOptions } = ctx.state
     return {
@@ -36,7 +36,7 @@ const mapProps = ctx => {
         toolbarOptions,
         hasLogin: ctx.moduleComputed.hasLogin,
         init,
-        resetState
+        resetState,
     }
 }
 
@@ -49,12 +49,12 @@ const state = {
     editorState,
     toolbarOptions: {
         image: {
-            alt: { present: true, mandatory: false }
-        }
-    }
+            alt: { present: true, mandatory: false },
+        },
+    },
 }
 
-const EditorUI = props => {
+const EditorUI = (props) => {
     // props.init()
     const history = useHistory()
     return (
@@ -67,7 +67,7 @@ const EditorUI = props => {
                     editorClassName={css.customEditor}
                     onEditorStateChange={props.onEditorStateChange}
                     localization={{
-                        locale: 'zh'
+                        locale: 'zh',
                     }}
                 />
                 {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(draftToHtml(convertToRaw(state.editorState.getCurrentContent()))) }}>
@@ -87,6 +87,6 @@ const connectFn = registerDumb({
     mapProps,
     module: 'user',
     watchedKeys: '*',
-    connect: { loading: ['user/init'] }
+    connect: { loading: ['user/init'] },
 })
 export default connectFn(EditorUI)

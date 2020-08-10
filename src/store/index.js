@@ -4,10 +4,10 @@ import loadingPlugin from 'concent-plugin-loading'
 
 export default run(
     {
-        ...modules
+        ...modules,
     },
     {
         // 配置loading插件
-        plugins: [loadingPlugin]
+        plugins: [loadingPlugin],
     }
 )
