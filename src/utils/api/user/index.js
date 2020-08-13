@@ -1,6 +1,8 @@
 import url from './url'
 import { POST, DELETE } from '../../customAxios'
+
 import * as Yup from 'yup'
+
 import { attrMap } from '../../../store/modules/user/template'
 import { attrMap as verifyCodeAttrMap } from '../../../store/modules/verifyCode/template'
 
@@ -61,7 +63,7 @@ export const register = {
             .min(6, '6 - 20 字符')
             .max(20, '6 - 20 字符'),
         // 昵称
-        [attrMap.username.key]: Yup.string()
+        [attrMap.nickname.key]: Yup.string()
             .required('昵称不能为空')
             .min(1, '1 - 30 字符')
             .max(30, '1 - 30 字符'),

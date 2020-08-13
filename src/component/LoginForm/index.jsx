@@ -2,10 +2,8 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { useConcent } from 'concent'
 import { debounce } from 'lodash'
-import Toast from '../../utils/toast'
 
 // 控件
-import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -16,6 +14,7 @@ import VpnKeyOutlined from '@material-ui/icons/VpnKeyOutlined'
 import { TextField } from 'formik-material-ui'
 import { Formik, Form, Field } from 'formik'
 import { object } from 'yup'
+import VerifyCodeField from '../VerifyCodeField'
 
 // 接口
 import { login } from '../../utils/api/user'
@@ -36,30 +35,19 @@ const loginState = () => ({
         [verifyCodeAttrMap.verifyCode.key]: '',
         [verifyCodeAttrMap.verifyCodeRandom.key]: '',
     },
-    // 验证码图片地址
-    [verifyCodeAttrMap.url.key]: '',
 })
 
 const setup = (ctx) => {
-    // 获取验证码
-    const requestVerifyCode = () => {
-        verifyCode
-            .request()
-            .then((res) => {
-                ctx.set(verifyCodeAttrMap.url.key, res.data.url)
-                ctx.set(
-                    'loginForm.' + verifyCodeAttrMap.verifyCodeRandom.key,
-                    res.data.verifyCodeRandom
-                )
-            })
-            .catch((err) => {
-                log('requestVerifyCode fail', err)
-            })
-    }
-    requestVerifyCode()
     // 定义更新用户信息的函数
     const updateUser = (userData) => {
         ctx.dispatch('setState', userData)
+    }
+    // 当验证码更新了
+    const handlerVerifyCodeChange = (data) => {
+        ctx.set(
+            'loginForm.' + verifyCodeAttrMap.verifyCodeRandom.key,
+            data[verifyCodeAttrMap.verifyCodeRandom.key]
+        )
     }
     // 当发起请求时执行的函数
     const handlerSubmit = debounce(
@@ -90,15 +78,15 @@ const setup = (ctx) => {
     )
     return {
         handlerSubmit,
-        requestVerifyCode,
+        handlerVerifyCodeChange,
     }
 }
 
-export default withRouter(function (props) {
+export default withRouter((props) => {
     // 声明该组件属于 user, loginState 为该组件状态, 使用 setup
     const ctx = useConcent({ module: 'user', setup, state: loginState, props })
     const { state } = ctx
-    const { handlerSubmit, requestVerifyCode } = ctx.settings
+    const { handlerSubmit, handlerVerifyCodeChange } = ctx.settings
     return (
         <>
             <Formik
@@ -109,17 +97,7 @@ export default withRouter(function (props) {
                 {({ isSubmitting }) => {
                     return (
                         <Form>
-                            <div
-                                className="w-auto flex flex-col justify-around items-stretch"
-                                spacing={4}
-                            >
-                                {/* <Typography
-                                    variant="h2"
-                                    className="pb-12"
-                                    style={{ textShadow: '0 4px 6px rgb(66, 66, 66)' }}
-                                >
-                                    登入
-                                </Typography> */}
+                            <div className="w-auto flex flex-col justify-around items-stretch">
                                 {/* 账号 */}
                                 <div className="form-item">
                                     <Field
@@ -163,28 +141,13 @@ export default withRouter(function (props) {
                                 </div>
                                 {/* 验证码 */}
                                 <div className="form-item flex items-stretch justify-center">
-                                    <Field
+                                    <VerifyCodeField
                                         className="w-full flex-grow"
                                         name={verifyCodeAttrMap.verifyCode.key}
-                                        component={TextField}
                                         variant="outlined"
                                         size="small"
                                         label={verifyCodeAttrMap.verifyCode.value}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment>
-                                                    <div
-                                                        className="w-16 h-6 text-right"
-                                                        onClick={() => requestVerifyCode()}
-                                                    >
-                                                        <img
-                                                            className="h-full w-auto rounded"
-                                                            src={state[verifyCodeAttrMap.url.key]}
-                                                        ></img>
-                                                    </div>
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        onVerifyCodeChange={handlerVerifyCodeChange}
                                     />
                                 </div>
                                 <div className="hidden">
