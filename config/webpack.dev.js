@@ -1,12 +1,12 @@
 const path = require('path')
-const webpackConfigCreator = require('./webpack.common.js');
-const merge = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpackConfigCreator = require('./webpack.common.js')
+const merge = require('webpack-merge')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = {
     output: {
         // 开发环境用 hash 保证全部都是最新的
-        filename: 'js/[name][hash].js'
+        filename: 'js/[name][hash].js',
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -26,10 +26,10 @@ const config = {
                 ws: true,
                 secure: false,
                 pathRewrite: {
-					'^/api': '/api'
-				}
-            }
-        }
+                    '^/api': '/api',
+                },
+            },
+        },
     },
     plugins: [
         // 分离 css 样式插件
@@ -37,11 +37,11 @@ const config = {
         //     filename: 'css/[name].[hash].css',
         //     chunkFilename: 'css/[id].[hash].css'
         // })
-    ]
+    ],
 }
 
 const options = {
-    mode: 'development'
+    mode: 'development',
 }
 
-module.exports = merge(webpackConfigCreator(options), config);
+module.exports = merge(webpackConfigCreator(options), config)

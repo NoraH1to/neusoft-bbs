@@ -1,18 +1,18 @@
-.login-view-container,
-.login-card::before {
+.view-container,
+.action-card::before {
     // background: url('http://n.sinaimg.cn/front/600/w1920h1080/20181229/KBa1-hqwsysz0581817.jpg') rgba(255, 255, 255, 0.3) no-repeat center fixed;
     background: url('https://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.2222.moe%2Fimages%2F2016%2F01%2F05%2F433.png&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1796670185%2C3466185274%26fm%3D26%26gp%3D0.jpg')
         rgba(255, 255, 255, 0.3) no-repeat center fixed;
     background-size: cover;
 }
 
-.login-view-container {
+.view-container {
     // background: url('https://image.baidu.com/search/down?tn=download&ipn=dwnl&word=download&ie=utf8&fr=result&url=http%3A%2F%2Fimg.2222.moe%2Fimages%2F2016%2F01%2F05%2F433.png&thumburl=https%3A%2F%2Fss1.bdstatic.com%2F70cFuXSh_Q1YnxGkpoWK1HF6hhy%2Fit%2Fu%3D1796670185%2C3466185274%26fm%3D26%26gp%3D0.jpg')
     // no-repeat center fixed;
     background-blend-mode: multiply;
 }
 
-.login-card {
+.action-card {
     overflow: hidden;
     position: relative;
     background: rgba(255, 255, 255, 0.5);
@@ -21,7 +21,7 @@
     z-index: 2;
 }
 
-.login-card::before {
+.action-card::before {
     background-blend-mode: overlay;
     position: absolute;
     display: block;

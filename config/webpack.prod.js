@@ -1,16 +1,14 @@
 const path = require('path')
-const webpackConfigCreator = require('./webpack.common.js');
-const merge = require('webpack-merge');
-const optimizeCss = require('optimize-css-assets-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {
-    CleanWebpackPlugin
-} = require('clean-webpack-plugin');
+const webpackConfigCreator = require('./webpack.common.js')
+const merge = require('webpack-merge')
+const optimizeCss = require('optimize-css-assets-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const config = {
     output: {
         // 生产环境用块 hash 让没修改的走浏览器缓存
-        filename: 'js/[name][chunkhash].js'
+        filename: 'js/[name][chunkhash].js',
     },
     plugins: [
         // css 压缩插件
@@ -21,26 +19,26 @@ const config = {
             cssProcessorOptions: {
                 // 对注释的处理
                 discardComments: {
-                    removeAll: true
-                }
+                    removeAll: true,
+                },
             },
             // 是否打印压缩过程日志
-            canPrint: true
+            canPrint: true,
         }),
         // 分离 css 样式插件
         new MiniCssExtractPlugin({
             filename: 'css/[name].[contenthash].css',
-            chunkFilename: 'css/[id].[contenthash].css'
+            chunkFilename: 'css/[id].[contenthash].css',
         }),
         // 编译前自动清理目录插件
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), 'dist/')]
-        })
-    ]
+            cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), 'dist/')],
+        }),
+    ],
 }
 
 const options = {
-    mode: 'production'
+    mode: 'production',
 }
 
 module.exports = merge(webpackConfigCreator(options), config)

@@ -34,7 +34,9 @@ export default (props) => {
     }, [])
     // 更新执行外部回调
     useEffect(() => {
-        onVerifyCodeChange(state)
+        if (onVerifyCodeChange) {
+            onVerifyCodeChange(state)
+        }
     }, [state[verifyCodeAttrMap.verifyCodeRandom.key]])
     return (
         <Field

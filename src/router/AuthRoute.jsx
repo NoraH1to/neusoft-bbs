@@ -2,12 +2,10 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { getComputed } from 'concent'
 import { every } from 'lodash'
-import { useHistory } from 'react-router-dom'
 
 export default (props) => {
-    const history = useHistory()
     const hasPermission = getComputed('user')
-    const { permissionGroupList, backUrl, ...otherProps } = props
+    const { permissionGroupList, backUrl, component, ...otherProps } = props
     // 没有需求权限，直接渲染，有需求就判断有没有权限，只要满足权限组的一组就能访问(操作)
     if (
         !permissionGroupList ||

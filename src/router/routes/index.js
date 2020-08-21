@@ -1,10 +1,9 @@
-import Index from '../../view/Index'
+import Main from '../../view/Main'
 import Login from '../../view/Login'
 import Register from '../../view/Register'
-import Board from '../../view/Board'
-import Category from '../../view/Category'
 import Error from '../../view/Error'
 import FindPassword from '../../view/FindPassword'
+import Index from '../../view/Index'
 import Test from '../../view/Test'
 
 const routes = [
@@ -35,20 +34,12 @@ const routes = [
         component: Error,
     },
     {
-        component: Index,
+        component: Main,
         path: '/',
-        routes: [
-            {
-                path: '/category',
-                component: Category,
-                routes: [
-                    {
-                        path: '/board',
-                        component: Board,
-                    },
-                ],
-            },
-        ],
+        routes: [{
+            path: '/',
+            component: Index
+        }],
     },
 ]
 

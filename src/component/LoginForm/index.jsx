@@ -18,7 +18,6 @@ import VerifyCodeField from '../VerifyCodeField'
 
 // 接口
 import { login } from '../../utils/api/user'
-import { verifyCode } from '../../utils/api/verifycode'
 
 // 参数映射
 import { attrMap as verifyCodeAttrMap } from '../../store/modules/verifyCode/template'
@@ -54,6 +53,10 @@ const setup = (ctx) => {
         (values, actions) => {
             login
                 .request({ data: values, msg: '登录' })
+                .finally(() => {
+                    // 请求完毕
+                    actions.setSubmitting(false)
+                })
                 .then((res) => {
                     // 更新用户数据
                     updateUser(res.data)
@@ -67,10 +70,6 @@ const setup = (ctx) => {
                             actions.setFieldError(key, err.errorData[key].join(', '))
                         })
                     }
-                })
-                .finally(() => {
-                    // 请求完毕
-                    actions.setSubmitting(false)
                 })
         },
         1000,
@@ -99,7 +98,7 @@ export default withRouter((props) => {
                         <Form>
                             <div className="w-auto flex flex-col justify-around items-stretch">
                                 {/* 账号 */}
-                                <div className="form-item">
+                                <div className="pb-6">
                                     <Field
                                         className="w-full"
                                         name={userAttrMap.username.key}
@@ -119,7 +118,7 @@ export default withRouter((props) => {
                                     />
                                 </div>
                                 {/* 密码 */}
-                                <div className="form-item">
+                                <div className="pb-6">
                                     <Field
                                         className="w-full"
                                         type="password"
@@ -140,7 +139,7 @@ export default withRouter((props) => {
                                     />
                                 </div>
                                 {/* 验证码 */}
-                                <div className="form-item flex items-stretch justify-center">
+                                <div className="pb-6 flex items-stretch justify-center">
                                     <VerifyCodeField
                                         className="w-full flex-grow"
                                         name={verifyCodeAttrMap.verifyCode.key}

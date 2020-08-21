@@ -16,7 +16,11 @@ function App() {
         <Router>
             <Switch>
                 {routesConfig.map((route) => (
-                    <AuthRoute key={route.path} {...route} />
+                    <AuthRoute
+                        key={route.path}
+                        {...route}
+                        render={(props) => <route.component {...props} routes={route.routes} />}
+                    />
                 ))}
             </Switch>
         </Router>

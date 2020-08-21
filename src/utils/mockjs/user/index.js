@@ -7,7 +7,7 @@ const mockProxy = (url, method, responseBody) => {
     return Mock.mock(requestPrefix + url, method, responseBody)
 }
 
-export default mockProxy(apiUrl.login, 'post', {
+mockProxy(apiUrl.login, 'post', {
     success: true,
     msg: 'success',
     code: 200,
@@ -23,4 +23,11 @@ export default mockProxy(apiUrl.login, 'post', {
             admin: false, // 管理员
         },
     },
+})
+
+mockProxy(apiUrl.register, 'post', {
+    success: true,
+    msg: 'success',
+    code: 200,
+    data: null,
 })
