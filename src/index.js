@@ -23,6 +23,7 @@ Mock.setup({
 import './utils/mockjs/user'
 import './utils/mockjs/verifyCode'
 import './utils/mockjs/forum'
+import './utils/mockjs/topic'
 
 import App from './App'
 

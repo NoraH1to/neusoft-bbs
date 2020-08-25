@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 // 组件
 import Category from '@component/Category'
-import Board from '@component/Board'
 
 // 接口
 import { homeBoardList } from '@api/forum'
-import { attrMap as categoryAttrMap } from '../../store/modules/category/template'
 
 export default () => {
     const [mainState, setMainState] = useState({

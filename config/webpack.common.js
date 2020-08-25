@@ -10,6 +10,8 @@ function webpackCommonConfigCreator(options) {
                 '@component': path.resolve(__dirname, '../src/component'),
                 '@assets': path.resolve(__dirname, '../assets'),
                 '@api': path.resolve(__dirname, '../src/utils/api'),
+                '@view': path.resolve(__dirname, '../src/view'),
+                '@modules': path.resolve(__dirname, '../src/store/modules'),
             },
             extensions: ['.js', '.jsx', '.json'],
         },

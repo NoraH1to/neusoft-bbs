@@ -15,6 +15,7 @@ import AuthRoute from '../../router/AuthRoute'
 export default (props) => {
     return (
         <div>
+            {/* header */}
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" noWrap>
@@ -31,6 +32,7 @@ export default (props) => {
                     </div>
                 </Toolbar>
             </AppBar>
+            {/* 渲染子路由 */}
             <div className="container m-auto">
                 {props.routes.map((route) => {
                     return (
