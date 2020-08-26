@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Board from './Board'
-
-// add
 import Divider from '@material-ui/core/Divider'
-import Chip from '@material-ui/core/Chip'
+import Board from './Board'
 
 export default (props) => {
     const [category, setCategory] = useState(props.category)
@@ -20,7 +17,7 @@ export default (props) => {
             </Grid>
             {/* 描述 */}
             <Grid item>
-                <Typography color="textSecondary">分区描述{category.description}</Typography>
+                <Typography color="textSecondary" variant="h5">分区描述{category.description}</Typography>
                 <Divider />
             </Grid>
             <Grid>
