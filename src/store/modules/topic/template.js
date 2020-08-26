@@ -30,6 +30,28 @@ export const attrMap = {
     type: {
         key: 'type',
         value: '类型',
+        selectMap: {
+            normal: {
+                key: 'normal',
+                value: '默认',
+            },
+            featured: {
+                key: 'featured',
+                value: '精华',
+            },
+            pinned: {
+                key: 'pinned',
+                value: '置顶',
+            },
+            announcement: {
+                key: 'announcement',
+                value: '公告',
+            },
+            all: {
+                key: 'all',
+                value: '全部',
+            },
+        },
     },
     // 标题
     title: {
@@ -120,6 +142,24 @@ export const attrMap = {
     sort: {
         key: 'sort',
         value: '排序方式',
+        selectMap: {
+            replyTime: {
+                key: 'replyTime',
+                value: '最后回复时间',
+            },
+            submitTime: {
+                key: 'submitTime',
+                value: '发帖时间',
+            },
+            viewCount: {
+                key: 'viewCount',
+                value: '浏览次数',
+            },
+            replyCount: {
+                key: 'replyCount',
+                value: '回复数',
+            },
+        },
     },
     // 页码
     page: {

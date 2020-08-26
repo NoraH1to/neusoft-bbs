@@ -4,7 +4,9 @@
         "paths": {
             "@component/*": ["src/component/*"],
             "@assets/*": ["assets/*"],
-            "@api/*": ["src/utils/api/*"]
+            "@api/*": ["src/utils/api/*"],
+            "@view/*": ["src/view/*"],
+            "@modules/*": ["src/store/modules/*"]
         }
     },
     "exclude": ["node_modules", "dist"]

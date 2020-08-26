@@ -21,6 +21,7 @@ export default function (props) {
     } = props
 
     useEffect(() => {
+        // TODO: 请求帖子传参
         getTopicDetail()
             .then((res) => {
                 console.log(res.data)
