@@ -13,33 +13,41 @@ mockProxy(apiUrl.boardTopicList, 'get', {
     success: true,
     msg: 'success',
     code: 200,
-    'data|6-12': [
-        {
-            [attrMap.id.key + '|+1']: 1, // 编号
-            [attrMap.type.key + '|1']: [0, 1], // 类型
-            [attrMap.title.key]: '@string(5, 15)', // 标题
-            [attrMap.shortContent.key]: '@string(50, 100)', // 预览内容
-            [attrMap.submitTime.key]: '@datetime("yyyy-MM-dd HH:mm:ss")', // 发帖时间
-            [attrMap.submitterUserId.key + '|+1']: 1, // 发帖人 ID
-            [attrMap.submitterNickname.key]: '@string(5, 15)', // 发帖人昵称
-            [attrMap.submitterAvatarPath.key]: Random.image(
-                '100x100',
-                Random.hex(),
-                Random.hex(),
-                Random.string(4, 12)
-            ), // 发帖人头像
-            [attrMap.viewCount.key + '|0-500']: 500, // 浏览次数
-            [attrMap.replyCount.key + '|0-100']: 100, // 回复次数
-            [attrMap.lastReplyTime.key]: '@datetime("yyyy-MM-dd HH:mm:ss")', // 最后回复时间
-            [attrMap.lastReplierUserId.key + '|+1']: 1, // 最后回复用户 ID
-            [attrMap.lastReplierNickname.key]: '@string(5, 15)', // 最后回复用户昵称
-            [attrMap.pinned.key + '|1-2']: true, // 是否置顶
-            [attrMap.featured.key + '|1-2']: false, // 是否精华
-            [attrMap.images.key + '|1-3']: [
-                Random.image('150x100', Random.hex(), Random.hex(), '预览图'),
-            ], // 预览图
-        },
-    ],
+    data: {
+        'content|6-12': [ // 内容
+            {
+                [attrMap.id.key + '|+1']: 1, // 编号
+                [attrMap.type.key + '|1']: [0, 1], // 类型
+                [attrMap.title.key]: '@string(5, 15)', // 标题
+                [attrMap.shortContent.key]: '@string(50, 100)', // 预览内容
+                [attrMap.submitTime.key]: '@datetime("yyyy-MM-dd HH:mm:ss")', // 发帖时间
+                [attrMap.submitterUserId.key + '|+1']: 1, // 发帖人 ID
+                [attrMap.submitterNickname.key]: '@string(5, 15)', // 发帖人昵称
+                [attrMap.submitterAvatarPath.key]: Random.image(
+                    '100x100',
+                    Random.hex(),
+                    Random.hex(),
+                    Random.string(4, 12)
+                ), // 发帖人头像
+                [attrMap.viewCount.key + '|0-500']: 500, // 浏览次数
+                [attrMap.replyCount.key + '|0-100']: 100, // 回复次数
+                [attrMap.lastReplyTime.key]: '@datetime("yyyy-MM-dd HH:mm:ss")', // 最后回复时间
+                [attrMap.lastReplierUserId.key + '|+1']: 1, // 最后回复用户 ID
+                [attrMap.lastReplierNickname.key]: '@string(5, 15)', // 最后回复用户昵称
+                [attrMap.pinned.key + '|1-2']: true, // 是否置顶
+                [attrMap.featured.key + '|1-2']: false, // 是否精华
+                [attrMap.images.key + '|1-3']: [
+                    Random.image('150x100', Random.hex(), Random.hex(), '预览图'),
+                ], // 预览图
+            },
+        ],
+        'currentPage|+1': 1, // 当前页码
+        pageSize: 10, // 每页数量大小
+        totalPages: 4, // 总页数
+        totalRecords: Random.integer(31, 40), // 总数量
+        'hasPrevious|+1': [false, true, true, true], // 是否有上一页
+        'hasNext|+1': [true, true, true, false], // 是否有下一页
+    }
 })
 
 // 帖子详细信息
