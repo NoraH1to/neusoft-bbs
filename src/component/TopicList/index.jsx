@@ -29,22 +29,31 @@ export default (props) => {
     useEffect(() => {
         console.log('effect')
         getTopicList()
-    }, [
-        requestParams[attrMap.type.key],
-        requestParams[attrMap.sort.key],
-        requestParams[attrMap.page.key],
-    ])
+    }, [requestParams[attrMap.type.key], requestParams[attrMap.sort.key]])
 
-    const getTopicList = () => {
+    // 获取帖子列表
+    const getTopicList = (page) => {
         setIsLoading(true)
+        console.log('get', page ? page : requestParams[attrMap.page.key])
         requestTopicList
-            .request(requestParams)
+            .request({
+                ...requestParams,
+                ...(page ? { [requestParams[attrMap.page.key]]: page } : undefined),
+            })
             .then((res) => {
                 const { content, ...otherData } = res.data
-                setTopicList(
-                    requestParams[attrMap.page.key] > 1 ? topicList.concat(content) : content
-                )
+                setTopicList((oldTopList) => {
+                    return requestParams[attrMap.page.key] > 1
+                        ? oldTopList.concat(content)
+                        : content
+                })
                 setPageOptions(otherData)
+                if (content.length > 0) {
+                    setRequestParams({
+                        ...requestTopicList,
+                        [attrMap.page.key]: requestParams[attrMap.page.key] + 1,
+                    })
+                }
             })
             .catch((err) => {
                 console.log('getTopicList fial', err)
@@ -64,12 +73,17 @@ export default (props) => {
             <div>{Action ? <Action callBackFn={actionCallBack} /> : undefined}</div>
             <div>
                 <InfiniteScroll
-                    pageStart={1}
                     loadMore={(page) => {
-                        setRequestParams({ ...requestParams, [attrMap.page.key]: page })
+                        getTopicList()
                     }}
+                    loader={
+                        <div className="loader" key={0}>
+                            <p align="middle">Loading ...</p>
+                        </div>
+                    }
+                    threshold={0}
                     useWindow={true}
-                    hasMore={pageOptions.hasNext && !isLoading}
+                    hasMore={!isLoading}
                 >
                     {topicList.map((topic) => {
                         return <Topic topic={topic} />

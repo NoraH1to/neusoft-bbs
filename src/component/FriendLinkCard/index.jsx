@@ -1,0 +1,34 @@
+import React, { useState, useEffect } from 'react'
+
+import FriendLink from './FriendLink'
+
+import { linkList as requestLinkList } from '@api/link'
+
+export default () => {
+    const [linkList, setLinkList] = useState([])
+
+    // 获得友情链接
+    const getLinkList = () => {
+        requestLinkList
+            .request()
+            .then((res) => {
+                setLinkList(res.data)
+            })
+            .catch((err) => {
+                console.log('requestLinkList fail', err)
+            })
+    }
+
+    // 初始化请求一次
+    useEffect(() => {
+        getLinkList()
+    }, [])
+
+    return (
+        <div className="flex flex-wrap">
+            {linkList.map((link) => {
+                return <FriendLink link={link} />
+            })}
+        </div>
+    )
+}

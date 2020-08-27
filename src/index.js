@@ -20,10 +20,11 @@ import Mock from 'mockjs'
 Mock.setup({
     timeout: '200-600'
 })
-import './utils/mockjs/user'
+// import './utils/mockjs/user'
 import './utils/mockjs/verifyCode'
 import './utils/mockjs/forum'
 import './utils/mockjs/topic'
+import './utils/mockjs/link'
 
 import App from './App'
 

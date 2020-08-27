@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 // 组件
 import Category from '@component/Category'
+import FriendLinkCard from '@component/FriendLinkCard'
 
 // 接口
 import { homeBoardList } from '@api/forum'
@@ -33,6 +34,7 @@ export default () => {
                     <Category category={category} />
                 </div>
             ))}
+            <FriendLinkCard />
         </>
     )
 }
