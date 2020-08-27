@@ -14,7 +14,7 @@ mockProxy(apiUrl.boardTopicList, 'get', {
     msg: 'success',
     code: 200,
     data: {
-        'content|6-12': [ // 内容
+        'content|10': [ // 内容
             {
                 [attrMap.id.key + '|+1']: 1, // 编号
                 [attrMap.type.key + '|1']: [0, 1], // 类型

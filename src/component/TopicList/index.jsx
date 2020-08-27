@@ -28,44 +28,51 @@ export default (props) => {
     // 参数更改请求一次数据
     useEffect(() => {
         console.log('effect')
-        getTopicList()
+        getTopicList(1)
     }, [requestParams[attrMap.type.key], requestParams[attrMap.sort.key]])
 
     // 获取帖子列表
     const getTopicList = (page) => {
-        setIsLoading(true)
-        console.log('get', page ? page : requestParams[attrMap.page.key])
-        requestTopicList
-            .request({
-                ...requestParams,
-                ...(page ? { [requestParams[attrMap.page.key]]: page } : undefined),
-            })
-            .then((res) => {
-                const { content, ...otherData } = res.data
-                setTopicList((oldTopList) => {
-                    return requestParams[attrMap.page.key] > 1
-                        ? oldTopList.concat(content)
-                        : content
-                })
-                setPageOptions(otherData)
-                if (content.length > 0) {
-                    setRequestParams({
-                        ...requestTopicList,
-                        [attrMap.page.key]: requestParams[attrMap.page.key] + 1,
+        // 拿到最新的加载状态，没有加载才执行
+        setIsLoading((oldLoading) => {
+            if (!oldLoading) {
+                console.log('get', page ? page : requestParams[attrMap.page.key])
+                requestTopicList
+                    .request({
+                        ...requestParams,
+                        ...(page ? { [requestParams[attrMap.page.key]]: page } : undefined),
                     })
-                }
-            })
-            .catch((err) => {
-                console.log('getTopicList fial', err)
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
+                    .then((res) => {
+                        const { content, ...otherData } = res.data
+                        setTopicList((oldTopList) => oldTopList.concat(content))
+                    })
+                    .catch((err) => {
+                        console.log('getTopicList fail', err)
+                    })
+                    .finally(() => {
+                        setIsLoading(false)
+                    })
+            }
+            return true
+        })
+    }
+    
+    // 加载更多
+    const loadMore = (page) => {
+        setRequestParams((oldRequestParams) => {
+            getTopicList(oldRequestParams[attrMap.page.key])
+            return {
+                ...oldRequestParams,
+                [attrMap.page.key]: oldRequestParams[attrMap.page.key] + 1,
+            }
+        })
     }
 
     // 每次 action 后重置页数然后请求
     const actionCallBack = (actions) => {
-        setRequestParams({ ...requestParams, ...actions, [attrMap.page.key]: 1 })
+        setRequestParams((oldRequestParams) => {
+            return { ...oldRequestParams, ...actions }
+        })
     }
 
     return (
@@ -73,15 +80,13 @@ export default (props) => {
             <div>{Action ? <Action callBackFn={actionCallBack} /> : undefined}</div>
             <div>
                 <InfiniteScroll
-                    loadMore={(page) => {
-                        getTopicList()
-                    }}
+                    loadMore={loadMore}
                     loader={
                         <div className="loader" key={0}>
                             <p align="middle">Loading ...</p>
                         </div>
                     }
-                    threshold={0}
+                    threshold={10}
                     useWindow={true}
                     hasMore={!isLoading}
                 >
