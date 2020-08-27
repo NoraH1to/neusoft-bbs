@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
-// import Box from '@material-ui/core/Box'
 import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 import Board from './Board'
 
 export default (props) => {
@@ -15,15 +15,19 @@ export default (props) => {
                 {/* <Box border={1} borderRadius={16} borderColor="primary.main"> */}
                 <Card>
                     <Grid item xs>
-                        <Typography gutterBottom variant="h4">
-                            分区标题{category.name}
-                        </Typography>
+                        <CardContent>
+                            <Typography gutterBottom variant="h4">
+                                分区标题{category.name}
+                            </Typography>
+                        </CardContent>
                     </Grid>
                     {/* 描述 */}
                     <Grid item>
-                        <Typography color="textSecondary" variant="h5">
-                            分区描述{category.description}
-                        </Typography>
+                        <CardContent>
+                            <Typography color="textSecondary" variant="h5">
+                                分区描述{category.description}
+                            </Typography>
+                        </CardContent>
                         <Divider />
                     </Grid>
                     <Grid>
