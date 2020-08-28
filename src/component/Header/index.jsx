@@ -4,6 +4,8 @@ import { useConcent } from 'concent'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import { AppBar, Toolbar, Typography, InputBase, Avatar, IconButton } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
+import UserHoverDialog from './UserHoverDialog'
+import Popover from '@material-ui/core/Popover'
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -54,9 +56,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default () => {
-    const ctx = useConcent({ module: 'user' })
+    const ctx = useConcent({
+        module: 'user',
+        state: {
+            anchorEl: null,
+        },
+    })
     const classes = useStyles()
-    console.log(ctx.moduleState)
+
+    const userHoverId = Boolean(ctx.state.anchorEl) ? 'user-hover' : undefined
+
+    const handlePopoverOpen = (event) => {
+        ctx.setState({ anchorEl: event.currentTarget })
+    }
+
+    const handlePopoverClose = () => {
+        ctx.setState({ anchorEl: null })
+    }
 
     return (
         <AppBar position="static">
@@ -81,15 +97,38 @@ export default () => {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </div>
-                <div className="flex-grow"/>
+                <div className="flex-grow" />
                 {/* 用户头像 */}
-                <div className="flex flex-end">
+                <div
+                    className="flex flex-end"
+                    aria-describedby={userHoverId}
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                >
                     <IconButton>
-                    <Avatar
-                        className={classes.small}
-                        src={ctx.moduleState.avatarPath ? ctx.moduleState.avatarPath : undefined}
-                    />
+                        <Avatar
+                            className={classes.small}
+                            src={
+                                ctx.moduleState.avatarPath ? ctx.moduleState.avatarPath : undefined
+                            }
+                        />
                     </IconButton>
+                    <Popover
+                        id={userHoverId}
+                        open={Boolean(ctx.state.anchorEl)}
+                        anchorEl={ctx.state.anchorEl}
+                        onClose={handlePopoverClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                    >
+                        <UserHoverDialog />
+                    </Popover>
                 </div>
             </Toolbar>
         </AppBar>

@@ -36,9 +36,10 @@ export const login = {
 
 // 登出
 export const logout = {
-    request: () => {
-        return DELETE({
+    request: (options) => {
+        return POST({
             url: url.logout,
+            ...options
         })
     },
 }
