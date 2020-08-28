@@ -40,11 +40,13 @@ export default (props) => {
                 requestTopicList
                     .request({
                         ...requestParams,
-                        ...(page ? { [requestParams[attrMap.page.key]]: page } : undefined),
+                        ...(page ? { [attrMap.page.key]: page } : undefined),
                     })
                     .then((res) => {
                         const { content, ...otherData } = res.data
-                        setTopicList((oldTopList) => oldTopList.concat(content))
+                        setTopicList((oldTopList) => {
+                            return page == 1 ? content : oldTopList.concat(content)
+                        })
                     })
                     .catch((err) => {
                         console.log('getTopicList fail', err)
@@ -71,7 +73,7 @@ export default (props) => {
     // 每次 action 后重置页数然后请求
     const actionCallBack = (actions) => {
         setRequestParams((oldRequestParams) => {
-            return { ...oldRequestParams, ...actions }
+            return { ...oldRequestParams, ...actions, [attrMap.page.key]: 2 }
         })
     }
 

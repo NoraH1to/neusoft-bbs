@@ -99,13 +99,8 @@ export default () => {
                 </div>
                 <div className="flex-grow" />
                 {/* 用户头像 */}
-                <div
-                    className="flex flex-end"
-                    aria-describedby={userHoverId}
-                    onMouseEnter={handlePopoverOpen}
-                    onMouseLeave={handlePopoverClose}
-                >
-                    <IconButton>
+                <div className="flex flex-end" aria-describedby={userHoverId}>
+                    <IconButton onClick={handlePopoverOpen} onMouseEnter={handlePopoverOpen}>
                         <Avatar
                             className={classes.small}
                             src={
@@ -119,15 +114,20 @@ export default () => {
                         anchorEl={ctx.state.anchorEl}
                         onClose={handlePopoverClose}
                         anchorOrigin={{
-                            vertical: 'bottom',
+                            vertical: 'center',
                             horizontal: 'center',
                         }}
                         transformOrigin={{
                             vertical: 'top',
                             horizontal: 'center',
                         }}
+                        disableRestoreFocus
+                        keepMounted
+                        disableScrollLock
                     >
-                        <UserHoverDialog />
+                        <div className="p-5">
+                            <UserHoverDialog />
+                        </div>
                     </Popover>
                 </div>
             </Toolbar>
