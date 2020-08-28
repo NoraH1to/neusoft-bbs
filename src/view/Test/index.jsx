@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { UPLOAD } from '../../utils/customAxios'
 import { useHistory } from 'react-router-dom'
+import Editor from '@component/Editor'
 
 export default () => {
     const ctx = useConcent()
@@ -18,6 +19,7 @@ export default () => {
     })
     return (
         <div>
+            <Editor/>
             <TextField value={ctx.state.testValue} onChange={sync('testValue')}></TextField>
             <Typography variant="h1">{ctx.state.testValue}</Typography>
             <Button onClick={() => enqueueSnackbar('test')}>show Toast</Button>

@@ -6,6 +6,10 @@ export const attrMap = {
         key: 'id',
         value: '编号',
     },
+    topicId: {
+        key: 'topicId',
+        value: '编号',
+    },
     // 所在 category id
     categoryId: {
         key: 'catrgoryId',

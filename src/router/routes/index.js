@@ -6,6 +6,7 @@ import FindPassword from '@view/FindPassword'
 import Index from '@view/Index'
 import Topic from '@view/Topic'
 import Board from '@view/Board'
+import EditTopic from '@view/EditTopic'
 import Test from '@view/Test'
 
 const routes = [
@@ -51,6 +52,10 @@ const routes = [
             {
                 component: Topic,
                 path: '/topic/:id',
+            },
+            {
+                component: EditTopic,
+                path: '/edit-topic',
             },
         ],
     },

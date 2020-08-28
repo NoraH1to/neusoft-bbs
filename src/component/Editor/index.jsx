@@ -1,92 +1,21 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
-import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { Editor } from 'react-draft-wysiwyg'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import draftToHtml from 'draftjs-to-html'
-import htmlToDraft from 'html-to-draftjs'
-import DOMPurify from 'dompurify'
-import css from './index.scss'
-import { registerDumb } from 'concent'
-import { Button } from '@material-ui/core'
+import 'braft-editor/dist/index.css'
+import React, { useState, useRef } from 'react'
+import BraftEditor from 'braft-editor'
 
-const setup = (ctx) => {
-    const onEditorStateChange = (editorState) => {
-        ctx.setState({
-            editorState,
-        })
+export default () => {
+    const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null))
+    const [editorInstance, setEditorInstance] = useState(null)
+
+    const editorObj = useRef(null)
+
+    const handleChange = (editorState) => {
+        setEditorState(editorState)
     }
-    const init = () => {
-        ctx.dispatch('init')
-    }
-    const resetState = () => {
-        ctx.dispatch('resetState')
-    }
-    return { onEditorStateChange, init, resetState }
-}
 
-const mapProps = (ctx) => {
-    const { onEditorStateChange, init, resetState } = ctx.settings
-    const { editorState, toolbarOptions } = ctx.state
-    return {
-        onEditorStateChange,
-        editorState,
-        toolbarOptions,
-        hasLogin: ctx.moduleComputed.hasLogin,
-        init,
-        resetState,
-    }
-}
-
-const html = ''
-const contentBlock = htmlToDraft(html)
-const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
-const editorState = EditorState.createWithContent(contentState)
-
-const state = {
-    editorState,
-    toolbarOptions: {
-        image: {
-            alt: { present: true, mandatory: false },
-        },
-    },
-}
-
-const EditorUI = (props) => {
-    // props.init()
-    const history = useHistory()
     return (
-        <Card>
-            <CardContent>
-                <Editor
-                    toolbar={props.toolbarOptions}
-                    editorState={props.editorState}
-                    toolbarClassName={css.customEditorToolbar}
-                    editorClassName={css.customEditor}
-                    onEditorStateChange={props.onEditorStateChange}
-                    localization={{
-                        locale: 'zh',
-                    }}
-                />
-                {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(draftToHtml(convertToRaw(state.editorState.getCurrentContent()))) }}>
-                </div> */}
-                {/* <div>
-                    {props.hasLogin ? '已经登录' : '没登录'}
-                </div> */}
-                <Button onClick={() => history.push('login')}></Button>
-            </CardContent>
-        </Card>
+        <div>
+            <button onClick={() => console.log(editorState.toHTML())}>2333</button>
+            <BraftEditor ref={instance => setEditorInstance(instance)} value={editorState} onChange={handleChange} />
+        </div>
     )
 }
-
-const connectFn = registerDumb({
-    state,
-    setup,
-    mapProps,
-    module: 'user',
-    watchedKeys: '*',
-    connect: { loading: ['user/init'] },
-})
-export default connectFn(EditorUI)

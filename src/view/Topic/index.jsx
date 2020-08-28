@@ -2,13 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 
+import { attrMap } from '@modules/topic/template'
 import { topicDetail } from '@api/topic'
 
 import Typography from '@material-ui/core/Typography'
-
-const getTopicDetail = (params) => {
-    return topicDetail.request(params)
-}
 
 export default function (props) {
     const [topic, setTopic] = useState({})
@@ -20,8 +17,12 @@ export default function (props) {
         },
     } = props
 
+    // 请求帖子信息
+    const getTopicDetail = (params) => {
+        return topicDetail.request({ ...params, [attrMap.topicId.key]: id })
+    }
+
     useEffect(() => {
-        // TODO: 请求帖子传参
         getTopicDetail()
             .then((res) => {
                 console.log(res.data)
