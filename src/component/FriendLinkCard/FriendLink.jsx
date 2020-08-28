@@ -7,9 +7,9 @@ import { attrMap } from '@modules/link/template'
 export default (props) => {
     const { link } = props
     return (
-        <div>
-            <img src={link[attrMap.iconUrl.key]} />
-            <Link rel="noopener" onClick={() => window.open(link[attrMap.url.key], '_blank')}>
+        <div className="flex items-center">
+            <img src={link[attrMap.iconUrl.key]} className="mr-2"/>
+            <Link noWrap rel="noopener" onClick={() => window.open(link[attrMap.url.key], '_blank')}>
                 {link[attrMap.name.key]}
             </Link>
         </div>

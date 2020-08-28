@@ -55,7 +55,7 @@ const routes = [
             },
             {
                 component: EditTopic,
-                path: '/edit-topic',
+                path: '/edit-topic/:id?',
             },
         ],
     },

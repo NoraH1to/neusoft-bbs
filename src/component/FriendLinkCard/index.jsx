@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import Grid from '@material-ui/core/Grid'
+import { Grid } from '@material-ui/core'
 import FriendLink from './FriendLink'
 
 import { linkList as requestLinkList } from '@api/link'
@@ -26,14 +26,12 @@ export default () => {
     }, [])
 
     return (
-        // <div className="flex flex-wrap">
-        <>
-            <Grid container direction="row" justify="center" alignItems="center">
-                {linkList.map((link) => {
-                    return <FriendLink link={link} />
-                })}
-            </Grid>
-        </>
-        // </div>
+        <Grid container direction="row" justify="center" alignItems="center">
+            {linkList.map((link) => (
+                <Grid className="pr-2 pb-2" item xs={12}>
+                    <FriendLink link={link} />
+                </Grid>
+            ))}
+        </Grid>
     )
 }

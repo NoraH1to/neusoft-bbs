@@ -75,7 +75,7 @@ export default () => {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="relative">
             <Toolbar>
                 {/* 标题 */}
                 <Typography className={classes.title} variant="h6" noWrap>

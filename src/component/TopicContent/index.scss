@@ -1,0 +1,31 @@
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 30px 20px;
+    overflow: hidden;
+    background-color: #fff;
+}
+.container img,
+.container audio,
+.container video {
+    max-width: 100%;
+    height: auto;
+}
+.container p {
+    white-space: pre-wrap;
+    min-height: 1em;
+}
+.container pre {
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+.container blockquote {
+    margin: 0;
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-left: 3px solid #d1d1d1;
+}

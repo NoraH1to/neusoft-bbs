@@ -36,6 +36,11 @@ export const attrMap = {
         key: 'uploadTime',
         value: '上传时间',
     },
+    // 图片地址
+    imageUrl: {
+        key: 'imageUrl',
+        value: '图片地址',
+    },
 }
 
 export const defaultObj = initObj2Null(attrMap)
