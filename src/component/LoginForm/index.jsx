@@ -96,7 +96,7 @@ export default withRouter((props) => {
                 {({ isSubmitting }) => {
                     return (
                         <Form>
-                            <div className="w-auto flex flex-col justify-around items-stretch">
+                            <div className="w-auto m-5 flex flex-col justify-around items-stretch">
                                 {/* 账号 */}
                                 <div className="pb-6">
                                     <Field
