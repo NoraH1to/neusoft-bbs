@@ -121,11 +121,10 @@ export default () => {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
-                        disableRestoreFocus
                         keepMounted
                         disableScrollLock
                     >
-                        <div className="p-5">
+                        <div className="p-5" style={{minWidth: '16rem'}}>
                             <UserHoverDialog />
                         </div>
                     </Popover>

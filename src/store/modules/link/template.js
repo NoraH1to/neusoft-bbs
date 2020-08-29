@@ -23,7 +23,7 @@ export const attrMap = {
     },
     // 图标地址
     iconUrl: {
-        key: 'url',
+        key: 'iconUrl',
         value: '图标地址',
     },
     // 顺序

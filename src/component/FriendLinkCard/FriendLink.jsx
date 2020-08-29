@@ -8,8 +8,13 @@ export default (props) => {
     const { link } = props
     return (
         <div className="flex items-center">
-            <img src={link[attrMap.iconUrl.key]} className="mr-2"/>
-            <Link noWrap rel="noopener" onClick={() => window.open(link[attrMap.url.key], '_blank')}>
+            <img src={link[attrMap.iconUrl.key]} className="mr-2" />
+            <Link
+                noWrap
+                rel="noopener"
+                href={link[attrMap.url.key]}
+                target="_blank"
+            >
                 {link[attrMap.name.key]}
             </Link>
         </div>
