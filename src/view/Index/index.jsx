@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useConcent } from 'concent'
 import { range } from 'lodash'
 
@@ -16,70 +16,77 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import { homeBoardList } from '@api/forum'
 
 export default () => {
-    // 主页数据
-    const [mainState, setMainState] = useState({
-        state: [],
-    })
-
     // 是否在加载
     const [loading, setLoading] = useState(true)
 
-    const ctx = useConcent({ module: 'user' })
+    const ctx = useConcent({
+        module: 'user',
+        state: {
+            mainState: [],
+        },
+        setup: (ctx) => {
+            // 请求主页数据
+            function requestMainList() {
+                setLoading(true)
+                homeBoardList
+                    .request()
+                    .then((res) => {
+                        ctx.setState({
+                            mainState: res.data,
+                        })
+                    })
+                    .catch((err) => {
+                        console.log('request main list fail', err)
+                    })
+                    .finally(() => {
+                        setLoading(false)
+                    })
+            }
+            ctx.watch('id', {
+                fn: (newVal) => {
+                    requestMainList()
+                },
+            })
+            return { requestMainList }
+        },
+    })
     const { hasLogin } = ctx.moduleComputed
+    const { requestMainList } = ctx.settings
 
-    // 请求主页数据
-    function requestMainList() {
-        homeBoardList
-            .request()
-            .then((res) => {
-                setMainState({
-                    state: res.data,
-                })
-            })
-            .catch((err) => {
-                console.log('request main list fail', err)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-    }
     useEffect(() => {
         // 请求
         requestMainList()
     }, [])
-    const FriendLinkPaper = useMemo(
-        () => (
-            <Paper variant="outlined" className="mb-10 p-8">
-                <Typography variant="h5" className="pb-4 text-center">
-                    友情链接
-                </Typography>
-                <FriendLinkCard />
-            </Paper>
-        ),
-        [mainState]
+    const FriendLinkPaper = (
+        <Paper variant="outlined" className="mb-10 p-8">
+            <Typography variant="h5" className="pb-4 text-center">
+                友情链接
+            </Typography>
+            <FriendLinkCard />
+        </Paper>
     )
     return (
         <>
-            <div className="my-10 mx-4 flex justify-end">
+            <div className="my-10 mx-4 sm:mx-10 flex justify-end">
                 {loading ? (
                     <div className="flex flex-col w-full">
                         {range(0, 20).map(() => (
                             <>
                                 <Skeleton variant="text" height={50} className="w-full mb-1" />
-                                <Skeleton variant="text" height={50} className="w-ful" />
+                                <Skeleton variant="text" height={50} className="w-full" />
                                 <Skeleton variant="rect" height={300} className="w-full mt-2" />
                             </>
                         ))}
                     </div>
                 ) : (
                     <Slide in={!loading} direction="right">
-                        <div>
-                            {mainState.state.map((category) => (
-                                <div className="mb-10">
+                        <div className="w-full">
+                            {ctx.state.mainState.map((category) => (
+                                <div className="mb-10 w-full">
                                     <Category category={category} />
                                 </div>
                             ))}
-                            <Hidden mdUp>
+                            <Hidden lgUp>
                                 {/* 友情链接 */}
                                 {FriendLinkPaper}
                             </Hidden>
@@ -93,7 +100,9 @@ export default () => {
                         {hasLogin ? undefined : (
                             <Paper className="p-10 mb-10">
                                 <div className="mb-6">
-                                    <Typography variant="h3">登录</Typography>
+                                    <Typography className="text-center" variant="h5">
+                                        登录
+                                    </Typography>
                                 </div>
                                 <LoginForm />
                             </Paper>

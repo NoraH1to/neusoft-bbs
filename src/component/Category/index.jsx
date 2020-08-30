@@ -8,10 +8,10 @@ export default (props) => {
     const colorHash = new ColorHash()
     return (
         <>
-            <Paper elevation={4} className="w-full" style={{borderRadius: '1rem'}}>
-                <div className="px-10 pb-4 pt-8">
+            <Paper variant="outlined" className="w-full" style={{borderRadius: '1rem'}}>
+                <div className="flex flex-col sm:flex-row items-baseline px-10 pb-4 pt-8">
                     {/* 标题 */}
-                    <Typography gutterBottom variant="h4">
+                    <Typography noWarp className="pr-4" gutterBottom variant="h5">
                         {category.name}
                     </Typography>
                     {/* 描述 */}
@@ -23,7 +23,7 @@ export default (props) => {
                 {/* 板块 */}
                 <Grid container className="py-4 px-10">
                     {category.boardList.map((board) => (
-                        <Grid item xs={12} sm={4} className="flex-grow">
+                        <Grid item xs={12} sm={4} className="flex-grow px-4 py-2">
                             <Board board={board} />
                         </Grid>
                     ))}

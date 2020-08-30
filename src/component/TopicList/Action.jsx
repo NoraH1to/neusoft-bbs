@@ -65,7 +65,7 @@ export default (props) => {
                     <Tabs
                         value={requestParams[attrMap.type.key]}
                         onChange={handleTypeChange}
-                        indicatorColor="transparent"
+                        indicatorColor="primary"
                         textColor="primary"
                         variant="scrollable"
                         className="flex-grow"

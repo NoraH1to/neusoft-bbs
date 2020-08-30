@@ -20,7 +20,7 @@ export default (props) => {
                 button
                 onClick={() => history.push('/board/'.concat(board.id))}
             >
-                <div className="flex flex-col">
+                <div className="flex flex-col overflow-hidden">
                     <div>
                         <Typography noWrap variant="h6">标题{board.name}</Typography>
                     </div>
