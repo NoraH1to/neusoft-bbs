@@ -11,7 +11,7 @@ export default (props) => {
             <Paper variant="outlined" className="w-full" style={{borderRadius: '1rem'}}>
                 <div className="flex flex-col sm:flex-row items-baseline px-10 pb-4 pt-8">
                     {/* 标题 */}
-                    <Typography noWarp className="pr-4" gutterBottom variant="h5">
+                    <Typography noWrap className="pr-4" gutterBottom variant="h5">
                         {category.name}
                     </Typography>
                     {/* 描述 */}

@@ -61,7 +61,7 @@ const setup = (ctx) => {
                     // 更新用户数据
                     updateUser(res.data)
                     // 跳转到主页
-                    ctx.props.history.replace('/')
+                    ctx.props.history.push('/')
                 })
                 .catch((err) => {
                     // 根据报错提示用户字段错误

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { range } from 'lodash'
 
-import { Paper, ListItem } from '@material-ui/core'
+import { Paper, ListItem, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
+import { makeStyles } from '@material-ui/core/styles'
 
 import Topic from './Topic'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -10,56 +11,56 @@ import InfiniteScroll from 'react-infinite-scroller'
 import { topicList as requestTopicList } from '@api/topic'
 import { attrMap } from '@modules/topic/template'
 
-const LoadingFrame = (
-    <div className="px-6">
-        {range(0, 3).map(() => (
-            <div className="flex flex-col items-stretch w-full py-4 border-0 border-b border-solid border-gray-400">
-                <div className="flex flex-row items-center">
-                    <Skeleton height={50} width={50} variant="circle" />
-                    <Skeleton height={35} width={150} className="ml-4" variant="text" />
-                </div>
-                <div className="mb-2">
-                    <Skeleton height={50} className="w-full" variant="text" />
-                </div>
-                <div className="flex flex-row">
-                    <Skeleton
-                        style={{
-                            height: '150px',
-                            width: '150px',
-                            maxWidth: '33%',
-                        }}
-                        className="mr-2"
-                        variant="rect"
-                    />
-                    <Skeleton
-                        style={{
-                            height: '150px',
-                            width: '150px',
-                            maxWidth: '33%',
-                        }}
-                        className="mr-2"
-                        variant="rect"
-                    />
-                    <Skeleton
-                        style={{
-                            height: '150px',
-                            width: '150px',
-                            maxWidth: '33%',
-                        }}
-                        variant="rect"
-                    />
-                </div>
-            </div>
-        ))}
+const useStyles = makeStyles((theme) => ({
+    sk: {
+        width: '33%',
+        height: '0px',
+        paddingBottom: '33%',
+        [theme.breakpoints.up('sm')]: {
+            width: '150px',
+            height: '150px',
+            paddingBottom: '0',
+        },
+    },
+}))
+
+// 加载分页时候的提示
+const LoadingPageFrame = (
+    <div className="p-2 text-center" key={0}>
+        <Typography color="textSecondary">加载中 ...</Typography>
     </div>
 )
 
 export default (props) => {
+    const classes = useStyles()
+
+    // 首次加载时的骨架屏
+    const LoadingFrame = (
+        <>
+            {range(0, 3).map(() => (
+                <div className="flex flex-col items-stretch py-4 px-6 border-0 border-b border-solid border-gray-400">
+                    <div className="flex flex-row items-center">
+                        <Skeleton height={40} width={40} variant="circle" />
+                        <Skeleton height={35} width={150} className="ml-2" variant="text" />
+                    </div>
+                    <div className="mb-2">
+                        <Skeleton height={50} className="w-full" variant="text" />
+                    </div>
+                    <div className="flex content-start ">
+                        <Skeleton className={classes.sk + ' mr-2'} variant="rect" />
+                        <Skeleton className={classes.sk + ' mr-2'} variant="rect" />
+                        <Skeleton className={classes.sk} variant="rect" />
+                    </div>
+                </div>
+            ))}
+        </>
+    )
+
+    // 获取 ActionBar
     const { Action } = props
 
+    // 加载状态
     const [isLoading, setIsLoading] = useState(false)
-
-    const [pageOptions, setPageOptions] = useState({})
 
     // 主题帖列表
     const [topicList, setTopicList] = useState([])
@@ -89,12 +90,14 @@ export default (props) => {
                         ...(page ? { [attrMap.page.key]: page } : undefined),
                     })
                     .then((res) => {
-                        const { content, ...otherData } = res.data
+                        const { content } = res.data
                         setTopicList((oldTopList) => {
                             return page == 1 ? content : oldTopList.concat(content)
                         })
                     })
-                    .catch((err) => {})
+                    .catch((err) => {
+                        console.log('requestTopicList fail', err)
+                    })
                     .finally(() => {
                         setIsLoading(false)
                     })
@@ -122,45 +125,39 @@ export default (props) => {
     }
 
     return (
-        <div>
-            <Paper>
-                {/* action bar */}
-                <div>{Action ? <Action callBackFn={actionCallBack} /> : undefined}</div>
-
-                {/* 滚动加载数据列表 */}
+        <Paper>
+            {/* action bar */}
+            {Action ? (
                 <div>
-                    <InfiniteScroll
-                        loadMore={loadMore}
-                        loader={
-                            <div className="loader" key={0}>
-                                <p align="middle">Loading ...</p>
-                            </div>
-                        }
-                        threshold={10}
-                        useWindow={true}
-                        hasMore={!isLoading}
-                    >
-                        <div>
-                            {isLoading && requestParams.page == 2
-                                ? LoadingFrame
-                                : topicList.map((topic) => {
-                                      return (
-                                          <div className=" border-solid border-0 border-b border-gray-400">
-                                              <ListItem
-                                                  alignItems="center"
-                                                  ContainerComponent="div"
-                                                  button
-                                                  style={{ padding: '1rem 1.5rem' }}
-                                              >
-                                                  <Topic topic={topic} />
-                                              </ListItem>
-                                          </div>
-                                      )
-                                  })}
-                        </div>
-                    </InfiniteScroll>
+                    <Action callBackFn={actionCallBack} />
                 </div>
-            </Paper>
-        </div>
+            ) : undefined}
+
+            {/* 滚动加载数据列表 */}
+            <InfiniteScroll
+                loadMore={loadMore}
+                loader={LoadingPageFrame}
+                threshold={10}
+                useWindow={true}
+                hasMore={!isLoading}
+            >
+                {isLoading && requestParams.page == 2
+                    ? LoadingFrame
+                    : topicList.map((topic) => {
+                          return (
+                              <div className=" border-solid border-0 border-b border-gray-400 overflow-hidden">
+                                  <ListItem
+                                      alignItems="center"
+                                      ContainerComponent="div"
+                                      button
+                                      style={{ padding: '1rem 1.5rem' }}
+                                  >
+                                      <Topic topic={topic} />
+                                  </ListItem>
+                              </div>
+                          )
+                      })}
+            </InfiniteScroll>
+        </Paper>
     )
 }

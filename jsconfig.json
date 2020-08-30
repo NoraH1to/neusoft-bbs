@@ -6,7 +6,8 @@
             "@assets/*": ["assets/*"],
             "@api/*": ["src/utils/api/*"],
             "@view/*": ["src/view/*"],
-            "@modules/*": ["src/store/modules/*"]
+            "@modules/*": ["src/store/modules/*"],
+            "@toast/*": ["src/utils/toast/*"]
         }
     },
     "exclude": ["node_modules", "dist"]

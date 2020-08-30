@@ -12,6 +12,7 @@ function webpackCommonConfigCreator(options) {
                 '@api': path.resolve(__dirname, '../src/utils/api'),
                 '@view': path.resolve(__dirname, '../src/view'),
                 '@modules': path.resolve(__dirname, '../src/store/modules'),
+                '@toast': path.resolve(__dirname, '../src/utils/toast'),
             },
             extensions: ['.js', '.jsx', '.json'],
         },

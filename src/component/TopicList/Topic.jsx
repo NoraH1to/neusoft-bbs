@@ -12,9 +12,9 @@ export default (props) => {
     const { submitterUserId, submitterNickname, submitterAvatarPath } = topic
     const history = useHistory()
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col items-stretch">
             {/* 头 */}
-            <header className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
                 {/* 用户信息 */}
                 <div className="flex-grow">
                     <UserHeader
@@ -39,47 +39,54 @@ export default (props) => {
                         <></>
                     )}
                 </div>
-            </header>
+            </div>
 
             {/* 内容 */}
-            <main className="mt-2" onClick={() => history.push('/topic/'.concat(topic.id))}>
+            <div
+                className="mt-2 flex flex-col"
+                onClick={() => history.push('/topic/'.concat(topic.id))}
+            >
                 {/* 类型 tag、标题 */}
-                <div title={topic.title}>
-                    {topic.type === 0 ? (
-                        <span className={Scss.itemTypeCommon}>普通</span>
-                    ) : (
-                        <span className={Scss.itemTypeAnno}>公告</span>
-                    )}
-                    <Typography variant="h6" className={Scss.itemTitle}>
-                        {topic.title}
-                    </Typography>
+                <div className="flex items-center" title={topic.title}>
+                    <div className="flex-shrink-0">
+                        {topic.type === 0 ? (
+                            <span className={Scss.itemTypeCommon}>普通</span>
+                        ) : (
+                            <span className={Scss.itemTypeAnno}>公告</span>
+                        )}
+                    </div>
+                    <div className="overflow-hidden">
+                        <Typography noWrap variant="h6" className="hover:text-blue-500">
+                            {topic.title}
+                        </Typography>
+                    </div>
                 </div>
 
                 {/* 短内容 */}
-                <Typography noWrap color="textSecondary" className="">
-                    {topic.shortContent}
-                </Typography>
+                <div className="flex w-full overflow-hidden">
+                    <Typography noWrap color="textSecondary">
+                        {topic.shortContent}
+                    </Typography>
+                </div>
 
                 {/* 预览图 */}
-                <div className={Scss.itemImageWrapper}>
-                    {(() => {
-                        if (topic.images.length > 0) {
-                            return (
-                                <div className={Scss.itemImageContainer}>
-                                    {topic.images.map((imgURL) => (
-                                        <div className={Scss.itemImage} key={imgURL}>
-                                            <img
-                                                src="https://upload-bbs.mihoyo.com/upload/2019/01/17/299d032cdcb014fb1015a4cc5b5f70b4.png?x-oss-process=image/resize,s_150/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-                                                alt={imgURL}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            )
-                        }
-                    })()}
-                </div>
-            </main>
+                {(() => {
+                    if (topic.images.length > 0) {
+                        return (
+                            <div className="flex mt-4">
+                                {topic.images.map((imgURL) => (
+                                    <div className={Scss.itemImage} key={imgURL}>
+                                        <img
+                                            src="https://upload-bbs.mihoyo.com/upload/2019/01/17/299d032cdcb014fb1015a4cc5b5f70b4.png?x-oss-process=image/resize,s_150/quality,q_80/auto-orient,0/interlace,1/format,jpg"
+                                            alt={imgURL}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }
+                })()}
+            </div>
 
             {/* 底部 */}
             <footer className="flex items-center justify-between mt-4">

@@ -5,9 +5,24 @@ import { every } from 'lodash'
 
 export default (props) => {
     const hasPermission = getComputed('user')
-    const { permissionGroupList, backUrl, component, ...otherProps } = props
+    const { permissionGroupList, backUrl, component, redirect, ...otherProps } = props
+
+    // 转发
+    if (redirect) {
+        console.log('redirect', redirect)
+        return (
+            <Redirect
+                to={props.path
+                    .concat(redirect)
+                    .replace(
+                        ':'.concat(Object.keys(props.params)[0]),
+                        Object.values(props.params)[0]
+                    )}
+            />
+        )
+    }
     // 没有需求权限，直接渲染，有需求就判断有没有权限，只要满足权限组的一组就能访问(操作)
-    if (
+    else if (
         !permissionGroupList ||
         permissionGroupList.length == 0 ||
         (permissionGroupList &&

@@ -7,6 +7,9 @@ import Index from '@view/Index'
 import Topic from '@view/Topic'
 import Board from '@view/Board'
 import EditTopic from '@view/EditTopic'
+import UserCenter from '@view/UserCenter'
+import UserPosts from '@view/UserCenter/Post'
+import UserReplys from '@view/UserCenter/Reply'
 import Test from '@view/Test'
 
 const routes = [
@@ -56,6 +59,24 @@ const routes = [
             {
                 component: EditTopic,
                 path: '/edit-topic/:id?',
+            },
+            {
+                component: UserCenter,
+                path: '/user-center/:id',
+                routes: [
+                    {
+                        component: UserPosts,
+                        path: '/user-center/:id/post-list',
+                    },
+                    {
+                        component: UserReplys,
+                        path: '/user-center/:id/reply-list',
+                    },
+                    // {
+                    //     path: '/user-center/:id',
+                    //     redirect: '/post-list',
+                    // },
+                ],
             },
         ],
     },

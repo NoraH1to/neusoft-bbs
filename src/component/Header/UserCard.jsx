@@ -37,7 +37,7 @@ export default () => {
             </div>
             {/* 跳转个人空间 */}
             <div className="mb-3">
-                <Button className="w-full" variant="outlined" onClick={() => history.push('/user-center')}>
+                <Button className="w-full" variant="outlined" onClick={() => history.push('/user-center/' + state.id + '/post-list')}>
                     个人空间
                 </Button>
             </div>

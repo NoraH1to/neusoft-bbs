@@ -22,10 +22,10 @@ Mock.setup({
 })
 // import './utils/mockjs/user'
 import './utils/mockjs/verifyCode'
-// import './utils/mockjs/forum'
+import './utils/mockjs/forum'
 import './utils/mockjs/topic'
 import './utils/mockjs/link'
-import './utils/mockjs/attachment'
+// import './utils/mockjs/attachment'
 
 import App from './App'
 

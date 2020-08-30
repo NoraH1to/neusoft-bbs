@@ -1,5 +1,5 @@
 import url from './url'
-import { POST, DELETE } from '../../customAxios'
+import { POST, GET } from '../../customAxios'
 
 import * as Yup from 'yup'
 
@@ -84,7 +84,7 @@ export const emailVerifyCode = {
     request: (options) => {
         return POST({
             url: url.emailVerifyCode,
-            options,
+            ...options,
         })
     },
     formRules: {
@@ -96,4 +96,14 @@ export const emailVerifyCode = {
             'must has verifyCodeRandom string'
         ),
     },
+}
+
+// 个人中心信息
+export const userInfo = {
+    request: (options) => {
+        return GET({
+            url: url.userInfo,
+            ...options
+        })
+    }
 }
