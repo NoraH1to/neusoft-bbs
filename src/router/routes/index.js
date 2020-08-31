@@ -10,6 +10,7 @@ import EditTopic from '@view/EditTopic'
 import UserCenter from '@view/UserCenter'
 import UserPosts from '@view/UserCenter/Post'
 import UserReplys from '@view/UserCenter/Reply'
+import UserInfo from '@view/UserCenter/Info'
 import Test from '@view/Test'
 
 const routes = [
@@ -72,6 +73,10 @@ const routes = [
                         component: UserReplys,
                         path: '/user-center/:id/reply-list',
                     },
+                    {
+                        component: UserInfo,
+                        path: '/user-center/:id/info'
+                    }
                     // {
                     //     path: '/user-center/:id',
                     //     redirect: '/post-list',

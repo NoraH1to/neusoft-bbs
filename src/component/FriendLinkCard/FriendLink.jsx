@@ -8,7 +8,7 @@ export default (props) => {
     const { link } = props
     return (
         <div className="flex items-center">
-            <img src={link[attrMap.iconUrl.key]} className="mr-2" />
+            <img src={link[attrMap.iconUrl.key]} className="mr-2" style={{width: '20px', height: '20px'}} />
             <Link
                 noWrap
                 rel="noopener"

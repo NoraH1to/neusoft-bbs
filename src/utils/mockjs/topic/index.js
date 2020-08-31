@@ -5,7 +5,7 @@ import { attrMap } from '../../../store/modules/topic/template'
 import { attrMap as attachmentAttrMap } from '../../../store/modules/attachment/template'
 
 const mockProxy = (url, method, responseBody) => {
-    return Mock.mock(requestPrefix + url, method, responseBody)
+    return Mock.mock(RegExp(requestPrefix + url + '.*'), method, responseBody)
 }
 
 // 板块帖子列表
@@ -14,7 +14,8 @@ mockProxy(apiUrl.boardTopicList, 'get', {
     msg: 'success',
     code: 200,
     data: {
-        'content|10': [ // 内容
+        'content|10': [
+            // 内容
             {
                 [attrMap.id.key + '|+1']: 1, // 编号
                 [attrMap.type.key + '|1']: [0, 1], // 类型
@@ -47,7 +48,7 @@ mockProxy(apiUrl.boardTopicList, 'get', {
         totalRecords: Random.integer(31, 40), // 总数量
         'hasPrevious|+1': [false, true, true, true], // 是否有上一页
         'hasNext|+1': [true, true, true, false], // 是否有下一页
-    }
+    },
 })
 
 // 帖子详细信息

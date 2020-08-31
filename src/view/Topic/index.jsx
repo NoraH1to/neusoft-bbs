@@ -2,10 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 
+// 组件
+import { Typography } from '@material-ui/core'
+import ReplyList from '@component/ReplyList'
+
+// 接口
 import { attrMap } from '@modules/topic/template'
 import { topicDetail } from '@api/topic'
-
-import Typography from '@material-ui/core/Typography'
+import { topicReplyList } from '@api/reply'
 
 export default function (props) {
     const [topic, setTopic] = useState({})
@@ -18,8 +22,21 @@ export default function (props) {
     } = props
 
     // 请求帖子信息
-    const getTopicDetail = (params) => {
-        return topicDetail.request({ ...params, [attrMap.topicId.key]: id })
+    const getTopicDetail = () => {
+        return topicDetail.request({
+            params: {
+                [attrMap.topicId.key]: id,
+            },
+        })
+    }
+
+    // 请求回复列表
+    const getReplyList = () => {
+        return topicReplyList.request({
+            params: {
+                [attrMap.topicId.key]: id,
+            },
+        })
     }
 
     useEffect(() => {

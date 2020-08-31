@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { useConcent } from 'concent'
 
 import { fade, makeStyles } from '@material-ui/core/styles'
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default () => {
+export default withRouter((props) => {
     const ctx = useConcent({
         module: 'user',
         state: {
@@ -78,7 +79,12 @@ export default () => {
         <AppBar position="relative">
             <Toolbar>
                 {/* 标题 */}
-                <Typography className={classes.title} variant="h6" noWrap>
+                <Typography
+                    onClick={() => props.history.push('/')}
+                    className={classes.title + ' cursor-pointer'}
+                    variant="h6"
+                    noWrap
+                >
                     NEU BBS
                 </Typography>
                 {/* 搜索框 */}
@@ -124,7 +130,7 @@ export default () => {
                         keepMounted
                         disableScrollLock
                     >
-                        <div className="p-5" style={{minWidth: '16rem'}}>
+                        <div className="p-5" style={{ minWidth: '16rem' }}>
                             <UserHoverDialog />
                         </div>
                     </Popover>
@@ -132,4 +138,4 @@ export default () => {
             </Toolbar>
         </AppBar>
     )
-}
+})

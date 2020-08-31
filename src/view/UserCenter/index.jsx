@@ -5,7 +5,7 @@ import { useConcent } from 'concent'
 import AuthRoute from '../../router/AuthRoute'
 
 // 组件
-import InfoCard from './Info'
+import InfoCard from './Info/InfoCard'
 import RouteTab from './Tabs'
 import { Paper } from '@material-ui/core'
 
@@ -44,11 +44,13 @@ const setup = (ctx) => {
 
     return {
         requestUserInfo,
+        id: props.match.params.id,
     }
 }
 
 export default (props) => {
     const ctx = useConcent({ module: 'user', setup, props })
+    const { requestUserInfo, id } = ctx.settings
     return (
         <div className="flex flex-col">
             <div>
@@ -59,7 +61,7 @@ export default (props) => {
             <div className="flex sm:flex-row flex-col sm:items-start items-stretch mt-4">
                 <div className="flex-shrink sm:mr-4 mr-0">
                     <Paper variant="outlined">
-                        <RouteTab id={props.match.params.id}/>
+                        <RouteTab id={id} />
                     </Paper>
                 </div>
                 <div className="flex-grow overflow-hidden">
@@ -70,7 +72,7 @@ export default (props) => {
                                 key={route.path}
                                 params={props.match.params}
                                 render={(props) => (
-                                    <route.component {...props} routes={route.routes} />
+                                    <route.component {...props} routes={route.routes} ctx={ctx} id={id} />
                                 )}
                             />
                         )

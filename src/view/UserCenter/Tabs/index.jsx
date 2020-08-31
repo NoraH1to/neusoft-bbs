@@ -15,10 +15,11 @@ export default (props) => {
     const routeList = [
         '/user-center/'.concat(id).concat('/post-list'), // 帖子
         '/user-center/'.concat(id).concat('/reply-list'), // 回复
+        '/user-center/'.concat(id).concat('/info'), // 个人资料
     ]
 
     // 选中项目
-    const [index, setIndex] = useState()
+    const [index, setIndex] = useState(indexOf(routeList, history.location.pathname))
 
     // 每次渲染都根据当前路由更新 tab 选中项目
     useEffect(() => {
@@ -34,13 +35,12 @@ export default (props) => {
     // 小于 sm 宽度，变为横向的 tab
     const [mwidth, setmwidth] = useState(document.documentElement.clientWidth)
     window.onresize = function () {
-        console.log(document.documentElement.clientWidth)
         setmwidth(document.documentElement.clientWidth)
     }
 
     return (
         <Tabs
-            orientation={mwidth > 623 ? "vertical" : null}
+            orientation={mwidth > 623 ? 'vertical' : null}
             value={index}
             onChange={handleTabChange}
             indicatorColor="primary"
@@ -48,9 +48,9 @@ export default (props) => {
         >
             <Tab label="帖子" value={0} />
             <Tab label="回复" value={1} />
-            <Tab label="编辑资料" />
-            <Tab label="修改密码" />
-            <Tab label="权限" />
+            <Tab label="个人资料" value={2} />
+            <Tab label="编辑资料" value={3} />
+            <Tab label="修改密码" value={4} />
         </Tabs>
     )
 }

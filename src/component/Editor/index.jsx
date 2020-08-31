@@ -117,7 +117,6 @@ export default (props) => {
             )
         )
     }
-    console.log('filelist', fileList)
 
     // 附件列表
     const FileGroup =

@@ -8,13 +8,13 @@ import { Visibility as VisibilityIcon, Message as MessageIcon } from '@material-
 import Scss from './index.scss'
 
 export default (props) => {
-    const { topic } = props
+    const { topic, hideAvater } = props
     const { submitterUserId, submitterNickname, submitterAvatarPath } = topic
     const history = useHistory()
     return (
         <div className="w-full flex flex-col items-stretch">
             {/* 头 */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mb-2">
                 {/* 用户信息 */}
                 <div className="flex-grow">
                     <UserHeader
@@ -43,7 +43,7 @@ export default (props) => {
 
             {/* 内容 */}
             <div
-                className="mt-2 flex flex-col"
+                className="flex flex-col"
                 onClick={() => history.push('/topic/'.concat(topic.id))}
             >
                 {/* 类型 tag、标题 */}
