@@ -70,19 +70,19 @@ export default () => {
             <div className="my-10 mx-4 sm:mx-10 flex justify-end">
                 {loading ? (
                     <div className="flex flex-col w-full">
-                        {range(0, 20).map(() => (
-                            <>
+                        {range(0, 20).map((currentValue) => (
+                            <React.Fragment key={'sk-'.concat(currentValue)}>
                                 <Skeleton variant="text" height={50} className="w-full mb-1" />
                                 <Skeleton variant="text" height={50} className="w-full" />
                                 <Skeleton variant="rect" height={300} className="w-full mt-2" />
-                            </>
+                            </React.Fragment>
                         ))}
                     </div>
                 ) : (
                     <Slide in={!loading} direction="right">
                         <div className="w-full">
                             {ctx.state.mainState.map((category) => (
-                                <div className="mb-10 w-full">
+                                <div key={'category-'.concat(category.id)} className="mb-10 w-full">
                                     <Category category={category} />
                                 </div>
                             ))}

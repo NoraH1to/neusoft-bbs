@@ -28,7 +28,7 @@ export default () => {
     return (
         <Grid container direction="row" justify="center" alignItems="center">
             {linkList.map((link) => (
-                <Grid className="pr-2 pb-2" item xs={12}>
+                <Grid key={'frientlink-'.concat(link.id)} className="pr-2 pb-2" item xs={12}>
                     <FriendLink link={link} />
                 </Grid>
             ))}

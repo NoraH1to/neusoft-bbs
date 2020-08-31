@@ -10,7 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import SortIcon from '@material-ui/icons/Sort' 
+import SortIcon from '@material-ui/icons/Sort'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,6 +71,10 @@ export default (props) => {
                         className="flex-grow"
                     >
                         <Tab
+                            label={attrMap.type.selectMap.all.value}
+                            value={attrMap.type.selectMap.all.key}
+                        />
+                        <Tab
                             label={attrMap.type.selectMap.normal.value}
                             value={attrMap.type.selectMap.normal.key}
                         />
@@ -80,7 +84,12 @@ export default (props) => {
                         />
                     </Tabs>
                     {/* 排序 */}
-                    <Button color="inherit" onClick={handleSortBtnClick} startIcon={<SortIcon />}>
+                    <Button
+                        key="srot-btn"
+                        color="inherit"
+                        onClick={handleSortBtnClick}
+                        startIcon={<SortIcon />}
+                    >
                         {attrMap.sort.selectMap[requestParams[attrMap.sort.key]].value}
                     </Button>
                     <Menu

@@ -4,10 +4,25 @@ import { useHistory } from 'react-router-dom'
 import UserHeader from './UserHeader'
 import { Avatar, Typography } from '@material-ui/core'
 import { Visibility as VisibilityIcon, Message as MessageIcon } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles'
 
 import Scss from './index.scss'
 
+const useStyles = makeStyles((theme) => ({
+    sk: {
+        width: '33%',
+        height: '0px',
+        paddingBottom: '33%',
+        [theme.breakpoints.up('sm')]: {
+            width: '150px',
+            height: '150px',
+            paddingBottom: '0',
+        },
+    },
+}))
+
 export default (props) => {
+    const classes = useStyles()
     const { topic, hideAvater } = props
     const { submitterUserId, submitterNickname, submitterAvatarPath } = topic
     const history = useHistory()
@@ -42,10 +57,7 @@ export default (props) => {
             </div>
 
             {/* 内容 */}
-            <div
-                className="flex flex-col"
-                onClick={() => history.push('/topic/'.concat(topic.id))}
-            >
+            <div className="flex flex-col" onClick={() => history.push('/topic/'.concat(topic.id))}>
                 {/* 类型 tag、标题 */}
                 <div className="flex items-center" title={topic.title}>
                     <div className="flex-shrink-0">
@@ -73,14 +85,9 @@ export default (props) => {
                 {(() => {
                     if (topic.images.length > 0) {
                         return (
-                            <div className="flex mt-4">
+                            <div className={"flex mt-4 " + Scss.itemImage}>
                                 {topic.images.map((imgURL) => (
-                                    <div className={Scss.itemImage} key={imgURL}>
-                                        <img
-                                            src="https://upload-bbs.mihoyo.com/upload/2019/01/17/299d032cdcb014fb1015a4cc5b5f70b4.png?x-oss-process=image/resize,s_150/quality,q_80/auto-orient,0/interlace,1/format,jpg"
-                                            alt={imgURL}
-                                        />
-                                    </div>
+                                    <div className={classes.sk + ' rounded-lg'} style={{background: 'url("'+ imgURL +'") no-repeat center', backgroundSize: 'cover'}}/>
                                 ))}
                             </div>
                         )

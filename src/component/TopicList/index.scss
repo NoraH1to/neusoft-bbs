@@ -79,22 +79,12 @@
     text-overflow: ellipsis;
 }
 
-.itemImage {
-    max-width: 150px;
-    max-height: 150px;
-    height: 100%;
-    width: 33%;
-    margin-right: 8px;
-}
-
-.itemImage:last-child {
+.itemImage div:last-child {
     margin-right: 0;
 }
 
-.itemImage img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+.itemImage div {
+    margin-right: 8px;
 }
 
 .itemFooter {

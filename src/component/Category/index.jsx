@@ -23,7 +23,7 @@ export default (props) => {
                 {/* 板块 */}
                 <Grid container className="py-4 px-10">
                     {category.boardList.map((board) => (
-                        <Grid item xs={12} sm={4} className="flex-grow px-4 py-2">
+                        <Grid key={'board-'.concat(board.id)} item xs={12} sm={4} className="flex-grow px-4 py-2">
                             <Board board={board} />
                         </Grid>
                     ))}

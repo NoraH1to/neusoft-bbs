@@ -37,7 +37,11 @@ export const attrMap = {
         selectMap: {
             normal: {
                 key: 'normal',
-                value: '默认',
+                value: '普通',
+            },
+            all: {
+                key: 'all',
+                value: '全部'
             },
             featured: {
                 key: 'featured',

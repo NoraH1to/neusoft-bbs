@@ -75,8 +75,8 @@ const routes = [
                     },
                     {
                         component: UserInfo,
-                        path: '/user-center/:id/info'
-                    }
+                        path: '/user-center/:id/info',
+                    },
                     // {
                     //     path: '/user-center/:id',
                     //     redirect: '/post-list',

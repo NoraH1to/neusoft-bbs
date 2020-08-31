@@ -1,5 +1,5 @@
 // host
-export const host = process.env.NODE_ENV === 'production' ? 'https://relics.wegfan.cn' : ''
+export const host = process.env.NODE_ENV === 'production' ? 'http://forum.frp.wegfan.cn' : ''
 
 // prefix
 export const prefix = '/api'

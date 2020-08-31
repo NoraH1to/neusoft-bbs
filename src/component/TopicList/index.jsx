@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useConcent } from 'concent'
 import { range } from 'lodash'
 
+// 组件
 import { Paper, ListItem, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
-
 import Topic from './Topic'
-import InfiniteScroll from 'react-infinite-scroller'
+import { StickyContainer, Sticky } from 'react-sticky'
 
 import { topicList as requestTopicList, userTopicList as requestUserTopicList } from '@api/topic'
 import { attrMap } from '@modules/topic/template'
@@ -74,7 +74,10 @@ const setup = (ctx) => {
                         // 如果是第一页就替换，防止脏数据
                         return {
                             hasNext,
-                            topicList: oldState.requestParams.page == 1 ? content : oldState.topicList.concat(content),
+                            topicList:
+                                oldState.requestParams.page == 1
+                                    ? content
+                                    : oldState.topicList.concat(content),
                         }
                     })
                 })
@@ -163,8 +166,11 @@ export default (props) => {
     // 首次加载时的骨架屏
     const LoadingFrame = (
         <>
-            {range(0, 3).map(() => (
-                <div className="flex flex-col items-stretch py-4 px-6 border-0 border-b border-solid border-gray-400">
+            {range(0, 3).map((currentValue) => (
+                <div
+                    key={'sk-'.concat(currentValue)}
+                    className="flex flex-col items-stretch py-4 px-6 border-0 border-b border-solid border-gray-400"
+                >
                     <div className="flex flex-row items-center">
                         <Skeleton height={40} width={40} variant="circle" />
                         <Skeleton height={35} width={150} className="ml-2" variant="text" />
@@ -173,9 +179,9 @@ export default (props) => {
                         <Skeleton height={50} className="w-full" variant="text" />
                     </div>
                     <div className="flex content-start ">
-                        <Skeleton className={classes.sk + ' mr-2'} variant="rect" />
-                        <Skeleton className={classes.sk + ' mr-2'} variant="rect" />
-                        <Skeleton className={classes.sk} variant="rect" />
+                        <Skeleton className={classes.sk + ' mr-2 rounded-lg'} variant="rect" />
+                        <Skeleton className={classes.sk + ' mr-2 rounded-lg'} variant="rect" />
+                        <Skeleton className={classes.sk + ' rounded-lg'} variant="rect" />
                     </div>
                 </div>
             ))}
@@ -187,60 +193,66 @@ export default (props) => {
 
     return (
         <div>
-            <Paper>
-                {/* action bar */}
-                {Action ? (
+            <StickyContainer>
+                <Paper>
+                    {/* action bar */}
+                    {Action ? (
+                        <Sticky>
+                            {({ style }) => (
+                                <div style={{...style, zIndex: 100}}>
+                                    <Action callBackFn={actionCallBack} />
+                                </div>
+                            )}
+                        </Sticky>
+                    ) : undefined}
+
+                    {/* 帖子列表 */}
                     <div>
-                        <Action callBackFn={actionCallBack} />
+                        {isLoading && requestParams.page == 1
+                            ? LoadingFrame
+                            : topicList.map((topic) => {
+                                  return (
+                                      <div className=" border-solid border-0 border-b border-gray-400 overflow-hidden">
+                                          <ListItem
+                                              alignItems="center"
+                                              ContainerComponent="div"
+                                              button
+                                              key={topic.id}
+                                              style={{ padding: '1rem 1.5rem' }}
+                                          >
+                                              <Topic topic={topic} />
+                                          </ListItem>
+                                      </div>
+                                  )
+                              })}
                     </div>
-                ) : undefined}
 
-                {/* 帖子列表 */}
-                <div>
-                    {isLoading && requestParams.page == 1
-                        ? LoadingFrame
-                        : topicList.map((topic) => {
-                              return (
-                                  <div className=" border-solid border-0 border-b border-gray-400 overflow-hidden">
-                                      <ListItem
-                                          alignItems="center"
-                                          ContainerComponent="div"
-                                          button
-                                          key={topic.id}
-                                          style={{ padding: '1rem 1.5rem' }}
-                                      >
-                                          <Topic topic={topic} />
-                                      </ListItem>
-                                  </div>
-                              )
-                          })}
-                </div>
-
-                {/* 加载更多 */}
-                {topicList.length > 0 ? (
-                    hasNext ? (
-                        <div onClick={() => loadMore()} className="p-2 text-center" key={0}>
-                            <Typography color="textSecondary">
-                                {isLoading ? '加载中 ...' : '点击加载更多'}
-                            </Typography>
-                        </div>
+                    {/* 加载更多 */}
+                    {topicList.length > 0 ? (
+                        hasNext ? (
+                            <div onClick={() => loadMore()} className="p-2 text-center" key={0}>
+                                <Typography color="textSecondary">
+                                    {isLoading ? '加载中 ...' : '点击加载更多'}
+                                </Typography>
+                            </div>
+                        ) : (
+                            <div className="p-2 text-center" key={0}>
+                                <Typography color="textSecondary">{'到底了'}</Typography>
+                            </div>
+                        )
                     ) : (
-                        <div className="p-2 text-center" key={0}>
-                            <Typography color="textSecondary">{'到底了'}</Typography>
-                        </div>
-                    )
+                        ''
+                    )}
+                </Paper>
+                {/* 完全没有内容 */}
+                {topicList.length == 0 && !hasNext ? (
+                    <div className="h-64 w-full flex items-center justify-center">
+                        <Typography color="textSecondary">{'没有内容'}</Typography>
+                    </div>
                 ) : (
                     ''
                 )}
-            </Paper>
-            {/* 完全没有内容 */}
-            {topicList.length == 0 && !hasNext ? (
-                <div className="h-64 w-full flex items-center justify-center">
-                    <Typography color="textSecondary">{'没有内容'}</Typography>
-                </div>
-            ) : (
-                ''
-            )}
+            </StickyContainer>
         </div>
     )
 }

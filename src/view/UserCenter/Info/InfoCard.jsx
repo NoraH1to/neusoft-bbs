@@ -24,9 +24,9 @@ export default (props) => {
                 <div className="flex items-center mb-1">
                     {/* 身份 */}
                     {ctx.moduleComputed.isAdmin ? (
-                        <div className="bg-orange-400 rounded-md px-2 text-white mr-4">管理</div>
+                        <div className="bg-orange-400 rounded-md px-2 text-white mr-4 font-extrabold">管理</div>
                     ) : (
-                        <div className="bg-blue-400 rounded-md px-2 text-white mr-4">普通用户</div>
+                        <div className="bg-blue-400 rounded-md px-2 text-white mr-4 font-extrabold">普通用户</div>
                     )}
                     {/* 昵称 */}
                     <Typography variant="h6">{nickname}</Typography>
