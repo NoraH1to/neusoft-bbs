@@ -83,6 +83,12 @@ const setup = (ctx) => {
                 })
                 .catch((err) => {
                     console.log('requestTopicList fail', err)
+                    setState((oldState) => {
+                        // 如果是第一页就替换，防止脏数据
+                        return {
+                            hasNext: false,
+                        }
+                    })
                 })
                 .finally(() => {
                     setIsLoading(false)
@@ -128,6 +134,11 @@ const setup = (ctx) => {
         )
     }
 
+    // 没有 action 的时候开始自己要请求一次
+    ctx.effect(() => {
+        loadMore()
+    }, [])
+
     return {
         setIsLoading,
         setTopicList,
@@ -139,6 +150,8 @@ const setup = (ctx) => {
 }
 
 export default (props) => {
+    const { onlyTitle } = props
+
     const ctx = useConcent({
         state: {
             isLoading: false,
@@ -199,7 +212,7 @@ export default (props) => {
                     {Action ? (
                         <Sticky>
                             {({ style }) => (
-                                <div style={{...style, zIndex: 100}}>
+                                <div style={{ ...style, zIndex: 100 }}>
                                     <Action callBackFn={actionCallBack} />
                                 </div>
                             )}
@@ -212,15 +225,15 @@ export default (props) => {
                             ? LoadingFrame
                             : topicList.map((topic) => {
                                   return (
-                                      <div className=" border-solid border-0 border-b border-gray-400 overflow-hidden">
+                                      <div className={onlyTitle ? 'overflow-hidden' : 'border-solid border-0 border-b border-gray-400 overflow-hidden'}>
                                           <ListItem
                                               alignItems="center"
                                               ContainerComponent="div"
                                               button
                                               key={topic.id}
-                                              style={{ padding: '1rem 1.5rem' }}
+                                              style={onlyTitle ? { padding: '0.5rem 1rem' } : { padding: '1rem 1.5rem' }}
                                           >
-                                              <Topic topic={topic} />
+                                              <Topic onlyTitle={onlyTitle} topic={topic} />
                                           </ListItem>
                                       </div>
                                   )
@@ -228,7 +241,7 @@ export default (props) => {
                     </div>
 
                     {/* 加载更多 */}
-                    {topicList.length > 0 ? (
+                    {topicList.length > 0 && !onlyTitle ? (
                         hasNext ? (
                             <div onClick={() => loadMore()} className="p-2 text-center" key={0}>
                                 <Typography color="textSecondary">
@@ -245,7 +258,7 @@ export default (props) => {
                     )}
                 </Paper>
                 {/* 完全没有内容 */}
-                {topicList.length == 0 && !hasNext ? (
+                {topicList.length == 0 && !hasNext && !onlyTitle ? (
                     <div className="h-64 w-full flex items-center justify-center">
                         <Typography color="textSecondary">{'没有内容'}</Typography>
                     </div>

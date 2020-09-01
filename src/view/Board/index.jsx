@@ -12,14 +12,34 @@ export default (props) => {
         match: {
             params: { id },
         },
-        history
+        history,
     } = props
 
     return (
         <div>
-            <TopicList Action={Action} requestParam={{ [attrMap.boardId.key]: id }} />
+            <div className="pb-6">
+                <div className="pb-2">
+                    <TopicList
+                        onlyTitle={true}
+                        requestParam={{ [attrMap.boardId.key]: id, type: 'announcement' }}
+                    />
+                </div>
+                <div>
+                    <TopicList
+                        onlyTitle={true}
+                        requestParam={{ [attrMap.boardId.key]: id, type: 'pinned' }}
+                    />
+                </div>
+            </div>
+            <div>
+                <TopicList
+                    onlyTitle={false}
+                    Action={Action}
+                    requestParam={{ [attrMap.boardId.key]: id }}
+                />
+            </div>
             <div className="fixed right-0 bottom-0 m-6">
-                <Fab onClick={() => history.push('/edit-topic')} color="primary">
+                <Fab onClick={() => history.push('/edit-topic/?boardId='.concat(id))} color="primary">
                     <AddIcon />
                 </Fab>
             </div>

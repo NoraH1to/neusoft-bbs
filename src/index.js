@@ -3,7 +3,7 @@ import ReactDom from 'react-dom'
 
 // 全局 toast 注入
 import { SnackbarProvider } from 'notistack'
-import { SnackbarUtilsConfigurator } from './utils/toast'
+// import { SnackbarUtilsConfigurator } from './utils/toast'
 
 // 自定义 material-ui 主题
 import { ThemeProvider } from '@material-ui/styles'
@@ -38,12 +38,13 @@ if (process.env.NODE_ENV === 'production') {
 React.$axios = axios
 
 ReactDom.render(
-    <SnackbarProvider maxSnack={3}>
+    // <SnackbarProvider maxSnack={3}>
         <ThemeProvider theme={theme}>
             <App />
-            <SnackbarUtilsConfigurator />
+            {/* <SnackbarUtilsConfigurator /> */}
         </ThemeProvider>
-    </SnackbarProvider>,
+    // </SnackbarProvider>
+    ,
     document.getElementById('root')
 )
 

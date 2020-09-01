@@ -11,4 +11,8 @@ export default {
     userTopicList: url('/user-topic-list'),
     // 主题帖详细信息
     topicDetail: url('/topic-detail'),
+    // 发布主题帖
+    addTopic: url('/add-topic'),
+    // 编辑主题帖
+    updateTopic: url('/update-topic'),
 }

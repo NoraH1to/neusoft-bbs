@@ -1,26 +1,55 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useConcent } from 'concent'
+import Toast from '../../utils/toast'
 
-import { Fab, Paper, TextField, Divider, Button, Chip } from '@material-ui/core'
+// 控件
+import { Fab, TextField, Divider, Button, Chip } from '@material-ui/core'
 import { Send as SendIcon } from '@material-ui/icons'
 
+// 接口
 import { upLoadImage, upLoadAttachment } from '@api/attachment'
+import { addTopic, updateTopic } from '@api/topic'
 import { attrMap as attachmentAttrMap } from '@modules/attachment/template'
 import { attrMap as topicAttrMap } from '@modules/topic/template'
 
+// 富文本
 import 'braft-editor/dist/index.css'
 import BraftEditor from 'braft-editor'
-import DOMPurify from 'dompurify'
 
 export default (props) => {
-    // 富文本编辑对象
-    const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null))
+    const { requestParams } = props
+    const history = useHistory
 
-    // 富文本 ref
-    const [editorInstance, setEditorInstance] = useState(null)
+    // 如果参数不对直接返回
+    if (!requestParams.boardId && !requestParams.topicId) {
+        Toast.error('参数错误')
+        history.goBack()
+    }
+
+    // 初始化 concent
+    const ctx = useConcent({
+        module: 'user',
+        state: {
+            editorState: BraftEditor.createEditorState(null),
+            editorState: null,
+            editorInstance: null,
+            fileList: [],
+        },
+    })
+    const { setState } = ctx
+    const { editorState, editorInstance, fileList } = ctx.state
 
     // 更新输入内容
     const handleChange = (editorState) => {
-        setEditorState(editorState)
+        setState({
+            editorState,
+        })
+    }
+
+    // 发布主题帖
+    const requsetAddTopic = () => {
+        addTopic.request()
     }
 
     // 编辑器上传函数重写
@@ -55,7 +84,6 @@ export default (props) => {
         let data = new FormData()
         // 塞入图片
         data.append('file', param.file)
-        // data.append('test0', 'test1')
         // 上传图片
         upLoadImage
             .request({
@@ -83,7 +111,11 @@ export default (props) => {
                 msg: '上传',
             })
             .then((res) => {
-                setFileList((oldList) => oldList.concat([res.data]))
+                setState((oldState) => {
+                    return {
+                        fileList: oldState.fileList.concat([res.data]),
+                    }
+                })
             })
             .catch((err) => {
                 console.log('uploadAttachment fail', err)
@@ -106,16 +138,13 @@ export default (props) => {
         'text-align',
     ]
 
-    // 附件列表
-    const [fileList, setFileList] = useState([])
-
     // 监听删除附件
-    const handleDelete = (chipToDelete) => () => {
-        setFileList((fileList) =>
-            fileList.filter(
-                (file) => file[attachmentAttrMap.id.key] !== chipToDelete[attachmentAttrMap.id.key]
-            )
-        )
+    const handleDelete = (chipToDelete) => {
+        setState((oldState) => {
+            return {
+                fileList: oldState.fileList.filter((file) => file.id !== chipToDelete.id),
+            }
+        })
     }
 
     // 附件列表
@@ -126,15 +155,15 @@ export default (props) => {
                     <Chip
                         className="mt-3 mr-2"
                         key={fileTarget[attachmentAttrMap.id.key]}
-                        label={fileTarget[attachmentAttrMap.downloadUrl.key].split('/').pop()}
-                        onDelete={handleDelete(fileTarget)}
+                        label={fileTarget.filename}
+                        onDelete={() => handleDelete(fileTarget)}
                     />
                 ))}
             </div>
         ) : undefined
 
     return (
-        <Paper>
+        <div>
             {/* 标题 */}
             <TextField className="w-full" label={[topicAttrMap.title.value]} variant="filled" />
             {/* 内容 */}
@@ -143,7 +172,7 @@ export default (props) => {
                 excludeControls={excludeControls}
                 style={{ height: '100%' }}
                 contentStyle={{ height: '32rem' }}
-                ref={(instance) => setEditorInstance(instance)}
+                // ref={(editorInstance) => setState({ editorInstance })}
                 value={editorState}
                 onChange={handleChange}
             />
@@ -162,7 +191,12 @@ export default (props) => {
                     }}
                 />
                 <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
+                    <Button
+                        disabled={fileList.length >= 10}
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                    >
                         上传附件
                     </Button>
                 </label>
@@ -170,11 +204,11 @@ export default (props) => {
                 {FileGroup}
             </div>
             {/* 发布按钮 */}
-            <div className="fixed right-0 bottom-0 m-6">
-                <Fab color="primary">
+            <div style={{ zIndex: '999' }} className="fixed right-0 bottom-0 m-6">
+                <Fab onClick={() => requsetAddTopic()} color="primary">
                     <SendIcon />
                 </Fab>
             </div>
-        </Paper>
+        </div>
     )
 }
