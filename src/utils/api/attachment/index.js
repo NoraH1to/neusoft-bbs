@@ -20,3 +20,10 @@ export const upLoadAttachment = {
         })
     },
 }
+
+// 下载附件
+export const downloadAttachment = {
+    request: (options) => {
+        window.open(new URL(document.URL).origin + options.url)
+    }
+}

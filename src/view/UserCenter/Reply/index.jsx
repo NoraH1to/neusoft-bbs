@@ -2,6 +2,10 @@
 
 import React from 'react'
 
-export default function () {
-    return <div>User's ReplyList</div>
+import ReplyList from '@component/ReplyList'
+import Action from '@component/TopicList/Action'
+
+export default function (props) {
+    const { id } = props
+    return <ReplyList requestParam={{ userId: id } } Action={Action} />
 }

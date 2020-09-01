@@ -15,13 +15,15 @@ export const attrMap = {
         key: 'submitterOnly',
         value: '只看楼主',
         selectMap: {
-            [true]: {
-                key: true,
-                value: '只看楼主',
-            },
-            [false]: {
-                key: false,
+            ['false']: {
+                key: 'false',
                 value: '全部',
+                useAble: true,
+            },
+            ['true']: {
+                key: 'true',
+                value: '只看楼主',
+                useAble: true,
             },
         },
     },
@@ -32,11 +34,11 @@ export const attrMap = {
         selectMap: {
             normal: {
                 key: 'normal',
-                value: '时间升序',
+                value: '正序',
             },
             reversed: {
                 key: 'reversed',
-                value: '时间降序',
+                value: '倒序',
             },
         },
     },

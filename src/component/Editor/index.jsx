@@ -297,7 +297,6 @@ export default (props) => {
                 excludeControls={excludeControls}
                 style={{ height: '100%' }}
                 contentStyle={{ height: '32rem' }}
-                // ref={(editorInstance) => setState({ editorInstance })}
                 value={editorState}
                 onChange={handleChange}
             />

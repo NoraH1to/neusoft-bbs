@@ -131,7 +131,7 @@ export default withRouter((props) => {
                         disableScrollLock
                     >
                         <div className="p-5" style={{ minWidth: '16rem' }}>
-                            <UserHoverDialog />
+                            <UserHoverDialog onCallClose={() => ctx.setState({ anchorEl: null })}/>
                         </div>
                     </Popover>
                 </div>

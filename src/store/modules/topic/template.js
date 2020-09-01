@@ -35,14 +35,14 @@ export const attrMap = {
         key: 'type',
         value: '类型',
         selectMap: {
-            normal: {
-                key: 'normal',
-                value: '普通',
-                useAble: true,
-            },
             all: {
                 key: 'all',
                 value: '全部',
+                useAble: true,
+            },
+            normal: {
+                key: 'normal',
+                value: '普通',
                 useAble: true,
             },
             featured: {

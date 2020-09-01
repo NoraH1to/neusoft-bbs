@@ -1,9 +1,9 @@
 import React from 'react'
 import { useConcent } from 'concent'
-import { range } from 'lodash'
+import { range, omit } from 'lodash'
 
 // 组件
-import { Paper, ListItem, Typography } from '@material-ui/core'
+import { Paper, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { StickyContainer, Sticky } from 'react-sticky'
 import Reply from './Reply'
@@ -148,10 +148,7 @@ const LoadingFrame = (
                     <Skeleton height={40} width={40} variant="circle" />
                     <Skeleton height={35} width={150} className="ml-2" variant="text" />
                 </div>
-                <div className="mb-2">
-                    <Skeleton height={50} className="w-full" variant="text" />
-                </div>
-                <div className="mb-2">
+                <div>
                     <Skeleton height={50} className="w-full" variant="text" />
                 </div>
             </div>
@@ -161,7 +158,7 @@ const LoadingFrame = (
 
 export default (props) => {
     // 获取 ActionBar
-    const { Action } = props
+    const { Action, authorId } = props
 
     const ctx = useConcent({
         state: {
@@ -177,6 +174,7 @@ export default (props) => {
             },
         },
         setup,
+        props
     })
 
     const { setIsLoading, setReplyList, getReplyList, loadMore, actionCallBack } = ctx.settings
@@ -195,24 +193,36 @@ export default (props) => {
                                 <Action
                                     callBackFn={actionCallBack}
                                     tabKey={{
-                                        ...attrMap.type,
-                                        defaultValue: attrMap.type.selectMap.normal.key,
+                                        ...(props.requestParam.userId ? omit(attrMap.submitterOnly, 'selectMap.true') : attrMap.submitterOnly),
+                                        defaultValue: attrMap.submitterOnly.selectMap[false].key,
                                     }}
                                     menuKey={{
                                         ...attrMap.sort,
-                                        defaultValue: attrMap.sort.selectMap.replyTime.key,
+                                        defaultValue: attrMap.sort.selectMap.normal.key,
                                     }}
                                 />
                             </div>
                         )}
                     </Sticky>
                 ) : undefined}
-                {/* 内容 */}
+
+                {/* 回复列表 */}
                 {isLoading && requestParams.page == 1
                     ? LoadingFrame
                     : replyList.map((reply) => {
-                          return <Reply reply={reply} />
+                          return (
+                              <div
+                                  className={
+                                      'border-solid border-0 border-b border-gray-400 overflow-hidden'
+                                  }
+                              >
+                                  <div key={reply.id} style={{ padding: '1rem 1.5rem' }}>
+                                      <Reply reply={reply} authorId={authorId}/>
+                                  </div>
+                              </div>
+                          )
                       })}
+
                 {/* 加载更多 */}
                 {replyList.length > 0 ? (
                     hasNext ? (
@@ -230,6 +240,15 @@ export default (props) => {
                     ''
                 )}
             </Paper>
+
+            {/* 完全没有内容 */}
+            {replyList.length == 0 && !hasNext ? (
+                <div className="h-64 w-full flex items-center justify-center">
+                    <Typography color="textSecondary">{'没有内容'}</Typography>
+                </div>
+            ) : (
+                ''
+            )}
         </StickyContainer>
     )
 }

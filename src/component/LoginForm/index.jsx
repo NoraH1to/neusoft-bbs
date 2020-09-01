@@ -58,6 +58,7 @@ const setup = (ctx) => {
                     actions.setSubmitting(false)
                 })
                 .then((res) => {
+                    ctx.props.onAction()
                     // 更新用户数据
                     updateUser(res.data)
                     // 跳转到主页

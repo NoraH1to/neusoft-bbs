@@ -7,7 +7,8 @@ import { Avatar, Typography, Button, Divider } from '@material-ui/core'
 import { logout } from '@api/user'
 import { attrMap } from '@modules/user/template'
 
-export default () => {
+export default (props) => {
+    const { onAction } = props
     const ctx = useConcent({ module: 'user' })
     const { state } = ctx
     const history = useHistory()
@@ -37,7 +38,14 @@ export default () => {
             </div>
             {/* 跳转个人空间 */}
             <div className="mb-3">
-                <Button className="w-full" variant="outlined" onClick={() => history.push('/user-center/' + state.id + '/post-list')}>
+                <Button
+                    className="w-full"
+                    variant="outlined"
+                    onClick={() => {
+                        onAction()
+                        history.push('/user-center/' + state.id + '/post-list')
+                    }}
+                >
                     个人空间
                 </Button>
             </div>
@@ -47,6 +55,7 @@ export default () => {
                 <Button
                     className="w-full"
                     onClick={() => {
+                        onAction()
                         requestLogout()
                     }}
                     color="secondary"

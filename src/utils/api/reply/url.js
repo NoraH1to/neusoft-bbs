@@ -9,4 +9,8 @@ export default {
     topicReplyList: url('/topic-reply-list'),
     // 获取用户回复列表
     userReplyList: url('/user-reply-list'),
+    // 发表回复贴
+    addReply: url('/add-reply'),
+    // 编辑回复贴
+    updateReply: url('/update-reply'),
 }

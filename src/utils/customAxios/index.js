@@ -40,6 +40,9 @@ axios.interceptors.response.use(
                 return response.data
             }
         }
+        if (response.config.responseType == 'blob') {
+            return response
+        }
         return Promise.reject(response.data)
     },
     (error) => {
