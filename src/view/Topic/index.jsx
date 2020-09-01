@@ -32,15 +32,6 @@ export default function (props) {
         })
     }
 
-    // 请求回复列表
-    const getReplyList = () => {
-        return topicReplyList.request({
-            params: {
-                [attrMap.topicId.key]: id,
-            },
-        })
-    }
-
     useEffect(() => {
         getTopicDetail()
             .then((res) => {
@@ -52,7 +43,8 @@ export default function (props) {
     }, [])
 
     return (
-        <Paper>
+        <div>
+            <Paper>
             <div className="flex flex-col justify-start py-4 sm:py-8">
                 {/* 帖子信息 */}
                 <div className="px-4 sm:px-10 pb-4 sm:pb-6 border-0 border-b border-solid border-gray-400">
@@ -145,5 +137,9 @@ export default function (props) {
                 )}
             </div>
         </Paper>
+        <Paper>
+            <ReplyList requestParam={{ topicId: id }}/>
+        </Paper>
+        </div>
     )
 }

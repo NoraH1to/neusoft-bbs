@@ -38,14 +38,17 @@ export const attrMap = {
             normal: {
                 key: 'normal',
                 value: '普通',
+                useAble: true,
             },
             all: {
                 key: 'all',
-                value: '全部'
+                value: '全部',
+                useAble: true,
             },
             featured: {
                 key: 'featured',
                 value: '精华',
+                useAble: true,
             },
             pinned: {
                 key: 'pinned',
@@ -54,10 +57,6 @@ export const attrMap = {
             announcement: {
                 key: 'announcement',
                 value: '公告',
-            },
-            all: {
-                key: 'all',
-                value: '全部',
             },
         },
     },
@@ -125,6 +124,20 @@ export const attrMap = {
     featured: {
         key: 'featured',
         value: '精华',
+    },
+    announcement: {
+        key: 'announcement',
+        value: '公告',
+        selectMap: {
+            0: {
+                key: 0,
+                value: '普通',
+            },
+            1: {
+                key: 1,
+                value: '公告',
+            },
+        },
     },
     // 最后编辑时间
     editTime: {

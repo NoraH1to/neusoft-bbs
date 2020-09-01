@@ -98,7 +98,7 @@ export default (props) => {
                         {(() => {
                             if (topic.images.length > 0) {
                                 return (
-                                    <div className={'flex my-4 ' + Scss.itemImage}>
+                                    <div className={'flex mt-4 ' + Scss.itemImage}>
                                         {topic.images.map((imgURL) => (
                                             <div
                                                 className={classes.sk + ' rounded-lg'}
@@ -121,7 +121,7 @@ export default (props) => {
             {onlyTitle ? (
                 ''
             ) : (
-                <footer className="flex items-center justify-between">
+                <footer className="flex items-center justify-between mt-4">
                     {/* 日期 */}
                     <div className="footerLeft">
                         <div className={Scss.itemDate}>{topic.submitTime}</div>

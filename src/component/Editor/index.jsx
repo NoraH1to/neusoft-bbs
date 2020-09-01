@@ -4,8 +4,17 @@ import { useConcent } from 'concent'
 import Toast from '../../utils/toast'
 
 // 控件
-import { Fab, TextField, Divider, Button, Chip } from '@material-ui/core'
-import { Send as SendIcon } from '@material-ui/icons'
+import {
+    Fab,
+    TextField,
+    Divider,
+    Button,
+    Chip,
+    InputAdornment,
+    Menu,
+    MenuItem,
+} from '@material-ui/core'
+import { Send as SendIcon, FormatColorTextSharp } from '@material-ui/icons'
 
 // 接口
 import { upLoadImage, upLoadAttachment } from '@api/attachment'
@@ -17,9 +26,83 @@ import { attrMap as topicAttrMap } from '@modules/topic/template'
 import 'braft-editor/dist/index.css'
 import BraftEditor from 'braft-editor'
 
+const setup = (ctx) => {
+    const { setState, state } = ctx
+
+    // 关闭菜单
+    const handleSortMenuClose = (e) => {
+        setState({
+            anchorEl: null,
+        })
+        // 有值就修改 type
+        if (e.target.dataset.value) {
+            setState({ announcement: e.target.dataset.value })
+        }
+    }
+
+    // 点击按钮显示菜单
+    const handleSortBtnClick = (event) => {
+        setState({
+            anchorEl: event.currentTarget,
+        })
+    }
+
+    // 根据参数决定用哪个接口
+    ctx.computed({
+        topicApi: (newState) => {
+            return newState.requestParams.topicId ? updateTopic : addTopic
+        },
+    })
+
+    // 更新输入内容
+    const handleChange = (editorState) => {
+        setState({
+            editorState,
+        })
+    }
+
+    // 发布主题帖
+    const requsetEditTopic = () => {
+        // 手动校验
+        // 内容
+        if (!state.editorState || state.editorState.toHTML().length < 1) {
+            Toast.error('内容不能为空')
+            return
+        }
+        // 标题
+        if (!state.title || state.title.length < 1) {
+            Toast.error('标题不能为空')
+            return
+        }
+
+        // 请求
+        ctx.refComputed.topicApi
+            .request({
+                data: {
+                    title: state.title,
+                    announcement: state.announcement,
+                    content: state.editorState.toHTML(),
+                    attachments: state.attachments,
+                    ...ctx.props.requestParams,
+                },
+            })
+            .then((res) => {
+                if (res.data.id) {
+                    state.history.push('/topic/'.concat(res.data.id))
+                } else {
+                    Toast.error("发表失败")
+                }
+            })
+            .catch((err) => {
+                console.log('postTopic fail', err)
+            })
+    }
+    return { handleChange, requsetEditTopic, handleSortMenuClose, handleSortBtnClick }
+}
+
 export default (props) => {
     const { requestParams } = props
-    const history = useHistory
+    const history = useHistory()
 
     // 如果参数不对直接返回
     if (!requestParams.boardId && !requestParams.topicId) {
@@ -31,26 +114,22 @@ export default (props) => {
     const ctx = useConcent({
         module: 'user',
         state: {
+            title: null,
+            announcement: 0,
             editorState: BraftEditor.createEditorState(null),
-            editorState: null,
             editorInstance: null,
-            fileList: [],
+            attachments: [],
+            requestParams,
+            // 菜单锚点
+            anchorEl: null,
+            history
         },
+        setup,
+        props,
     })
     const { setState } = ctx
-    const { editorState, editorInstance, fileList } = ctx.state
-
-    // 更新输入内容
-    const handleChange = (editorState) => {
-        setState({
-            editorState,
-        })
-    }
-
-    // 发布主题帖
-    const requsetAddTopic = () => {
-        addTopic.request()
-    }
+    const { title, announcement, editorState, editorInstance, attachments, anchorEl } = ctx.state
+    const { handleChange, requsetEditTopic, handleSortMenuClose, handleSortBtnClick } = ctx.settings
 
     // 编辑器上传函数重写
     const uploadFn = (param) => {
@@ -113,7 +192,7 @@ export default (props) => {
             .then((res) => {
                 setState((oldState) => {
                     return {
-                        fileList: oldState.fileList.concat([res.data]),
+                        attachments: oldState.attachments.concat([res.data]),
                     }
                 })
             })
@@ -142,16 +221,16 @@ export default (props) => {
     const handleDelete = (chipToDelete) => {
         setState((oldState) => {
             return {
-                fileList: oldState.fileList.filter((file) => file.id !== chipToDelete.id),
+                attachments: oldState.attachments.filter((file) => file.id !== chipToDelete.id),
             }
         })
     }
 
     // 附件列表
     const FileGroup =
-        fileList.length > 0 ? (
+        attachments.length > 0 ? (
             <div className="flex flex-wrap content-around items-center">
-                {fileList.map((fileTarget) => (
+                {attachments.map((fileTarget) => (
                     <Chip
                         className="mt-3 mr-2"
                         key={fileTarget[attachmentAttrMap.id.key]}
@@ -165,7 +244,53 @@ export default (props) => {
     return (
         <div>
             {/* 标题 */}
-            <TextField className="w-full" label={[topicAttrMap.title.value]} variant="filled" />
+            <TextField
+                className="w-full"
+                label={[topicAttrMap.title.value]}
+                variant="filled"
+                value={title}
+                onChange={(e) => setState({ title: e.target.value })}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment>
+                            <Button
+                                className="flex-shrink-0"
+                                key="srot-btn"
+                                color="inherit"
+                                onClick={handleSortBtnClick}
+                                // startIcon={<SortIcon />}
+                            >
+                                {topicAttrMap.announcement.selectMap[announcement].value}
+                            </Button>
+                            <Menu
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleSortMenuClose}
+                            >
+                                {Object.keys(topicAttrMap.announcement.selectMap).map(
+                                    (menuIndex) => {
+                                        return (
+                                            <MenuItem
+                                                onClick={handleSortMenuClose}
+                                                data-value={
+                                                    topicAttrMap.announcement.selectMap[menuIndex]
+                                                        .key
+                                                }
+                                            >
+                                                {
+                                                    topicAttrMap.announcement.selectMap[menuIndex]
+                                                        .value
+                                                }
+                                            </MenuItem>
+                                        )
+                                    }
+                                )}
+                            </Menu>
+                        </InputAdornment>
+                    ),
+                }}
+            />
             {/* 内容 */}
             <BraftEditor
                 media={{ uploadFn, accepts }}
@@ -192,7 +317,7 @@ export default (props) => {
                 />
                 <label htmlFor="contained-button-file">
                     <Button
-                        disabled={fileList.length >= 10}
+                        disabled={attachments.length >= 10}
                         variant="contained"
                         color="primary"
                         component="span"
@@ -205,7 +330,7 @@ export default (props) => {
             </div>
             {/* 发布按钮 */}
             <div style={{ zIndex: '999' }} className="fixed right-0 bottom-0 m-6">
-                <Fab onClick={() => requsetAddTopic()} color="primary">
+                <Fab onClick={() => requsetEditTopic()} color="primary">
                     <SendIcon />
                 </Fab>
             </div>

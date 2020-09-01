@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles()
+    const { tabKey, menuKey } = props
     const [requestParams, setRequestParams] = useState({
-        [attrMap.type.key]: attrMap.type.selectMap.normal.key,
-        [attrMap.sort.key]: attrMap.sort.selectMap.replyTime.key,
+        [tabKey.key]: tabKey.defaultValue,
+        [menuKey.key]: menuKey.defaultValue,
     })
 
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -39,23 +40,23 @@ export default (props) => {
         if (e.target.dataset.value) {
             setRequestParams({
                 ...requestParams,
-                [attrMap.sort.key]: e.target.dataset.value,
+                [menuKey.key]: e.target.dataset.value,
             })
         }
     }
 
-    // 当主题帖类型改变
+    // 当类型改变
     const handleTypeChange = (event, newValue) => {
         setRequestParams({
             ...requestParams,
-            [attrMap.type.key]: newValue,
+            [tabKey.key]: newValue,
         })
     }
 
     // 有数据改变就执行外部传入的回调
     useEffect(() => {
         props.callBackFn ? props.callBackFn(requestParams) : ''
-    }, [requestParams[attrMap.type.key], requestParams[attrMap.sort.key]])
+    }, [requestParams[tabKey.key], requestParams[menuKey.key]])
 
     return (
         <div className={classes.root}>
@@ -63,34 +64,33 @@ export default (props) => {
                 <Toolbar variant="dense">
                     {/* 主题帖类型 */}
                     <Tabs
-                        value={requestParams[attrMap.type.key]}
+                        value={requestParams[tabKey.key]}
                         onChange={handleTypeChange}
                         indicatorColor="primary"
                         textColor="primary"
                         variant="scrollable"
                         className="flex-grow"
                     >
-                        <Tab
-                            label={attrMap.type.selectMap.all.value}
-                            value={attrMap.type.selectMap.all.key}
-                        />
-                        <Tab
-                            label={attrMap.type.selectMap.normal.value}
-                            value={attrMap.type.selectMap.normal.key}
-                        />
-                        <Tab
-                            label={attrMap.type.selectMap.featured.value}
-                            value={attrMap.type.selectMap.featured.key}
-                        />
+                        {Object.keys(tabKey.selectMap).map((target) => {
+                            return tabKey.selectMap[target].useAble ? (
+                                <Tab
+                                    label={tabKey.selectMap[target].value}
+                                    value={tabKey.selectMap[target].key}
+                                />
+                            ) : (
+                                ''
+                            )
+                        })}
                     </Tabs>
                     {/* 排序 */}
                     <Button
+                        className="flex-shrink-0"
                         key="srot-btn"
                         color="inherit"
                         onClick={handleSortBtnClick}
                         startIcon={<SortIcon />}
                     >
-                        {attrMap.sort.selectMap[requestParams[attrMap.sort.key]].value}
+                        {menuKey.selectMap[requestParams[menuKey.key]].value}
                     </Button>
                     <Menu
                         anchorEl={anchorEl}
@@ -98,13 +98,13 @@ export default (props) => {
                         open={Boolean(anchorEl)}
                         onClose={handleSortMenuClose}
                     >
-                        {Object.keys(attrMap.sort.selectMap).map((menuIndex) => {
+                        {Object.keys(menuKey.selectMap).map((menuIndex) => {
                             return (
                                 <MenuItem
                                     onClick={handleSortMenuClose}
-                                    data-value={attrMap.sort.selectMap[menuIndex].key}
+                                    data-value={menuKey.selectMap[menuIndex].key}
                                 >
-                                    {attrMap.sort.selectMap[menuIndex].value}
+                                    {menuKey.selectMap[menuIndex].value}
                                 </MenuItem>
                             )
                         })}

@@ -136,7 +136,9 @@ const setup = (ctx) => {
 
     // 没有 action 的时候开始自己要请求一次
     ctx.effect(() => {
-        loadMore()
+        if (!ctx.props.Action) {
+            loadMore()
+        }
     }, [])
 
     return {
@@ -150,7 +152,8 @@ const setup = (ctx) => {
 }
 
 export default (props) => {
-    const { onlyTitle } = props
+    // 获取 ActionBar
+    const { onlyTitle, Action } = props
 
     const ctx = useConcent({
         state: {
@@ -165,6 +168,7 @@ export default (props) => {
                 ...props.requestParam,
             },
         },
+        props,
         setup,
     })
 
@@ -182,7 +186,7 @@ export default (props) => {
             {range(0, 3).map((currentValue) => (
                 <div
                     key={'sk-'.concat(currentValue)}
-                    className="flex flex-col items-stretch py-4 px-6 border-0 border-b border-solid border-gray-400"
+                    className="flex flex-col items-stretch pt-4 pb-6 px-6 border-0 border-b border-solid border-gray-400"
                 >
                     <div className="flex flex-row items-center">
                         <Skeleton height={40} width={40} variant="circle" />
@@ -201,9 +205,6 @@ export default (props) => {
         </>
     )
 
-    // 获取 ActionBar
-    const { Action } = props
-
     return (
         <div>
             <StickyContainer>
@@ -213,7 +214,17 @@ export default (props) => {
                         <Sticky>
                             {({ style }) => (
                                 <div style={{ ...style, zIndex: 100 }}>
-                                    <Action callBackFn={actionCallBack} />
+                                    <Action
+                                        callBackFn={actionCallBack}
+                                        tabKey={{
+                                            ...attrMap.type,
+                                            defaultValue: attrMap.type.selectMap.normal.key,
+                                        }}
+                                        menuKey={{
+                                            ...attrMap.sort,
+                                            defaultValue: attrMap.sort.selectMap.replyTime.key,
+                                        }}
+                                    />
                                 </div>
                             )}
                         </Sticky>
@@ -225,13 +236,23 @@ export default (props) => {
                             ? LoadingFrame
                             : topicList.map((topic) => {
                                   return (
-                                      <div className={onlyTitle ? 'overflow-hidden' : 'border-solid border-0 border-b border-gray-400 overflow-hidden'}>
+                                      <div
+                                          className={
+                                              onlyTitle
+                                                  ? 'overflow-hidden'
+                                                  : 'border-solid border-0 border-b border-gray-400 overflow-hidden'
+                                          }
+                                      >
                                           <ListItem
                                               alignItems="center"
                                               ContainerComponent="div"
                                               button
                                               key={topic.id}
-                                              style={onlyTitle ? { padding: '0.5rem 1rem' } : { padding: '1rem 1.5rem' }}
+                                              style={
+                                                  onlyTitle
+                                                      ? { padding: '0.5rem 1rem' }
+                                                      : { padding: '1rem 1.5rem' }
+                                              }
                                           >
                                               <Topic onlyTitle={onlyTitle} topic={topic} />
                                           </ListItem>
