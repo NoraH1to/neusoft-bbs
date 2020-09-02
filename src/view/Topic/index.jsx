@@ -103,7 +103,7 @@ export default function (props) {
     const handlerDownloadAttachment = () => {
         // 没有下载权限就不下载
         if (permissionState.banDownloadAttachment) {
-            Toast.error("没有权限")
+            Toast.error('没有权限')
         } else {
             downloadFile(attachment)
         }
@@ -391,12 +391,16 @@ export default function (props) {
             )}
 
             {/* 回复 dialog */}
-            <EditReply
-                openDialog={openDialog}
-                handleDialogClose={handleDialogClose}
-                topicId={topic.id}
-                topicTitle={topic.title}
-            />
+            {openDialog ? (
+                <EditReply
+                    openDialog={openDialog}
+                    handleDialogClose={handleDialogClose}
+                    topicId={topic.id}
+                    topicTitle={topic.title}
+                />
+            ) : (
+                ''
+            )}
 
             {/* 确认删除 dialog */}
             <Dialog open={openDeleteConfirm} onClose={handleDeleteClose}>

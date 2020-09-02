@@ -27,15 +27,18 @@ export default (props) => {
     // 如果为编辑，获取详细信息覆盖
     useEffect(() => {
         if (replyId) {
-            replyDetail.request({
-                params: {
-                    replyId,
-                },
-            }).then(res => {
-                setEditorState(BraftEditor.createEditorState(res.data.content))
-            }).catch(err => {
-                console.log('requestReplyDetail fail', err)
-            })
+            replyDetail
+                .request({
+                    params: {
+                        replyId,
+                    },
+                })
+                .then((res) => {
+                    setEditorState(BraftEditor.createEditorState(res.data.content))
+                })
+                .catch((err) => {
+                    console.log('requestReplyDetail fail', err)
+                })
         }
     }, [])
 
@@ -152,10 +155,7 @@ export default (props) => {
                     {topicTitle}
                 </Typography>
             </DialogTitle>
-            <DialogContent
-                className="border-0 border-b border-solid border-gray-400 h-auto"
-                style={{ padding: '0' }}
-            >
+            <DialogContent className="border-0 border-b border-solid border-gray-400 h-auto">
                 <BraftEditor
                     className="flex flex-col items-stretch h-auto"
                     contentClassName="flex-grow"

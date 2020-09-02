@@ -94,7 +94,7 @@ export default (props) => {
         <div>
             <div className="flex flex-row items-center justify-between">
                 {/* 用户个人中心查看的时候隐藏 */}
-                {reply.topicId ? (
+                {reply.shortContent ? (
                     ''
                 ) : (
                     <>
@@ -109,7 +109,7 @@ export default (props) => {
                             />
                         </div>
                         {/* 楼主标签 */}
-                        {authorId && !reply.topicId ? (
+                        {authorId && !reply.shortContent ? (
                             authorId == reply.replierUserId ? (
                                 <div className="ml-2 flex-shrink-0">{TagAnno}</div>
                             ) : (

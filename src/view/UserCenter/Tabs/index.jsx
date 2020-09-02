@@ -48,6 +48,8 @@ export default (props) => {
             value={index}
             onChange={handleTabChange}
             indicatorColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
             textColor="primary"
         >
             <Tab label="帖子" value={0} />

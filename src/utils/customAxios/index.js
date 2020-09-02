@@ -17,6 +17,9 @@ axios.defaults.withCredentials = true
 // 请求拦截
 axios.interceptors.request.use(
     (config) => {
+        if (config.url.indexOf('upload-attachment') != -1 || config.url.indexOf('update-avatar') != -1 || config.url.indexOf('update-image') != -1) {
+            return {...config, timeout: 1000 * 30}
+        }
         return config
     },
     (error) => {
