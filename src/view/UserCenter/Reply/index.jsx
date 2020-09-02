@@ -7,5 +7,5 @@ import Action from '@component/TopicList/Action'
 
 export default function (props) {
     const { id } = props
-    return <ReplyList requestParam={{ userId: id }} Action={Action} authorId={id} />
+    return <ReplyList requestParam={{ userId: id }} authorId={id} />
 }

@@ -30,6 +30,9 @@ export default (props) => {
             })
             .then((res) => {
                 ctx.dispatch('addBoardPermission', { [id]: res.data })
+                if (res.data.banVisit) {
+                    history.goBack()
+                }
             })
             .catch((err) => {
                 console.log('requestBoardPermission fail', err)
@@ -38,6 +41,7 @@ export default (props) => {
 
     return (
         <div>
+            {/* 板块公告帖、置顶帖 */}
             <div className="pb-6">
                 <div className="pb-2">
                     <TopicList
@@ -52,6 +56,8 @@ export default (props) => {
                     />
                 </div>
             </div>
+
+            {/* 板块帖子 */}
             <div>
                 <TopicList
                     onlyTitle={false}
@@ -59,14 +65,20 @@ export default (props) => {
                     requestParam={{ [attrMap.boardId.key]: id }}
                 />
             </div>
-            <div className="fixed right-0 bottom-0 m-6">
-                <Fab
-                    onClick={() => history.push('/edit-topic/?boardId='.concat(id))}
-                    color="primary"
-                >
-                    <AddIcon />
-                </Fab>
-            </div>
+
+            {/* 发帖按钮 */}
+            {ctx.moduleComputed.hasLogin ? (
+                <div className="fixed right-0 bottom-0 m-6">
+                    <Fab
+                        onClick={() => history.push('/edit-topic/?boardId='.concat(id))}
+                        color="primary"
+                    >
+                        <AddIcon />
+                    </Fab>
+                </div>
+            ) : (
+                ''
+            )}
         </div>
     )
 }

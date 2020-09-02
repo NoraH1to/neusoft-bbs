@@ -1,6 +1,7 @@
 /* 主题详情 */
 
 import React, { useEffect, useState } from 'react'
+import { getState } from 'concent'
 import filesize from 'filesize'
 
 // 组件
@@ -31,11 +32,13 @@ import {
 } from '@material-ui/icons'
 import { yellow } from '@material-ui/core/colors'
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab'
+import Toast from '@toast/'
 
 // 接口
 import { attrMap } from '@modules/topic/template'
 import { topicDetail, deleteTopic } from '@api/topic'
-import { upLoadImage, downloadAttachment } from '@api/attachment'
+import { downloadAttachment } from '@api/attachment'
+import { boardPermission } from '@api/user'
 
 export default function (props) {
     const {
@@ -47,6 +50,12 @@ export default function (props) {
 
     // 帖子信息
     const [topic, setTopic] = useState({})
+
+    // 权限信息
+    const [permissionState, setPermissionState] = useState({})
+
+    // 当前登录用户id
+    const userId = getState('user').id
 
     // dialog 开关状态
     const [openDialog, setOpenDialog] = useState(false)
@@ -90,6 +99,16 @@ export default function (props) {
         setOpenDialog(false)
     }
 
+    // 监听请求下载附件
+    const handlerDownloadAttachment = () => {
+        // 没有下载权限就不下载
+        if (permissionState.banDownloadAttachment) {
+            Toast.error("没有权限")
+        } else {
+            downloadFile(attachment)
+        }
+    }
+
     // 请求帖子信息
     const getTopicDetail = () => {
         return topicDetail.request({
@@ -125,11 +144,26 @@ export default function (props) {
         downloadAttachment.request({ url: file.downloadUrl })
     }
 
-    // 渲染完成自动请求帖子信息
+    // 渲染完成自动请求帖子信息、权限信息
     useEffect(() => {
         getTopicDetail()
             .then((res) => {
                 setTopic(res.data)
+                boardPermission
+                    .request({
+                        params: {
+                            boardId: res.data.boardId,
+                        },
+                    })
+                    .then((perRes) => {
+                        setPermissionState(perRes.data)
+                        if (perRes.data.banVisit) {
+                            history.goBack()
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('requestBoardPermission fail', err)
+                    })
             })
             .catch((err) => {
                 console.log('getTopicDetail fail', err)
@@ -225,7 +259,7 @@ export default function (props) {
                                                 className="flex-grow-0 flex flex-row items-center"
                                                 style={{ width: 'auto', borderRadius: '8px' }}
                                                 button
-                                                onClick={() => downloadFile(attachment)}
+                                                onClick={() => handlerDownloadAttachment()}
                                             >
                                                 <InsertDriveFileIcon
                                                     className="mr-1"
@@ -290,51 +324,71 @@ export default function (props) {
             </div>
 
             {/* 按钮组 */}
-            <div className="fixed right-0 bottom-0 mr-6 mb-6 z-50">
-                <SpeedDial
-                    key="fabs"
-                    ariaLabel="SpeedDial tooltip example"
-                    hidden={false}
-                    icon={<SpeedDialIcon />}
-                    onClose={handleFabClose}
-                    onOpen={handleFabOpen}
-                    open={openFab}
-                >
-                    {/* 删除按钮 */}
-                    <SpeedDialAction
-                        key={'delete'}
-                        icon={<DeleteIcon style={{ color: '#ff2222' }} />}
-                        tooltipTitle={<Typography style={{ color: '#ff2222' }}>删除</Typography>}
-                        tooltipOpen
-                        onClick={() => {
-                            handleFabClose()
-                            handleDeleteClickOpen()
-                        }}
-                    />
-                    {/* 编辑按钮 */}
-                    <SpeedDialAction
-                        key={'edit'}
-                        icon={<EditIcon />}
-                        tooltipTitle={'编辑'}
-                        tooltipOpen
-                        onClick={() => {
-                            handleFabClose()
-                            history.push('/edit-topic/?topicId=' + id)
-                        }}
-                    />
-                    {/* 发表回复按钮 */}
-                    <SpeedDialAction
-                        key={'reply'}
-                        icon={<MessageIcon />}
-                        tooltipTitle={<Typography>回复</Typography>}
-                        tooltipOpen
-                        onClick={() => {
-                            handleFabClose()
-                            handleDialogClickOpen()
-                        }}
-                    />
-                </SpeedDial>
-            </div>
+            {userId ? (
+                <div className="fixed right-0 bottom-0 mr-6 mb-6 z-50">
+                    <SpeedDial
+                        key="fabs"
+                        ariaLabel="SpeedDial tooltip example"
+                        hidden={false}
+                        icon={<SpeedDialIcon />}
+                        onClose={handleFabClose}
+                        onOpen={handleFabOpen}
+                        open={openFab}
+                    >
+                        {/* 删除按钮 */}
+                        {permissionState.boardAdmin || topic.submitterUserId == userId ? (
+                            <SpeedDialAction
+                                key={'delete'}
+                                icon={<DeleteIcon style={{ color: '#ff2222' }} />}
+                                tooltipTitle={
+                                    <Typography style={{ color: '#ff2222' }}>删除</Typography>
+                                }
+                                tooltipOpen
+                                onClick={() => {
+                                    handleFabClose()
+                                    handleDeleteClickOpen()
+                                }}
+                            />
+                        ) : (
+                            ''
+                        )}
+
+                        {/* 编辑按钮 */}
+                        {permissionState.boardAdmin || topic.submitterUserId == userId ? (
+                            <SpeedDialAction
+                                key={'edit'}
+                                icon={<EditIcon />}
+                                tooltipTitle={'编辑'}
+                                tooltipOpen
+                                onClick={() => {
+                                    handleFabClose()
+                                    history.push('/edit-topic/?topicId=' + id)
+                                }}
+                            />
+                        ) : (
+                            ''
+                        )}
+
+                        {/* 发表回复按钮 */}
+                        {permissionState.banReply ? (
+                            ''
+                        ) : (
+                            <SpeedDialAction
+                                key={'reply'}
+                                icon={<MessageIcon />}
+                                tooltipTitle={<Typography>回复</Typography>}
+                                tooltipOpen
+                                onClick={() => {
+                                    handleFabClose()
+                                    handleDialogClickOpen()
+                                }}
+                            />
+                        )}
+                    </SpeedDial>
+                </div>
+            ) : (
+                ''
+            )}
 
             {/* 回复 dialog */}
             <EditReply

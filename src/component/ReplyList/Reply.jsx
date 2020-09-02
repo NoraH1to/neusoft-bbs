@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { getState } from 'concent'
 
 // 组件
 import {
@@ -20,7 +21,7 @@ import TopicContent from '@component/TopicContent'
 import { deleteReply } from '@api/reply'
 
 export default (props) => {
-    const { reply, authorId } = props
+    const { reply, authorId, isAdmin } = props
     const history = useHistory()
 
     // 确认删除开关
@@ -135,7 +136,9 @@ export default (props) => {
                         {/* 主题帖用户 link */}
                         <Link
                             className="cursor-pointer"
-                            onClick={() => history.push('/user-center/' + reply.submitterUserId + '/post-list')}
+                            onClick={() =>
+                                history.push('/user-center/' + reply.submitterUserId + '/post-list')
+                            }
                         >
                             {reply.submitterNickname}:
                         </Link>
@@ -158,7 +161,7 @@ export default (props) => {
                 </div>
             )}
 
-            {/* 底部时间和操作按钮 */}
+            {/* 时间和操作按钮 */}
             <div className="flex flex-row justify-between items-center mt-2">
                 {/* 回复时间 */}
                 <div className="flex flex-col justify-center">
@@ -167,11 +170,13 @@ export default (props) => {
                     </Typography>
                 </div>
 
-                {/* 自己的回复显示操作按钮 */}
-                {authorId ? (
-                    authorId == reply.replierUserId ? (
+                {/* 自己的回复显示操作按钮，管理员也行 */}
+                {getState('user').id ? (
+                    getState('user').id == reply.replierUserId || isAdmin ? (
                         <div className="ml-2">
-                            <Button onClick={() => handleDialogClickOpen()} color="primary">编辑</Button>
+                            <Button onClick={() => handleDialogClickOpen()} color="primary">
+                                编辑
+                            </Button>
                             <Button onClick={() => handleDeleteClickOpen()} color="secondary">
                                 删除
                             </Button>
@@ -185,12 +190,16 @@ export default (props) => {
             </div>
 
             {/* 编辑回复 dialog */}
-            <EditReply
-                openDialog={openDialog}
-                handleDialogClose={handleDialogClose}
-                replyId={reply.id}
-                topicTitle={reply.topicTitle}
-            />
+            {openDialog ? (
+                <EditReply
+                    openDialog={openDialog}
+                    handleDialogClose={handleDialogClose}
+                    replyId={reply.id}
+                    topicTitle={reply.topicTitle}
+                />
+            ) : (
+                ''
+            )}
 
             {/* 确认删除 dialog */}
             <Dialog open={openDeleteConfirm} onClose={handleDeleteClose}>

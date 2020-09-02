@@ -14,6 +14,7 @@ export default (props) => {
         <div className="flex flex-col sm:flex-row items-center sm:items-stretch px-12 py-6">
             {/* 左侧头像 */}
             <Avatar
+                alt={ctx.moduleState.nickname}
                 src={avatarPath}
                 style={{ height: '8rem', width: '8rem' }}
                 className="sm:mr-8"

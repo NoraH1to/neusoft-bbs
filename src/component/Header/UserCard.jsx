@@ -30,7 +30,24 @@ export default (props) => {
         <div className="flex flex-col items-stretch text-center px-4 pt-2">
             {/* 头像 */}
             <div className="flex items-center justify-center mb-3">
-                <Avatar src={state[attrMap.avatarPath.key]} />
+                <Avatar
+                    alt={ctx.moduleState.nickname}
+                    src={ctx.moduleState.avatarPath ? ctx.moduleState.avatarPath : undefined}
+                />
+            </div>
+            {/* 身份 */}
+            <div className="mb-1">
+                <div className="flex flex-col items-center">
+                    {ctx.moduleComputed.isAdmin ? (
+                        <div className="bg-orange-400 rounded-md px-2 text-white font-extrabold">
+                            管理
+                        </div>
+                    ) : (
+                        <div className="bg-blue-400 rounded-md px-2 text-white font-extrabold">
+                            普通用户
+                        </div>
+                    )}
+                </div>
             </div>
             {/* 用户名 */}
             <div className="mb-3">

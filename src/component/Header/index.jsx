@@ -112,6 +112,7 @@ export default withRouter((props) => {
                             src={
                                 ctx.moduleState.avatarPath ? ctx.moduleState.avatarPath : undefined
                             }
+                            alt={ctx.moduleState.nickname ? ctx.moduleState.nickname : undefined}
                         />
                     </IconButton>
                     <Popover
@@ -131,7 +132,7 @@ export default withRouter((props) => {
                         disableScrollLock
                     >
                         <div className="p-5" style={{ minWidth: '16rem' }}>
-                            <UserHoverDialog onCallClose={() => ctx.setState({ anchorEl: null })}/>
+                            <UserHoverDialog onCallClose={() => ctx.setState({ anchorEl: null })} />
                         </div>
                     </Popover>
                 </div>

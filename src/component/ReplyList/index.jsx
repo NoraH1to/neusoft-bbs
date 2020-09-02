@@ -158,7 +158,7 @@ const LoadingFrame = (
 
 export default (props) => {
     // 获取 ActionBar
-    const { Action, authorId } = props
+    const { Action, authorId, isAdmin } = props
 
     const ctx = useConcent({
         state: {
@@ -174,7 +174,7 @@ export default (props) => {
             },
         },
         setup,
-        props
+        props,
     })
 
     const { setIsLoading, setReplyList, getReplyList, loadMore, actionCallBack } = ctx.settings
@@ -193,7 +193,9 @@ export default (props) => {
                                 <Action
                                     callBackFn={actionCallBack}
                                     tabKey={{
-                                        ...(props.requestParam.userId ? omit(attrMap.submitterOnly, 'selectMap.true') : attrMap.submitterOnly),
+                                        ...(props.requestParam.userId
+                                            ? omit(attrMap.submitterOnly, 'selectMap.true')
+                                            : attrMap.submitterOnly),
                                         defaultValue: attrMap.submitterOnly.selectMap[false].key,
                                     }}
                                     menuKey={{
@@ -215,9 +217,10 @@ export default (props) => {
                                   className={
                                       'border-solid border-0 border-b border-gray-400 overflow-hidden'
                                   }
+                                  key={reply.id}
                               >
-                                  <div key={reply.id} style={{ padding: '1rem 1.5rem' }}>
-                                      <Reply reply={reply} authorId={authorId}/>
+                                  <div style={{ padding: '1rem 1.5rem' }}>
+                                      <Reply reply={reply} authorId={authorId} isAdmin={isAdmin} />
                                   </div>
                               </div>
                           )
@@ -226,7 +229,11 @@ export default (props) => {
                 {/* 加载更多 */}
                 {replyList.length > 0 ? (
                     hasNext ? (
-                        <div onClick={() => loadMore()} className="p-2 text-center cursor-pointer" key={0}>
+                        <div
+                            onClick={() => loadMore()}
+                            className="p-2 text-center cursor-pointer"
+                            key={0}
+                        >
                             <Typography color="textSecondary">
                                 {isLoading ? '加载中 ...' : '点击加载更多'}
                             </Typography>
