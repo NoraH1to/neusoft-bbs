@@ -29,7 +29,9 @@ axios.interceptors.response.use(
     (response) => {
         if (response.data.code) {
             if (response.data.code !== 200) {
-                Toast.error(response.data.msg)
+                if (response.data.code !== 400) {
+                    Toast.error(response.data.msg)
+                }
                 if (response.data.code === 403) {
                     // 清空用户信息
                     cc.dispatch('user/resetState')
@@ -39,9 +41,6 @@ axios.interceptors.response.use(
                 response.config.msg ? Toast.success(response.config.msg + '成功') : undefined
                 return response.data
             }
-        }
-        if (response.config.responseType == 'blob') {
-            return response
         }
         return Promise.reject(response.data)
     },

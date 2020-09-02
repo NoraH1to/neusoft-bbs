@@ -50,3 +50,13 @@ export const updateTopic = {
         })
     },
 }
+
+// 删除主题帖
+export const deleteTopic = {
+    request: (options) => {
+        return POST({
+            url: url.deleteTopic,
+            ...options,
+        })
+    },
+}

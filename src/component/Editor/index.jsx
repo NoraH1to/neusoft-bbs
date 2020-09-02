@@ -18,7 +18,7 @@ import { Send as SendIcon, FormatColorTextSharp } from '@material-ui/icons'
 
 // 接口
 import { upLoadImage, upLoadAttachment } from '@api/attachment'
-import { addTopic, updateTopic } from '@api/topic'
+import { addTopic, updateTopic, topicDetail } from '@api/topic'
 import { attrMap as attachmentAttrMap } from '@modules/attachment/template'
 import { attrMap as topicAttrMap } from '@modules/topic/template'
 
@@ -87,16 +87,44 @@ const setup = (ctx) => {
                 },
             })
             .then((res) => {
-                if (res.data.id) {
+                if (res.data) {
                     state.history.push('/topic/'.concat(res.data.id))
+                } else if (ctx.props.requestParams.topicId) {
+                    state.history.push('/topic/'.concat(ctx.props.requestParams.topicId))
                 } else {
-                    Toast.error("发表失败")
+                    Toast.error('发表失败')
                 }
             })
             .catch((err) => {
                 console.log('postTopic fail', err)
             })
     }
+
+    // 请求帖子信息
+    const getTopicDetail = (id) => {
+        return topicDetail.request({
+            params: {
+                topicId: id,
+            },
+        })
+    }
+
+    // 如果有 topicId 就拿帖子信息进行编辑
+    ctx.effect(() => {
+        if (ctx.props.requestParams.topicId) {
+            getTopicDetail(ctx.props.requestParams.topicId).then((res) => {
+                ctx.setState((oldState) => {
+                    const { id, ...otherData} = res.data
+                    return {
+                        ...oldState,
+                        ...otherData,
+                        editorState: BraftEditor.createEditorState(res.data.content),
+                    }
+                })
+            })
+        }
+    }, [])
+
     return { handleChange, requsetEditTopic, handleSortMenuClose, handleSortBtnClick }
 }
 
@@ -122,7 +150,7 @@ export default (props) => {
             requestParams,
             // 菜单锚点
             anchorEl: null,
-            history
+            history,
         },
         setup,
         props,
@@ -258,6 +286,7 @@ export default (props) => {
                                 key="srot-btn"
                                 color="inherit"
                                 onClick={handleSortBtnClick}
+                                // TODO: 更改排序按钮
                                 // startIcon={<SortIcon />}
                             >
                                 {topicAttrMap.announcement.selectMap[announcement].value}

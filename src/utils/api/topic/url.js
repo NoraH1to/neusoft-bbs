@@ -15,4 +15,6 @@ export default {
     addTopic: url('/add-topic'),
     // 编辑主题帖
     updateTopic: url('/update-topic'),
+    // 删除主题帖
+    deleteTopic: url('/delete-topic'),
 }

@@ -43,6 +43,7 @@ const setup = (ctx) => {
     }
     // 当验证码更新了
     const handlerVerifyCodeChange = (data) => {
+        console.log('changeVerifyCode', data)
         ctx.set(
             'loginForm.' + verifyCodeAttrMap.verifyCodeRandom.key,
             data[verifyCodeAttrMap.verifyCodeRandom.key]
@@ -52,13 +53,15 @@ const setup = (ctx) => {
     const handlerSubmit = debounce(
         (values, actions) => {
             login
-                .request({ data: values, msg: '登录' })
+                .request({
+                    data: { ...values, verifyCodeRandom: ctx.state.loginForm.verifyCodeRandom },
+                    msg: '登录',
+                })
                 .finally(() => {
                     // 请求完毕
                     actions.setSubmitting(false)
                 })
                 .then((res) => {
-                    ctx.props.onAction()
                     // 更新用户数据
                     updateUser(res.data)
                     // 跳转到主页

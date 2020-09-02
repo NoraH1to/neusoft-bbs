@@ -14,20 +14,29 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    DialogContentText,
     Slide,
     ListItem,
-    IconButton,
+    Backdrop,
+    CircularProgress,
 } from '@material-ui/core'
 import ReplyList from '@component/ReplyList'
 import TopicContent from '@component/TopicContent'
 import UserHeader from '@component/TopicList/UserHeader'
 import Action from '@component/TopicList/Action'
-import { Message as MessageIcon, InsertDriveFile as InsertDriveFileIcon, MoreHoriz as MoreHorizIcon } from '@material-ui/icons'
+import {
+    Message as MessageIcon,
+    InsertDriveFile as InsertDriveFileIcon,
+    MoreHoriz as MoreHorizIcon,
+    Edit as EditIcon,
+    Delete as DeleteIcon,
+} from '@material-ui/icons'
+import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab'
 import BraftEditor from 'braft-editor'
 
 // 接口
 import { attrMap } from '@modules/topic/template'
-import { topicDetail } from '@api/topic'
+import { topicDetail, deleteTopic } from '@api/topic'
 import { addReply, updateReply } from '@api/reply'
 import { upLoadImage, downloadAttachment } from '@api/attachment'
 import { yellow } from '@material-ui/core/colors'
@@ -49,10 +58,39 @@ export default function (props) {
     const [topic, setTopic] = useState({})
 
     // dialog 开关状态
-    const [openDialog, setOpenDialog] = React.useState(false)
+    const [openDialog, setOpenDialog] = useState(false)
 
     // 回复贴内容
     const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null))
+
+    // fab 开关
+    const [openFab, setOpenFab] = useState(false)
+
+    // 确认删除开关
+    const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false)
+
+    // 各种操作中
+    const [requestIng, setRequestIng] = useState(false)
+
+    // 开启确认删除
+    const handleDeleteClickOpen = () => {
+        setOpenDeleteConfirm(true)
+    }
+
+    // 关闭确认删除
+    const handleDeleteClose = () => {
+        setOpenDeleteConfirm(false)
+    }
+
+    // 开启 fabs
+    const handleFabOpen = () => {
+        setOpenFab(true)
+    }
+
+    // 关闭 fabs
+    const handleFabClose = () => {
+        setOpenFab(false)
+    }
 
     // 开启回复 dialog
     const handleDialogClickOpen = () => {
@@ -73,13 +111,35 @@ export default function (props) {
         })
     }
 
+    // 删除帖子
+    const requestDeleteTopic = () => {
+        setRequestIng(true)
+        deleteTopic
+            .request({
+                data: {
+                    id,
+                },
+            })
+            .then((res) => {
+                // 回到帖子板块
+                history.push('/board/' + topic.boardId)
+            })
+            .catch((err) => {
+                console.log('deleteTopic fail', err)
+            })
+            .finally(() => {
+                setRequestIng(false)
+            })
+    }
+
     // 下载附件
     const downloadFile = (file) => {
-        downloadAttachment.request({url: file.downloadUrl})
+        downloadAttachment.request({ url: file.downloadUrl })
     }
 
     // 发布回复贴
     const requestAddReply = () => {
+        setRequestIng(true)
         addReply
             .request({
                 msg: '发表回复',
@@ -93,6 +153,9 @@ export default function (props) {
             })
             .catch((err) => {
                 console.log('addReply fail', err)
+            })
+            .finally(() => {
+                setRequestIng(false)
             })
     }
 
@@ -179,6 +242,9 @@ export default function (props) {
 
     return (
         <div>
+            <Backdrop style={{ zIndex: 49 }} open={openFab || requestIng}>
+                {requestIng ? <CircularProgress /> : ''}
+            </Backdrop>
             {/* 帖子 */}
             <Paper>
                 <div className="flex flex-col justify-start py-4 sm:py-8">
@@ -228,7 +294,6 @@ export default function (props) {
                             </span>
                             {/* 标题 */}
                             <Typography
-                                Wrap
                                 variant="h5"
                                 className="text-black inline align-middle"
                             >
@@ -299,10 +364,13 @@ export default function (props) {
                             <Typography color="textSecondary" variant="subtitle2">
                                 最后编辑于
                             </Typography>
+                            {/* 最后编辑时间 */}
                             <Typography color="textSecondary" variant="subtitle2">
                                 {topic.editTime}
                             </Typography>
+                            {/* 最后编辑用户名称 */}
                             <Link
+                                className="cursor-pointer"
                                 variant="subtitle2"
                                 onClick={() =>
                                     history.push(
@@ -328,13 +396,52 @@ export default function (props) {
                 />
             </div>
 
-            {/* 发表回复按钮 */}
+            {/* 按钮组 */}
             <div className="fixed right-0 bottom-0 mr-6 mb-6 z-50">
-                <Fab onClick={() => handleDialogClickOpen()} color="primary">
-                    <MessageIcon />
-                </Fab>
+                <SpeedDial
+                    key="fabs"
+                    ariaLabel="SpeedDial tooltip example"
+                    hidden={false}
+                    icon={<SpeedDialIcon />}
+                    onClose={handleFabClose}
+                    onOpen={handleFabOpen}
+                    open={openFab}
+                >
+                    {/* 删除按钮 */}
+                    <SpeedDialAction
+                        key={'delete'}
+                        icon={<DeleteIcon style={{ color: '#ff2222' }} />}
+                        tooltipTitle={<Typography style={{ color: '#ff2222' }}>删除</Typography>}
+                        tooltipOpen
+                        onClick={() => {
+                            handleFabClose()
+                            handleDeleteClickOpen()
+                        }}
+                    />
+                    {/* 编辑按钮 */}
+                    <SpeedDialAction
+                        key={'edit'}
+                        icon={<EditIcon />}
+                        tooltipTitle={'编辑'}
+                        tooltipOpen
+                        onClick={() => {
+                            handleFabClose()
+                            history.push('/edit-topic/?topicId=' + id)
+                        }}
+                    />
+                    {/* 发表回复按钮 */}
+                    <SpeedDialAction
+                        key={'reply'}
+                        icon={<MessageIcon />}
+                        tooltipTitle={<Typography>回复</Typography>}
+                        tooltipOpen
+                        onClick={() => {
+                            handleFabClose()
+                            handleDialogClickOpen()
+                        }}
+                    />
+                </SpeedDial>
             </div>
-            {/* TODO: 改成快速拨号组件 */}
 
             {/* 回复 dialog */}
             <Dialog
@@ -376,6 +483,28 @@ export default function (props) {
                     </Button>
                     <Button onClick={() => requestAddReply()} color="primary">
                         回复
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* 确认删除 dialog */}
+            <Dialog open={openDeleteConfirm} onClose={handleDeleteClose}>
+                <DialogTitle>{'确定删除该主题帖？'}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>该操作无法撤回</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteClose} color="default">
+                        再想想
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            handleDeleteClose()
+                            requestDeleteTopic()
+                        }}
+                        color="secondary"
+                    >
+                        删除
                     </Button>
                 </DialogActions>
             </Dialog>
