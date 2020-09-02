@@ -124,7 +124,7 @@ export default (props) => {
             </div>
 
             {/* 回复内容 */}
-            {reply.topicId ? (
+            {reply.shortContent ? (
                 // 短内容
                 <>
                     <div className="my-1">

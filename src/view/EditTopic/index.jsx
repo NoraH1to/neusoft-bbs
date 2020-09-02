@@ -2,11 +2,10 @@ import React from 'react'
 import { invokeMap, fromPairs } from 'lodash'
 
 import Editor from '@component/Editor'
-import { Typography, Hidden, Paper } from '@material-ui/core'
+import { Typography, Paper } from '@material-ui/core'
 
 export default (props) => {
     const {
-        history,
         location: { search },
     } = props
     const requestParams = fromPairs(

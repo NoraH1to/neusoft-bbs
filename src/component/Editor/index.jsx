@@ -19,6 +19,7 @@ import { Send as SendIcon, FormatColorTextSharp } from '@material-ui/icons'
 // 接口
 import { upLoadImage, upLoadAttachment } from '@api/attachment'
 import { addTopic, updateTopic, topicDetail } from '@api/topic'
+import { boardPermission } from '@api/user'
 import { attrMap as attachmentAttrMap } from '@modules/attachment/template'
 import { attrMap as topicAttrMap } from '@modules/topic/template'
 
@@ -74,6 +75,10 @@ const setup = (ctx) => {
             Toast.error('标题不能为空')
             return
         }
+        if (state.title.length > 30) {
+            Toast.error('标题不能大于 30 字符')
+            return
+        }
 
         // 请求
         ctx.refComputed.topicApi
@@ -109,19 +114,49 @@ const setup = (ctx) => {
         })
     }
 
-    // 如果有 topicId 就拿帖子信息进行编辑
+    // 获得权限信息
+    const getBoardPermission = (boardId) => {
+        return boardPermission.request({
+            params: {
+                boardId,
+            },
+        })
+    }
+
+    // 如果有 topicId 就拿帖子信息进行编辑，同时查看上传文件权限
     ctx.effect(() => {
         if (ctx.props.requestParams.topicId) {
             getTopicDetail(ctx.props.requestParams.topicId).then((res) => {
                 ctx.setState((oldState) => {
-                    const { id, ...otherData} = res.data
+                    const { id, ...otherData } = res.data
                     return {
                         ...oldState,
                         ...otherData,
                         editorState: BraftEditor.createEditorState(res.data.content),
                     }
                 })
+                // 请求权限
+                getBoardPermission(res.data.boardId)
+                    .then((perRes) => {
+                        ctx.setState({
+                            uploadAble: !perRes.data.banUploadAttachment,
+                        })
+                    })
+                    .catch((err) => {
+                        console.log('getBoardPermission fail', err)
+                    })
             })
+        } else if (ctx.props.requestParams.boardId) {
+            // 请求权限
+            getBoardPermission(ctx.props.requestParams.boardId)
+                .then((perRes) => {
+                    ctx.setState({
+                        uploadAble: !perRes.data.banUploadAttachment,
+                    })
+                })
+                .catch((err) => {
+                    console.log('getBoardPermission fail', err)
+                })
         }
     }, [])
 
@@ -151,12 +186,22 @@ export default (props) => {
             // 菜单锚点
             anchorEl: null,
             history,
+            // 是否能上传
+            uploadAble: true,
         },
         setup,
         props,
     })
     const { setState } = ctx
-    const { title, announcement, editorState, editorInstance, attachments, anchorEl } = ctx.state
+    const {
+        title,
+        announcement,
+        editorState,
+        editorInstance,
+        attachments,
+        anchorEl,
+        uploadAble,
+    } = ctx.state
     const { handleChange, requsetEditTopic, handleSortMenuClose, handleSortBtnClick } = ctx.settings
 
     // 编辑器上传函数重写
@@ -332,27 +377,34 @@ export default (props) => {
             <Divider />
             {/* 附件 */}
             <div className="p-4">
-                {/* 上传按钮 */}
-                <input
-                    accept="*"
-                    style={{ display: 'none' }}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    onChange={(e) => {
-                        uploadFile(e)
-                    }}
-                />
-                <label htmlFor="contained-button-file">
-                    <Button
-                        disabled={attachments.length >= 10}
-                        variant="contained"
-                        color="primary"
-                        component="span"
-                    >
-                        上传附件
-                    </Button>
-                </label>
+                {uploadAble ? (
+                    <>
+                        {/* 上传按钮 */}
+                        <input
+                            accept="*"
+                            style={{ display: 'none' }}
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                                uploadFile(e)
+                            }}
+                        />
+                        <label htmlFor="contained-button-file">
+                            <Button
+                                disabled={attachments.length >= 10}
+                                variant="contained"
+                                color="primary"
+                                component="span"
+                            >
+                                上传附件
+                            </Button>
+                        </label>
+                    </>
+                ) : (
+                    ''
+                )}
+
                 {/* 附件列表 */}
                 {FileGroup}
             </div>

@@ -16,10 +16,10 @@ import store from './store'
 import axios from './utils/customAxios'
 
 // mock
-import Mock from 'mockjs'
-Mock.setup({
-    timeout: '200-600'
-})
+// import Mock from 'mockjs'
+// Mock.setup({
+//     timeout: '200-600'
+// })
 // import './utils/mockjs/user'
 // import './utils/mockjs/verifyCode'
 // import './utils/mockjs/forum'
