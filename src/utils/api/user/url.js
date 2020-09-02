@@ -15,4 +15,6 @@ export default {
     emailVerifyCode: url('/send-email-verify-code'),
     // 个人中心信息
     userInfo: url('/user-info'),
+    // 用户指定板块的权限
+    boardPermission: url('/board-permission'),
 }

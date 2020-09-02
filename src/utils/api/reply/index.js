@@ -40,3 +40,23 @@ export const updateReply = {
         })
     },
 }
+
+// 删除回复贴
+export const deleteReply = {
+    request: (options) => {
+        return POST({
+            url: url.deleteReply,
+            ...options,
+        })
+    },
+}
+
+// 回复贴详细信息
+export const replyDetail = {
+    request: (options) => {
+        return GET({
+            url: url.replyDetail,
+            ...options,
+        })
+    },
+}

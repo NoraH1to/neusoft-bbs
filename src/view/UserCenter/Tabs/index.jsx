@@ -24,7 +24,7 @@ export default (props) => {
     // 每次渲染都根据当前路由更新 tab 选中项目
     useEffect(() => {
         setIndex(indexOf(routeList, history.location.pathname))
-    }, [])
+    }, [history.location.pathname])
 
     // 点击 tab 更新 tab 选中项目，切换到对应路由
     const handleTabChange = (event, value) => {

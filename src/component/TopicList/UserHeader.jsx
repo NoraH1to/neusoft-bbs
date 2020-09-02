@@ -9,7 +9,11 @@ export default (props) => {
     return (
         <div
             className="flex flex-row items-center cursor-pointer hover:text-blue-500"
-            onClick={() => history.push('/user-center/' + userInfo.submitterUserId + '/post-list')}
+            onClick={(e) => {
+                e.stopPropagation()
+                e.nativeEvent.stopImmediatePropagation()
+                history.push('/user-center/' + userInfo.submitterUserId + '/post-list')
+            }}
         >
             <Avatar
                 alt={userInfo.submitterNickname}

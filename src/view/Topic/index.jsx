@@ -9,13 +9,11 @@ import {
     Typography,
     Paper,
     Link,
-    Fab,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     DialogContentText,
-    Slide,
     ListItem,
     Backdrop,
     CircularProgress,
@@ -24,27 +22,20 @@ import ReplyList from '@component/ReplyList'
 import TopicContent from '@component/TopicContent'
 import UserHeader from '@component/TopicList/UserHeader'
 import Action from '@component/TopicList/Action'
+import EditReply from '@component/EditReply'
 import {
     Message as MessageIcon,
     InsertDriveFile as InsertDriveFileIcon,
-    MoreHoriz as MoreHorizIcon,
     Edit as EditIcon,
     Delete as DeleteIcon,
 } from '@material-ui/icons'
+import { yellow } from '@material-ui/core/colors'
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab'
-import BraftEditor from 'braft-editor'
 
 // 接口
 import { attrMap } from '@modules/topic/template'
 import { topicDetail, deleteTopic } from '@api/topic'
-import { addReply, updateReply } from '@api/reply'
 import { upLoadImage, downloadAttachment } from '@api/attachment'
-import { yellow } from '@material-ui/core/colors'
-
-// dialog 过度动画
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-})
 
 export default function (props) {
     const {
@@ -59,9 +50,6 @@ export default function (props) {
 
     // dialog 开关状态
     const [openDialog, setOpenDialog] = useState(false)
-
-    // 回复贴内容
-    const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null))
 
     // fab 开关
     const [openFab, setOpenFab] = useState(false)
@@ -137,98 +125,6 @@ export default function (props) {
         downloadAttachment.request({ url: file.downloadUrl })
     }
 
-    // 发布回复贴
-    const requestAddReply = () => {
-        setRequestIng(true)
-        addReply
-            .request({
-                msg: '发表回复',
-                data: {
-                    topicId: topic.id,
-                    content: editorState.toHTML(),
-                },
-            })
-            .then((res) => {
-                handleDialogClose()
-            })
-            .catch((err) => {
-                console.log('addReply fail', err)
-            })
-            .finally(() => {
-                setRequestIng(false)
-            })
-    }
-
-    // 编辑器上传函数重写
-    const uploadFn = (param) => {
-        const successFn = (response) => {
-            param.success({
-                url: response.data[attachmentAttrMap.imageUrl.key],
-                meta: {
-                    id: null,
-                    title: null,
-                    alt: null,
-                    loop: false, // 指定音视频是否循环播放
-                    autoPlay: false, // 指定音视频是否自动播放
-                    controls: true, // 指定音视频是否显示控制栏
-                },
-            })
-        }
-
-        const progressFn = (event) => {
-            // 上传进度发生变化时调用param.progress
-            param.progress((event.loaded / event.total) * 100)
-        }
-
-        const errorFn = (response) => {
-            // 上传发生错误时调用param.error
-            param.error({
-                msg: 'unable to upload.',
-            })
-        }
-
-        // 封装请求的数据
-        let data = new FormData()
-        // 塞入图片
-        data.append('file', param.file)
-        // 上传图片
-        upLoadImage
-            .request({
-                data,
-                // 上传进度，开发环境不能使用（因为 mock
-                // onUploadProgress: function (progressEvent) {
-                //     progressFn(progressEvent)
-                // },
-            })
-            .then((res) => {
-                successFn(res)
-            })
-            .catch((err) => {
-                errorFn(err)
-            })
-    }
-
-    // 接受的图片
-    const accepts = {
-        image: 'image/png,image/jpeg,image/gif',
-    }
-
-    // 富文本编辑器不需要的组件
-    const excludeControls = [
-        'font-size',
-        'line-height',
-        'letter-spacing',
-        'superscript',
-        'subscript',
-        'text-indent',
-        'text-align',
-    ]
-
-    // 更新回复贴输入内容
-    const handleReplyChange = (editorState) => {
-        setEditorState(editorState)
-    }
-
     // 渲染完成自动请求帖子信息
     useEffect(() => {
         getTopicDetail()
@@ -293,10 +189,7 @@ export default function (props) {
                                 </div>
                             </span>
                             {/* 标题 */}
-                            <Typography
-                                variant="h5"
-                                className="text-black inline align-middle"
-                            >
+                            <Typography variant="h5" className="text-black inline align-middle">
                                 {topic.title}
                             </Typography>
                         </div>
@@ -444,48 +337,12 @@ export default function (props) {
             </div>
 
             {/* 回复 dialog */}
-            <Dialog
-                open={openDialog}
-                TransitionComponent={Transition}
-                fullScreen
-                onClose={handleDialogClose}
-            >
-                <DialogTitle className="border-0 border-b border-solid border-gray-400">
-                    <Typography className="px-2" noWrap color="textSecondary" variant="body1">
-                        回复
-                    </Typography>
-                    <Typography
-                        className="bg-gray-100 py-1 px-2"
-                        noWrap
-                        color="textSecondary"
-                        variant="body1"
-                    >
-                        {topic.title}
-                    </Typography>
-                </DialogTitle>
-                <DialogContent
-                    className="border-0 border-b border-solid border-gray-400 h-auto"
-                    style={{ padding: '0' }}
-                >
-                    <BraftEditor
-                        className="flex flex-col items-stretch h-auto"
-                        contentClassName="flex-grow"
-                        controlBarClassName={{}}
-                        media={{ uploadFn, accepts }}
-                        excludeControls={excludeControls}
-                        value={editorState}
-                        onChange={handleReplyChange}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => handleDialogClose()} color="default">
-                        取消
-                    </Button>
-                    <Button onClick={() => requestAddReply()} color="primary">
-                        回复
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <EditReply
+                openDialog={openDialog}
+                handleDialogClose={handleDialogClose}
+                topicId={topic.id}
+                topicTitle={topic.title}
+            />
 
             {/* 确认删除 dialog */}
             <Dialog open={openDeleteConfirm} onClose={handleDeleteClose}>

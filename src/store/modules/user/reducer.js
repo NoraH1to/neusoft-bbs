@@ -9,3 +9,13 @@ export function resetState(payload, moduleState) {
 export function setState(payload, moduleState) {
     return payload
 }
+
+// 添加板块权限信息
+export function addBoardPermission(payload, moduleState) {
+    return {
+        boardPermission: {
+            ...moduleState.boardPermission,
+            ...payload
+        }
+    }
+}

@@ -264,7 +264,7 @@ export default (props) => {
                     {/* 加载更多 */}
                     {topicList.length > 0 && !onlyTitle ? (
                         hasNext ? (
-                            <div onClick={() => loadMore()} className="p-2 text-center" key={0}>
+                            <div onClick={() => loadMore()} className="p-2 text-center cursor-pointer" key={0}>
                                 <Typography color="textSecondary">
                                     {isLoading ? '加载中 ...' : '点击加载更多'}
                                 </Typography>

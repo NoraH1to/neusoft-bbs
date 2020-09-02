@@ -39,7 +39,7 @@ export const logout = {
     request: (options) => {
         return POST({
             url: url.logout,
-            ...options
+            ...options,
         })
     },
 }
@@ -103,7 +103,17 @@ export const userInfo = {
     request: (options) => {
         return GET({
             url: url.userInfo,
-            ...options
+            ...options,
         })
-    }
+    },
+}
+
+// 用户指定板块的权限
+export const boardPermission = {
+    request: (options) => {
+        return GET({
+            url: url.boardPermission,
+            ...options,
+        })
+    },
 }

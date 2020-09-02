@@ -21,7 +21,7 @@ const config = {
         host: '0.0.0.0',
         proxy: {
             '/api': {
-                target: 'http://forum.frp.wegfan.cn',
+                target: 'http://forum.wegfan.cn',
                 changeOrigin: true,
                 ws: true,
                 secure: false,

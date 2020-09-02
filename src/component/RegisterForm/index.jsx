@@ -142,7 +142,7 @@ export default withRouter((props) => {
                                             ),
                                             endAdornment: (
                                                 <InputAdornment
-                                                    className="ml-2"
+                                                    className="ml-2 cursor-pointer"
                                                     onClick={() =>
                                                         ctx.set('showPassword', !state.showPassword)
                                                     }

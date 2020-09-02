@@ -60,6 +60,12 @@ export const attrMap = {
         value: '个人签名',
         module: true,
     },
+    // 板块权限
+    boardPermission: {
+        key: 'boardPermission',
+        value: '板块权限',
+        module: true,
+    },
 }
 
 export const defaultObj = attrMap2DefaultState(attrMap)

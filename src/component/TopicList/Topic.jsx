@@ -45,7 +45,7 @@ export default (props) => {
     const TagFeature = <div style={{ ...tagStyle, backgroundColor: '#95DE64' }}>精华</div>
 
     return (
-        <div className="w-full flex flex-col items-stretch">
+        <div className="w-full flex flex-col items-stretch" onClick={() => history.push('/topic/'.concat(topic.id))}>
             {/* 头 */}
             {onlyTitle ? (
                 ''
@@ -67,7 +67,7 @@ export default (props) => {
             )}
 
             {/* 内容 */}
-            <div className="flex flex-col" onClick={() => history.push('/topic/'.concat(topic.id))}>
+            <div className="flex flex-col" >
                 {/* 类型 tag、标题 */}
                 <div className="flex items-center justify-start" title={topic.title}>
                     {/* tag */}
