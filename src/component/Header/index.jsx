@@ -3,8 +3,16 @@ import { withRouter } from 'react-router-dom'
 import { useConcent } from 'concent'
 
 import { fade, makeStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Typography, InputBase, Avatar, IconButton } from '@material-ui/core'
-import { Search as SearchIcon } from '@material-ui/icons'
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    InputBase,
+    Avatar,
+    IconButton,
+    Hidden,
+} from '@material-ui/core'
+import { Search as SearchIcon, Home as HomeIcon } from '@material-ui/icons'
 import UserHoverDialog from './UserHoverDialog'
 import Popover from '@material-ui/core/Popover'
 
@@ -87,6 +95,21 @@ export default withRouter((props) => {
                 >
                     NEU BBS
                 </Typography>
+
+                {/* 回到主页按钮 */}
+                <Hidden smUp>
+                    <IconButton
+                        edge="start"
+                        className={classes.homeIcon}
+                        onClick={() => props.history.push('/')}
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu"
+                    >
+                        <HomeIcon />
+                    </IconButton>
+                </Hidden>
+
                 {/* 搜索框 */}
                 <div
                     className={
@@ -104,6 +127,7 @@ export default withRouter((props) => {
                     />
                 </div>
                 <div className="flex-grow" />
+
                 {/* 用户头像 */}
                 <div className="flex flex-end" aria-describedby={userHoverId}>
                     <IconButton onClick={handlePopoverOpen} onMouseEnter={handlePopoverOpen}>

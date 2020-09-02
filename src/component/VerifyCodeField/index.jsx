@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 
 // 接口
 import { verifyCode } from '../../utils/api/verifycode'
@@ -11,7 +11,7 @@ import { Field } from 'formik'
 import { TextField } from 'formik-material-ui'
 import InputAdornment from '@material-ui/core/InputAdornment'
 
-export default (props) => {
+export default forwardRef((props, ref) => {
     const [state, setState] = useState({
         [verifyCodeAttrMap.url.key]: '',
         [verifyCodeAttrMap.verifyCodeRandom.key]: '',
@@ -53,7 +53,8 @@ export default (props) => {
                         </div>
                     </InputAdornment>
                 ),
+                ref: ref
             }}
         />
     )
-}
+})

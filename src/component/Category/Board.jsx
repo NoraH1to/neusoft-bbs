@@ -22,11 +22,11 @@ export default (props) => {
             >
                 <div className="flex flex-col overflow-hidden">
                     <div>
-                        <Typography noWrap variant="h6">标题{board.name}</Typography>
+                        <Typography noWrap variant="h6">{board.name}</Typography>
                     </div>
-                    <div>
+                    <div className="truncate">
                         <Typography noWrap color="textSecondary" variant="caption">
-                            描述{board.description}
+                            {board.description}
                         </Typography>
                     </div>
                 </div>

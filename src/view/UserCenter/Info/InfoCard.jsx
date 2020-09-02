@@ -1,12 +1,14 @@
 /* 用户中心 / 个人资料简略卡片 */
 
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 // 组件
 import { Avatar, Typography, Button } from '@material-ui/core'
 
 export default (props) => {
     const { ctx } = props
+    const history = useHistory()
     const userInfo = ctx.state
     const { id, nickname, avatarPath, topicCount, replyCount, sex, signature } = userInfo
 
@@ -25,9 +27,13 @@ export default (props) => {
                 <div className="flex items-center mb-1">
                     {/* 身份 */}
                     {ctx.moduleComputed.isAdmin ? (
-                        <div className="bg-orange-400 rounded-md px-2 text-white mr-4 font-extrabold">管理</div>
+                        <div className="bg-orange-400 rounded-md px-2 text-white mr-4 font-extrabold">
+                            管理
+                        </div>
                     ) : (
-                        <div className="bg-blue-400 rounded-md px-2 text-white mr-4 font-extrabold">普通用户</div>
+                        <div className="bg-blue-400 rounded-md px-2 text-white mr-4 font-extrabold">
+                            普通用户
+                        </div>
                     )}
                     {/* 昵称 */}
                     <Typography variant="h6">{nickname}</Typography>
@@ -36,10 +42,8 @@ export default (props) => {
                         switch (sex) {
                             case 0:
                                 return <Typography className="text-blue-400 pl-2">♂</Typography>
-                                break
                             case 1:
                                 return <Typography className="text-red-400 pl-2">♀</Typography>
-                                break
                             default:
                                 return undefined
                         }
@@ -57,7 +61,12 @@ export default (props) => {
                 </div>
                 {/* 编辑资料按钮 */}
                 <div className="flex start">
-                    <Button variant="outlined" color="primary" className="w-24">
+                    <Button
+                        onClick={() => history.push('/user-center/' + id + '/edit-info')}
+                        variant="outlined"
+                        color="primary"
+                        className="w-20"
+                    >
                         编辑
                     </Button>
                 </div>

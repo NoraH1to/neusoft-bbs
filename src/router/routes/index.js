@@ -11,6 +11,10 @@ import UserCenter from '@view/UserCenter'
 import UserPosts from '@view/UserCenter/Post'
 import UserReplys from '@view/UserCenter/Reply'
 import UserInfo from '@view/UserCenter/Info'
+import EditInfo from '@view/UserCenter/EditInfo'
+import EditEmail from '@view/UserCenter/EditEmail'
+import EditPwd from '@view/UserCenter/EditPwd'
+import InitEmail from '@view/UserCenter/InitEmail'
 import Test from '@view/Test'
 
 const routes = [
@@ -77,10 +81,22 @@ const routes = [
                         component: UserInfo,
                         path: '/user-center/:id/info',
                     },
-                    // {
-                    //     path: '/user-center/:id',
-                    //     redirect: '/post-list',
-                    // },
+                    {
+                        component: EditInfo,
+                        path: '/user-center/:id/edit-info',
+                    },
+                    {
+                        component: EditEmail,
+                        path: '/user-center/:id/edit-email',
+                    },
+                    {
+                        component: EditPwd,
+                        path: '/user-center/:id/edit-pwd',
+                    },
+                    {
+                        component: InitEmail,
+                        path: '/user-center/:id/init-email',
+                    },
                 ],
             },
         ],

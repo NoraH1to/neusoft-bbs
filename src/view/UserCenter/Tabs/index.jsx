@@ -7,7 +7,7 @@ import { Tabs, Tab } from '@material-ui/core'
 
 export default (props) => {
     // 拿到用户 id
-    const { id } = props
+    const { id, ctx } = props
 
     const history = useHistory()
 
@@ -16,6 +16,10 @@ export default (props) => {
         '/user-center/'.concat(id).concat('/post-list'), // 帖子
         '/user-center/'.concat(id).concat('/reply-list'), // 回复
         '/user-center/'.concat(id).concat('/info'), // 个人资料
+        '/user-center/'.concat(id).concat('/edit-info'), // 编辑资料
+        '/user-center/'.concat(id).concat('/edit-email'), // 修改邮箱
+        '/user-center/'.concat(id).concat('/edit-pwd'), // 修改密码
+        '/user-center/'.concat(id).concat('/init-email'), // 激活邮箱
     ]
 
     // 选中项目
@@ -50,7 +54,9 @@ export default (props) => {
             <Tab label="回复" value={1} />
             <Tab label="个人资料" value={2} />
             <Tab label="编辑资料" value={3} />
-            <Tab label="修改密码" value={4} />
+            <Tab label="修改邮箱" value={4} />
+            <Tab label="修改密码" value={5} />
+            {ctx.state.emailVerified ? '' : <Tab label="激活邮箱" value={6} />}
         </Tabs>
     )
 }

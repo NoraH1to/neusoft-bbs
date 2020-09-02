@@ -17,11 +17,11 @@ import { object } from 'yup'
 import VerifyCodeField from '../VerifyCodeField'
 
 // 接口
-import { login } from '../../utils/api/user'
+import { login } from '@api/user'
 
 // 参数映射
-import { attrMap as verifyCodeAttrMap } from '../../store/modules/verifyCode/template'
-import { attrMap as userAttrMap } from '../../store/modules/user/template'
+import { attrMap as verifyCodeAttrMap } from '@modules/verifyCode/template'
+import { attrMap as userAttrMap } from '@modules/user/template'
 
 const { log } = console
 
@@ -149,6 +149,7 @@ export default withRouter((props) => {
                                         name={verifyCodeAttrMap.verifyCode.key}
                                         variant="outlined"
                                         size="small"
+                                        onChange={(e) => console.log(e)}
                                         label={verifyCodeAttrMap.verifyCode.value}
                                         onVerifyCodeChange={handlerVerifyCodeChange}
                                     />

@@ -61,7 +61,7 @@ export default (props) => {
             <div className="flex sm:flex-row flex-col sm:items-start items-stretch mt-4">
                 <div className="flex-shrink sm:mr-4 mr-0">
                     <Paper variant="outlined">
-                        <RouteTab id={id} />
+                        <RouteTab id={id} ctx={ctx}/>
                     </Paper>
                 </div>
                 <div className="flex-grow overflow-hidden">

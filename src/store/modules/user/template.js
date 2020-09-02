@@ -30,6 +30,17 @@ export const attrMap = {
         value: '邮箱',
         module: true,
     },
+    // 邮箱验证码
+    emailVerifyCode: {
+        key: 'emailVerifyCode',
+        value: '邮箱验证码',
+    },
+    // 邮箱是否激活
+    emailVerified: {
+        key: 'emailVerified',
+        value: '邮箱激活状态',
+        module: true,
+    },
     // 头像 url
     avatarPath: {
         key: 'avatarPath',
@@ -64,6 +75,36 @@ export const attrMap = {
     boardPermission: {
         key: 'boardPermission',
         value: '板块权限',
+        module: true,
+    },
+    // 超级版主
+    superBoardAdmin: {
+        key: 'superBoardAdmin',
+        value: '超级版主',
+        module: true,
+    },
+    // 管理员
+    admin: {
+        key: 'admin',
+        value: '管理员',
+        module: true,
+    },
+    // 注册时间
+    registerTime: {
+        key: 'registerTime',
+        value: '注册时间',
+        module: true,
+    },
+    // 管理的板块
+    boardAdmin: {
+        key: 'boardAdmin',
+        value: '管理的板块',
+        module: true,
+    },
+    // 管理的分区
+    categoryAdmin: {
+        key: 'categoryAdmin',
+        value: '管理的分区',
         module: true,
     },
 }

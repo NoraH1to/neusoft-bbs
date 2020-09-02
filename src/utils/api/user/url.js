@@ -17,4 +17,14 @@ export default {
     userInfo: url('/user-info'),
     // 用户指定板块的权限
     boardPermission: url('/board-permission'),
+    // 用户修改个人资料
+    updateInfo: url('/update-info'),
+    // 用户修改邮箱
+    updateEmail: url('/update-email'),
+    // 用户修改头像
+    updateAvatar: url('/update-avatar'),
+    // 用户修改密码
+    updatePassword: url('/update-password'),
+    // 用户激活邮箱
+    verifyEmail: url('/verify-email'),
 }
