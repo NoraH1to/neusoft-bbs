@@ -6,6 +6,14 @@ import { Paper, Typography } from '@material-ui/core'
 import { userInfo } from '@api/user'
 
 const setup = (ctx) => {
+
+    ctx.computed({
+        // 是否是自己的空间
+        info(state) {
+            let result = state.id == ctx.props.id ? state : state.otherUserInfo
+            return result ? result : {}
+        },
+    })
     // 请求用户个人中心数据
     const requestUserInfo = () => {
         userInfo
@@ -15,7 +23,14 @@ const setup = (ctx) => {
                 },
             })
             .then((res) => {
-                ctx.setState(res.data)
+                ctx.setState((oldState) => {
+                    // 本人信息直接覆盖，它人另存
+                    if (oldState.id == res.data.id) {
+                        return res.data
+                    } else {
+                        return { otherUserInfo: res.data }
+                    }
+                })
             })
             .catch((err) => {
                 console.log('requestUserInfo fail', err)
@@ -30,7 +45,7 @@ const setup = (ctx) => {
 
 export default (props) => {
     const ctx = useConcent({ module: 'user', setup, props })
-    const userInfo = ctx.state
+    const userInfo = ctx.refComputed.info
 
     return (
         <Paper variant="outlined" className="px-4 py-6">
@@ -55,30 +70,34 @@ export default (props) => {
             </div>
 
             {/* 邮箱 */}
-            <div className="flex flex-row items-center px-6 mb-4">
-                <div style={{ minWidth: '32px' }} className="mr-6 flex-shrink-0">
-                    <Typography color="textSecondary">邮箱</Typography>
-                </div>
-                {/* 邮箱 */}
-                <div className="break-all mr-2 inline">
-                    <Typography className="break-all inline" variant="h6">
-                        {userInfo.email}
-                    </Typography>
-                </div>
-                {/* 校验状态 */}
-                <div className="flex-shrink-0">
-                    <div
-                        className="inline-block px-2 py-1 text-white text-xs rounded-md border border-solid"
-                        style={
-                            userInfo.emailVerified
-                                ? { color: '#15d36a', borderColor: '#15d36a' }
-                                : { color: '#ffc61b', borderColor: '#ffc61b' }
-                        }
-                    >
-                        {userInfo.emailVerified ? '已校验' : '未校验'}
+            {userInfo.email ? (
+                <div className="flex flex-row items-center px-6 mb-4">
+                    <div style={{ minWidth: '32px' }} className="mr-6 flex-shrink-0">
+                        <Typography color="textSecondary">邮箱</Typography>
+                    </div>
+                    {/* 邮箱 */}
+                    <div className="break-all mr-2 inline">
+                        <Typography className="break-all inline" variant="h6">
+                            {userInfo.email}
+                        </Typography>
+                    </div>
+                    {/* 校验状态 */}
+                    <div className="flex-shrink-0">
+                        <div
+                            className="inline-block px-2 py-1 text-white text-xs rounded-md border border-solid"
+                            style={
+                                userInfo.emailVerified
+                                    ? { color: '#15d36a', borderColor: '#15d36a' }
+                                    : { color: '#ffc61b', borderColor: '#ffc61b' }
+                            }
+                        >
+                            {userInfo.emailVerified ? '已校验' : '未校验'}
+                        </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                ''
+            )}
 
             {/* 昵称 */}
             <div className="flex flex-row items-center justify-start px-6 mb-4">
@@ -121,7 +140,7 @@ export default (props) => {
                     <Typography color="textSecondary">签名</Typography>
                 </div>
                 <div>
-                    <Typography variant="h6">{userInfo.signature}</Typography>
+                    <Typography variant="h6">{userInfo.signature ? userInfo.signature : '这个人莫得签名'}</Typography>
                 </div>
             </div>
 

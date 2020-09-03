@@ -55,10 +55,14 @@ export default (props) => {
             <Tab label="帖子" value={0} />
             <Tab label="回复" value={1} />
             <Tab label="个人资料" value={2} />
-            <Tab label="编辑资料" value={3} />
-            <Tab label="修改邮箱" value={4} />
-            <Tab label="修改密码" value={5} />
-            {ctx.state.emailVerified ? '' : <Tab label="激活邮箱" value={6} />}
+            {ctx.state.id == id ? <Tab label="编辑资料" value={3} /> : ''}
+            {ctx.state.id == id ? <Tab label="修改邮箱" value={4} /> : ''}
+            {ctx.state.id == id ? <Tab label="修改密码" value={5} /> : ''}
+            {ctx.state.emailVerified || ctx.state.id != id ? (
+                ''
+            ) : (
+                <Tab label="激活邮箱" value={6} />
+            )}
         </Tabs>
     )
 }

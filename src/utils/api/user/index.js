@@ -210,3 +210,26 @@ export const verifyEmail = {
         [attrMap.emailVerifyCode.key]: Yup.string().required('邮箱验证码不能为空'),
     },
 }
+
+// 找回密码
+export const resetPassword = {
+    request: (options) => {
+        return POST({
+            url: url.resetPassword,
+            ...options,
+        })
+    },
+    formRules: {
+        // 邮箱
+        [attrMap.email.key]: Yup.string().required('邮箱不能为空').email('邮箱格式错误'),
+        // 新密码
+        newPassword: Yup.string()
+            .required('新密码不能为空')
+            .min(6, '6 - 20 字符')
+            .max(20, '6 - 20 字符'),
+        // 验证码
+        [verifyCodeAttrMap.verifyCode.key]: Yup.string().required('验证码不能为空'),
+        // 邮箱验证码
+        [attrMap.emailVerifyCode.key]: Yup.string().required('邮箱验证码不能为空'),
+    },
+}

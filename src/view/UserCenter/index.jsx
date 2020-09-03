@@ -30,7 +30,16 @@ const setup = (ctx) => {
                 },
             })
             .then((res) => {
-                ctx.setState(res.data)
+                ctx.setState((oldState) => {
+                    // 本人信息直接覆盖，它人另存
+                    if (oldState.id == res.data.id) {
+                        return res.data
+                    } else {
+                        return { otherUserInfo: res.data }
+                    }
+                }, (newState) => {
+                    console.log(newState)
+                })
             })
             .catch((err) => {
                 console.log('requestUserInfo fail', err)
@@ -55,13 +64,13 @@ export default (props) => {
         <div className="flex flex-col">
             <div>
                 <Paper>
-                    <InfoCard ctx={ctx} />
+                    <InfoCard ctx={ctx} outId={id}/>
                 </Paper>
             </div>
             <div className="flex sm:flex-row flex-col sm:items-start items-stretch mt-4">
                 <div className="flex-shrink sm:mr-4 mr-0">
                     <Paper variant="outlined">
-                        <RouteTab id={id} ctx={ctx}/>
+                        <RouteTab id={id} ctx={ctx} />
                     </Paper>
                 </div>
                 <div className="flex-grow overflow-hidden">
@@ -72,7 +81,12 @@ export default (props) => {
                                 key={route.path}
                                 params={props.match.params}
                                 render={(props) => (
-                                    <route.component {...props} routes={route.routes} ctx={ctx} id={id} />
+                                    <route.component
+                                        {...props}
+                                        routes={route.routes}
+                                        ctx={ctx}
+                                        id={id}
+                                    />
                                 )}
                             />
                         )

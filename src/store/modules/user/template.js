@@ -107,6 +107,12 @@ export const attrMap = {
         value: '管理的分区',
         module: true,
     },
+    // 其它用户信息空间
+    otherUserInfo: {
+        key: 'otherUserInfo',
+        value: '',
+        module: true,
+    },
 }
 
 export const defaultObj = attrMap2DefaultState(attrMap)

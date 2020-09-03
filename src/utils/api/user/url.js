@@ -27,4 +27,6 @@ export default {
     updatePassword: url('/update-password'),
     // 用户激活邮箱
     verifyEmail: url('/verify-email'),
+    // 找回密码
+    resetPassword: url('/reset-password'),
 }
