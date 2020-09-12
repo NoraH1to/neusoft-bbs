@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useConcent } from 'concent'
 import { range } from 'lodash'
 
@@ -84,7 +84,6 @@ const setup = (ctx) => {
                 .catch((err) => {
                     console.log('requestTopicList fail', err)
                     setState((oldState) => {
-                        // 如果是第一页就替换，防止脏数据
                         return {
                             hasNext: false,
                         }
@@ -141,6 +140,12 @@ const setup = (ctx) => {
         }
     }, [])
 
+    // 监听参数变化
+    ctx.effect(() => {
+        console.log('load list', requestParams)
+        actionCallBack()
+    }, ['requestParams'])
+
     return {
         setIsLoading,
         setTopicList,
@@ -177,6 +182,15 @@ export default (props) => {
     const { state, setState } = ctx
 
     const { isLoading, hasNext, topicList, requestParams } = state
+
+    useEffect(() => {
+        ctx.setState({
+            requestParams: {
+                ...requestParams,
+                ...props.requestParam,
+            },
+        })
+    }, [props.requestParam])
 
     const classes = useStyles()
 
@@ -264,7 +278,11 @@ export default (props) => {
                     {/* 加载更多 */}
                     {topicList.length > 0 && !onlyTitle ? (
                         hasNext ? (
-                            <div onClick={() => loadMore()} className="p-2 text-center cursor-pointer" key={0}>
+                            <div
+                                onClick={() => loadMore()}
+                                className="p-2 text-center cursor-pointer"
+                                key={0}
+                            >
                                 <Typography color="textSecondary">
                                     {isLoading ? '加载中 ...' : '点击加载更多'}
                                 </Typography>

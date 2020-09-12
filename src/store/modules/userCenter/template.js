@@ -19,44 +19,10 @@ export const attrMap = {
         value: '昵称',
         module: true,
     },
-    // 密码
-    password: {
-        key: 'password',
-        value: '密码',
-    },
-    // 邮箱
-    email: {
-        key: 'email',
-        value: '邮箱',
-        module: true,
-    },
-    // 邮箱验证码
-    emailVerifyCode: {
-        key: 'emailVerifyCode',
-        value: '邮箱验证码',
-    },
-    // 邮箱是否激活
-    emailVerified: {
-        key: 'emailVerified',
-        value: '邮箱激活状态',
-        module: true,
-    },
     // 头像 url
     avatarPath: {
         key: 'avatarPath',
         value: '头像URL',
-        module: true,
-    },
-    // 权限
-    forumPermission: {
-        key: 'permission',
-        value: '权限',
-        module: true,
-    },
-    // 当前板块权限
-    currentBoardPermission: {
-        key: 'currentBoardPermission',
-        value: '板块权限',
         module: true,
     },
     // 性别
@@ -71,12 +37,6 @@ export const attrMap = {
         value: '个人签名',
         module: true,
     },
-    // 板块权限
-    boardPermission: {
-        key: 'boardPermission',
-        value: '板块权限',
-        module: true,
-    },
     // 超级版主
     superBoardAdmin: {
         key: 'superBoardAdmin',
@@ -87,6 +47,18 @@ export const attrMap = {
     admin: {
         key: 'admin',
         value: '管理员',
+        module: true,
+    },
+    // 主题帖数
+    topicCount: {
+        key: 'topicCount',
+        value: '主题帖数',
+        module: true,
+    },
+    // 回复总数
+    replyCount: {
+        key: 'replyCount',
+        value: '回复数',
         module: true,
     },
     // 注册时间
@@ -100,12 +72,14 @@ export const attrMap = {
         key: 'boardAdmin',
         value: '管理的板块',
         module: true,
+        defaultValue: [{}],
     },
     // 管理的分区
     categoryAdmin: {
         key: 'categoryAdmin',
         value: '管理的分区',
         module: true,
+        defaultValue: [{}],
     },
 }
 

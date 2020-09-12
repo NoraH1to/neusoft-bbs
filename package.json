@@ -26,7 +26,7 @@
         "braft-extensions": "^0.1.0",
         "clean-webpack-plugin": "^3.0.0",
         "color-hash": "^1.0.3",
-        "concent": "^2.8.11",
+        "concent": "^2.9.22",
         "concent-plugin-loading": "^2.0.3",
         "css-loader": "^3.5.3",
         "cssnano": "^4.1.10",

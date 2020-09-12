@@ -5,47 +5,9 @@ import { Paper, Typography } from '@material-ui/core'
 
 import { userInfo } from '@api/user'
 
-const setup = (ctx) => {
-
-    ctx.computed({
-        // 是否是自己的空间
-        info(state) {
-            let result = state.id == ctx.props.id ? state : state.otherUserInfo
-            return result ? result : {}
-        },
-    })
-    // 请求用户个人中心数据
-    const requestUserInfo = () => {
-        userInfo
-            .request({
-                params: {
-                    userId: ctx.props.id,
-                },
-            })
-            .then((res) => {
-                ctx.setState((oldState) => {
-                    // 本人信息直接覆盖，它人另存
-                    if (oldState.id == res.data.id) {
-                        return res.data
-                    } else {
-                        return { otherUserInfo: res.data }
-                    }
-                })
-            })
-            .catch((err) => {
-                console.log('requestUserInfo fail', err)
-            })
-    }
-
-    // 进来先请求一次
-    ctx.effect(() => {
-        requestUserInfo()
-    }, [])
-}
-
 export default (props) => {
-    const ctx = useConcent({ module: 'user', setup, props })
-    const userInfo = ctx.refComputed.info
+    const ctx = useConcent({ module: 'userCenter' })
+    const userInfo = ctx.state
 
     return (
         <Paper variant="outlined" className="px-4 py-6">

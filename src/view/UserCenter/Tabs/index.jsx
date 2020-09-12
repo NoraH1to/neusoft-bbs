@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import cc from 'concent'
 
 import { indexOf } from 'lodash'
 
@@ -10,6 +11,9 @@ export default (props) => {
     const { id, ctx } = props
 
     const history = useHistory()
+
+    // 当前登录用户的 id
+    const loginUserId = cc.getState('user').id
 
     // 路由列表 对应tabs
     const routeList = [
@@ -55,10 +59,10 @@ export default (props) => {
             <Tab label="帖子" value={0} />
             <Tab label="回复" value={1} />
             <Tab label="个人资料" value={2} />
-            {ctx.state.id == id ? <Tab label="编辑资料" value={3} /> : ''}
-            {ctx.state.id == id ? <Tab label="修改邮箱" value={4} /> : ''}
-            {ctx.state.id == id ? <Tab label="修改密码" value={5} /> : ''}
-            {ctx.state.emailVerified || ctx.state.id != id ? (
+            {loginUserId == id ? <Tab label="编辑资料" value={3} /> : ''}
+            {loginUserId == id ? <Tab label="修改邮箱" value={4} /> : ''}
+            {loginUserId == id ? <Tab label="修改密码" value={5} /> : ''}
+            {ctx.state.emailVerified || loginUserId != id ? (
                 ''
             ) : (
                 <Tab label="激活邮箱" value={6} />
