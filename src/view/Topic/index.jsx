@@ -100,7 +100,7 @@ export default function (props) {
     }
 
     // 监听请求下载附件
-    const handlerDownloadAttachment = () => {
+    const handlerDownloadAttachment = (attachment) => {
         // 没有下载权限就不下载
         if (permissionState.banDownloadAttachment) {
             Toast.error('没有权限')
@@ -259,7 +259,7 @@ export default function (props) {
                                                 className="flex-grow-0 flex flex-row items-center"
                                                 style={{ width: 'auto', borderRadius: '8px' }}
                                                 button
-                                                onClick={() => handlerDownloadAttachment()}
+                                                onClick={() => handlerDownloadAttachment(attachment)}
                                             >
                                                 <InsertDriveFileIcon
                                                     className="mr-1"
