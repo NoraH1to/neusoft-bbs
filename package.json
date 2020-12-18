@@ -30,7 +30,7 @@
         "concent-plugin-loading": "^2.0.3",
         "css-loader": "^3.5.3",
         "cssnano": "^4.1.10",
-        "dompurify": "^2.0.12",
+        "dompurify": "^2.0.17",
         "file-loader": "^6.0.0",
         "filesize": "^6.1.0",
         "formik": "^2.1.5",
