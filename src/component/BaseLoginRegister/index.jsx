@@ -31,11 +31,11 @@ export default (props) => {
                 <Grid container direction="column" justify="center" xs={10} md={8}>
                     <Fade in={ctx.state.visibleCard}>
                         <div className={css.actionCard + ' w-full'}>
-                            <Grid container direction="row" justify="center" alignItems="stretch">
+                            <Grid container direction="row" justify="center" alignItems="stretch" wrap="nowrap">
                                 <Hidden xsDown>
                                     <img
                                         src={mySvg}
-                                        style={{ flexGrow: 1, background: 'rgb(71, 145, 219)' }}
+                                        style={{ flexGrow: 1, background: 'rgb(71, 145, 219)', width: '1px' }}
                                     ></img>
                                 </Hidden>
                                 <Grid
