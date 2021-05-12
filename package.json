@@ -64,7 +64,7 @@
         "autoprefixer": "^9.8.0",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "cross-env": "^7.0.2",
-        "postcss": "^7.0.32",
+        "postcss": "^8.2.10",
         "postcss-loader": "^3.0.0",
         "webpack": "^4.43.0"
     }
